@@ -78,7 +78,10 @@ const HelperAtFirst = ({ show, onClose }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -123,7 +126,7 @@ const HelperAtFirst = ({ show, onClose }) => {
                         className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
                         onClick={handleClick}
                     >
-                        Next
+                        Okay
                     </button>
                 </div>
             </motion.div>
@@ -150,7 +153,7 @@ const HelpEasy = ({ show, onClose }) => {
         if (show) {
             const timer = setTimeout(() => {
                 setShowButton(true);
-            }, 2000);
+            }, 2);
             return () => clearTimeout(timer); // Clean up timer
         }
     }, [show]);
@@ -226,7 +229,7 @@ const HelpDifficult = ({show, onClose}) => {
         if (show) {
             const timer = setTimeout(() => {
                 setShowButton(true);
-            }, 2000);
+            }, 2);
             return () => clearTimeout(timer); // Clean up timer
         }
     }, [show]);
@@ -371,7 +374,10 @@ const SuperKeyDiscussions = ({ show }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 

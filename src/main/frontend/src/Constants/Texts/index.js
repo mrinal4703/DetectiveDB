@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import {bcnf, nf2, nf3} from "../../Resources/Images/Others";
-import {steps} from "framer-motion";
-import {clicksound, hoversound} from "../../Resources/Sounds";
 
 export const AppText = {
     IntroText1: 'Hello Detective, I am Detective Query Quinn, your Personal Assistant.',
@@ -54,11 +52,11 @@ export const AppText = {
     CandidateKeysDef: 'A candidate key is a minimal SuperKey, meaning it uniquely identifies all tuples in a relation, but no proper subset of it can still be a SuperKey.',
     CandidateKeyEasy1: 'Every Candidate Key is Super Key, but not vice versa. We will take FD Closure of all possible Proper Subsets of Super Key to get minimal group, to be declared as Candidate Key.',
     CandidateKeyEasy2: 'Confused? Let\'s understand it from this example.',
-    PrimaryKeyDef: 'There is one Special Key, named, Primary Key. It\'s one of the keys arbitrarily chosen from the set of Candidate Keys available for Table, and hence, a Relation can multiple Candidate Keys, but only one Primary Key.',
+    PrimaryKeyDef: 'There is one Special Key, named, Primary Key. It\'s one of the keys arbitrarily chosen from the set of Candidate Keys available for Table, and hence, a Relation can have multiple Candidate Keys, but only one Primary Key.',
     DirectWay: 'We saw how we can get Candidate Keys, but that is quite lengthy. Instead we can directly derive multiple Candidate Keys.',
     GoldenMantra: 'Before we dive into the direct method, remember a "Golden Mantra", "Won\'t say Candidate Key, until there is Minimal of minimal; Go as Minimal As you Can."',
     CandidateKeyUnderstand: 'Let\'s understand this through the following examples.',
-    PrimeKeyAttributes: 'Before diving into the examples, it\'s important to know what Prime/Key Attributes and Non Key Attributes are. Prime/Key Attributes, are the attributes that came up in the Candidate Keys. For Example, if the Candidate Keys are {AB, C, DE}, then the Prime/Key Attributes are {A, B, C, D, F} and rest attributes in the Relation, are the Non Key Attributes.',
+    PrimeKeyAttributes: 'Before diving into the examples, it\'s important to know what Prime/Key Attributes and Non Key Attributes are. Prime/Key Attributes, are the attributes that came up in the Candidate Keys. For Example, if the Candidate Keys are {A B, C, DE}, then the Prime/Key Attributes are {A, B, C, D, F} and rest attributes in the Relation, are the Non Key Attributes.',
     PracticeKeys: 'Detective, let\'s practice some questions on Candidate Keys now.',
     KeysHelp: 'Welcome Back, Detective. You know the drill, if you get stuck, just click the "Hint Lens" beside the Level for a clue.',
     CorrectAnsKeys: 'Good Job Detective! Let\'s dive finally into what is called, Normalisation.',
@@ -66,7 +64,7 @@ export const AppText = {
     FinaleModule1: 'And here we are, finally at the end of Module 1, Detective. Here we will finally discuss, Normalisation, that will combine all our knowledge we have gained till this end.',
     WhatisNormalisation: 'Normalization is the process of organizing a database to reduce redundancy and improve data integrity by dividing larger tables into smaller, related tables based on functional dependencies.',
     WhyNormalisation: 'Normalization is done to eliminate data redundancy, ensure data consistency, minimize anomalies (insertion, update, and deletion anomalies), and improve database efficiency.',
-    NormalForm1: 'As Chief said, Normalisation breaks down big relation, into small relations. So they end up in Some kind of forms, depending what kind of nromalisation has been done.',
+    NormalForm1: 'As Chief said, Normalisation breaks down big relation, into small relations. So they end up in Some kind of forms, depending what kind of normalisation has been done.',
     NormalForm2: 'Like, have the Partial Dependency been removed? Or both Partial and Transitive Dependency been removed?',
     NormalForm3: 'Such Forms are known as, Normal Forms, which are categorised as Normal Form 1 (1NF), or Normal Form 2 (2NF), or Normal Form 3 (3NF), or Boyce-Codd Normal Form (BCNF).',
     Discuss: 'Don\'t worry, we will discuss each in a very easy and effective way.',
@@ -76,23 +74,26 @@ export const AppText = {
     EveryGameDecompose: 'From next games, you will be given to decompose the tables, from relation in Module 1.',
     LetsDecompose: 'Let\'s Decompose the relation now.',
     Hmm: '',
+    CorrectAnsKNF: 'Good Job Detective! Let\'s move forward with Module 2.',
     Intro1Module2: 'Welcome to the Module 2, Detective.',
     Intro2Module2: 'We would go through, step by step, what Structured Query Language (SQL) is, and how we will be using it, to fetch our information from the tables, you normalised earlier, and then, solve the case.',
     StepbyStep: 'Step by step, we will learn to create Query statements.',
     StructureStatement: 'The structure of the statement is like; {Action}, {Action On}, {Source Location}, {Condition (if)}.',
     ExampleSQL: 'Let\'s understand this using examples below.',
-    ImportantToRemember: 'One thing we need to know that, sql statements are case sensitive. Hence, they are written either in lower cases, or upper cases.',
+    ImportantToRemember: 'One thing we need to know that, in sql statements, except the keywords, all other values are case sensitive. The keywords aren\'t case sensitive, but they are written either in lower cases, or upper cases. Example, SELECT or select, FROM or from. But make sure if started with lower case, complete the whole statement with lower case, and vice versa.',
     SQLImportantCommands: 'SELECT, UPDATE, INSERT INTO, DELETE, CREATE, ALTER, DROP',
     SQLImportantCommandsExplanation: 'The SELECT Statement, is used to select the attributes that the user needs to view details of, from the table. The UPDATE command, updates the value of particular attribute with the value you need. Insert Into is used to insert a record, or a tuple in the table. Delete command is used to delete a row, depending upon the condition. Create commands creates tables, databases, as per user needs. Alter table is used to update the name of attribute in the table. And Drop commands are used to erase a table off the database, or even database, out of existence.',
     timeBeing: 'Hey hello how are you why are you here who are you with when is your bday.',
-    SelectSQL: 'Here we see an example on, SELECT statement for SQL. The example taken here is on a Relation, named, Example_Table. The action is, SELECT; action is done on Attribute 1, and Attribute 2; and the source location is the relation name. This statement means that, it\'s selecting the given attributes out of all attribute from the table, to view the whole contents of the given attributes.',
-    WhereSQL: 'Hello',
-    OrderBySQL: 'Hi',
-    AndSQL: 'Yes',
-    OrSQL: 'No',
+    SelectSQL: 'Here we see an example on, SELECT statement for SQL. The example taken here is on a Relation, named, Example_Table. The action is, SELECT; action is done on Attribute 1, and Attribute 2; and the source location is the relation name. This statement means that, it\'s selecting the given attributes out of all attribute from the table, to view the whole contents of the given attributes. If we need to have all records, we can fetch it directly using SELECT * OR select *, instead of listing all the attributes.',
+    WhereSQL: 'Here we see and example on, WHERE clause for SQL. This clause is used to filter out records, and acts as condition statement. In the example, we see, user needs to get the records, that have the attribute Age\'s value less than 25. Hence it resulted in providing two tuples.',
+    OrderBySQL: 'Here we see and example on, ORDER BY clause for SQL. This clause is used to list records in ascending or descending value with respect to an attribute of the table. In the example, we see, user ordered the attribute Age\'s value. Hence the tuples are arranged in ascending by default. For descending, user can simply write, in upper cases, ORDER BY {Attribute_name} DESC or in lower cases, order by {Attribute_name} desc.',
+    AndSQL: 'Here we see and example on, AND statement for SQL. This clause is used to list a particular set of records, that is filtered based on more than one condition. In the example, the user needs the tuple that has Age\'s value 23 AND (including) 29.',
+    OrSQL: 'Here we see and example on, OR statement for SQL. This clause is used to list a particular set of records, that is filtered based on more than one condition, but if any one condition is also satisfied, the work is done. In the example, the user needs the tuple that has Age\'s value 23 OR the value of attribute Name is Bharti. It\'s not necessary for the other attributes to have the value what user needs to give the result, it can return with one single true or existing record.',
     Condition: 'We can apply condition to filter out some records, depending upon what we need. It\'s done by WHERE clause.',
     WhatisSQLAggr: 'An aggregate function is a function that performs a calculation on a set of values, and returns a single value.',
-    ExamplesAggr: 'MIN(), MAX(), COUNT(), SUM(), AVG()',
+    DistinctSQL: 'Here we see and example on, DISTINCT Clause for SQL. This clause is used to list a particular set of records, that is filtered based on unique occurrence of a particular value in an attribute. In the example, the user needs distinct ages in the table, and in returns finds, that there are two distinct Age values, 22 and 23.',
+    NotSQL: 'Here we see and example on, NOT Clause for SQL. This clause is used in combination with other operators to give the opposite result. In the example, the user the records where the value for the attribute Age, is not between the range of 20 to 25.',
+    GroupBySQL: 'Here we see and example on, NOT Clause for SQL. This clause is used in combination with other operators to give the opposite result. In the example, the user the records where the value for the attribute Age, is not between the range of 20 to 25.',
 }
 
 export const DetailsofCases = [
@@ -319,10 +320,10 @@ export const SuperKeysExample1Json = [
         candidateKey1: 'AF',
         candidateKey1Explanation: 'For the First Example, let\'s take AF. The Proper Subsets of AF will be either A and F. Taking FD Closure of A and F separately wont give the whole attribute, hence AF is minimal. This gives us our first Candidate Key.',
         candidateKey2Explanation: 'Let\'s take ADF. The Proper Subsets of ADF are {A, D, F, AD, AF, DF}. From previous explanation, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of D, AD and DF, we still won\'t get the whole relation. AF is still the only one Candidate Key we got.',
-        candidateKey3Explanation: 'Similarly, let\'s take ABF. The Proper Subsets of ABF are {A, B, F, AB, AF, BF}. From previous explanations, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of B, AB and BF, we still won\'t get the whole relation. AF is still the only one Candidate Key we got.',
+        candidateKey3Explanation: 'Similarly, let\'s take ABF. The Proper Subsets of ABF are {A, B, F, A B, AF, BF}. From previous explanations, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of B, A B and BF, we still won\'t get the whole relation. AF is still the only one Candidate Key we got.',
         candidateKey4Explanation: 'Similarly, let\'s take ACF. The Proper Subsets of ACF are {A, C, F, AC, AF, CF}. From previous explanations, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of C, AC and CF, we still won\'t get the whole relation. AF is still the only one Candidate Key we got.',
-        candidateKey5Explanation: 'Let\'s take ABCF. The Proper Subsets of ACF are {A, B, C, F, AB, AC, AF, BC, BF, CF}. From previous explanations, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of any other than these won\'t give us the whole relation.',
-        candidateKey6Explanation: 'Let\'s take ABCDEF. This is the whole relation, and since we already have at least one Candidate Key, so this whole Relation together will never be considered minimal, hence not a Candidate Key.',
+        candidateKey5Explanation: 'Let\'s take ABCF. The Proper Subsets of ACF are {A, B, C, F, A B, AC, AF, BC, BF, CF}. From previous explanations, we get to know that, A and F can\'t be Candidate Key, hence AF is the Key. Taking FD Closure of any other than these won\'t give us the whole relation.',
+        candidateKey6Explanation: 'Let\'s take ABCDEF. This is the whole relation, and since we already have at least one Candidate Key, which is Proper Subset of ABCDEF, so this whole Relation together will never be considered minimal, hence not a Candidate Key.',
     }
 ]
 
@@ -333,13 +334,13 @@ export const SuperKeysExample2Json = [
         superKey1: 'AB',
         superKey2: 'BD',
         superKey3: 'CE',
-        superKey1Explanation: 'Since AB->C, and AC->D gives D, then BD->E gives E, covering all attributes.',
-        superKey2Explanation: 'Since BD->E, and CE->A gives A, then AB->C gives C, and AC->D gives D, covering all attributes.',
-        superKey3Explanation: 'Since CE->A, and AB->C gives C, then AC->D gives D, and BD->E gives E, covering all attributes.',
+        superKey1Explanation: 'Since A B->C, and AC->D gives D, then BD->E gives E, covering all attributes.',
+        superKey2Explanation: 'Since BD->E, and CE->A gives A, then A B->C gives C, and AC->D gives D, covering all attributes.',
+        superKey3Explanation: 'Since CE->A, and A B->C gives C, then AC->D gives D, and BD->E gives E, covering all attributes.',
         candidateKey1: 'AB',
         candidateKey2: 'BD',
         candidateKey3: 'CE',
-        candidateKey1Explanation: 'For the Second Example, let\'s take AB. The Proper Subsets of AB are {A, B}. If we take FD closure of A and B, none of them give out the whole relation, hence, AB is already minimal, that is, it\'s a Candidate Key.',
+        candidateKey1Explanation: 'For the Second Example, let\'s take A B. The Proper Subsets of A B are {A, B}. If we take FD closure of A and B, none of them give out the whole relation, hence, A B is already minimal, that is, it\'s a Candidate Key.',
         candidateKey2Explanation: 'Similarly, let\'s take BD. The Proper Subsets of BD are {B, D}. If we take FD closure of B and D, none of them give out the whole relation, hence, BD is already minimal, that is, it\'s a Candidate Key.',
         candidateKey3Explanation: 'Similarly, let\'s take CE. The Proper Subsets of CE are {C, E}. If we take FD closure of C and E, none of them give out the whole relation, hence, CE is already minimal, that is, it\'s a Candidate Key.',
     }
@@ -366,11 +367,11 @@ export const goodCandidateKeysExample = [
         primeattributes: '{A, H, F, C, I}',
         nonkeyattributes: '{B, D, E, G}',
         explanation0: 'In Example 2, notice that, there is one attribute, that doesnt participate in any Functional Dependency, "I". Hence all Candidate Keys of this relation will have "I" in it. So for time being, we will have Candidate Keys for Relation, assuming, I is not in the Relation.',
-        explanation1: 'When taking FD Closure of AB, we got all attributes. Remember the Golden Mantra, break down to minimal, that is, take FD closure of A and B. We get all attributes from FD Closure of A, but not from B FD Closure. Hence A is Candidate Key.',
+        explanation1: 'When taking FD Closure of A B, we got all attributes. Remember the Golden Mantra, break down to minimal, that is, take FD closure of A and B. We get all attributes from FD Closure of A, but not from B\'s FD Closure. Hence A is Candidate Key.',
         explanation2: 'Now, check which FD is giving A, and we see, H is giving A. Hence H is also another Candidate Key (as it\'s already minimal).',
         explanation3: 'Now check, which FD is giving H. We see F gives H, hence F is also another Candidate Key (as it\'s already minimal).',
         explanation4: 'Now check, which FD is giving F. We see C gives F, hence C is also another Candidate Key (as it\'s already minimal).',
-        explanation5: 'Now check, which FD is giving C. We see C gives AB, and we have already taken this case before.',
+        explanation5: 'Now check, which FD is giving C. We see C is given out by A B, and we have already taken this case before.',
         explanation6: 'So, we get, {A, H, F, C} as Candidate Keys, and the Prime/Key Attributes are {A, H, F, C}, for Relation without "I".',
         explanation7: 'Hence, after adding "I" attribute in all Candidate Keys, we get, {AI, HI, FI, CI} as Candidate Keys, and the Prime/Key Attributes are {A, H, F, C, I}.',
     }
@@ -435,7 +436,7 @@ export const WhatNormalisationData = [
         image: nf3,
         form: 'Violations for Normal Form 3, 3NF',
         how: 'Let\'s Discuss, how can we identify, if the given relation is in 3NF or not.',
-        explanation1: 'To identify the violation for 3NF, we see, if there is any Non Attribute, that gives, any other Non Key Attribute in the FD Set. This is known as Transitive Dependency, and hence in 3NF Decomposition, we remove Transitive Dependency.',
+        explanation1: 'To identify the violation for 3NF, we see, if there is any Non Key Attribute, that gives, any other Non Key Attribute in the FD Set. This is known as Transitive Dependency, and hence in 3NF Decomposition, we remove Transitive Dependency.',
         explanation2: 'In 3NF, it\'s ensured that, the determinant is either a Super Key, or a Prime/Key Attribute.'
     },
     {
@@ -443,7 +444,7 @@ export const WhatNormalisationData = [
         image: bcnf,
         form: 'Violations for Boyce-Codd Normal Form, BCNF',
         how: 'Let\'s Discuss, how can we identify, if the given relation is in BCNF or not.',
-        explanation1: 'To identify the violation for BCNF, we see, if there is any Proper Subset of Candidate Key, that gives, any other Proper Subset of Candidate Key in the FD Set. This is ensures complete removal of any kind of dependencies, if were left.',
+        explanation1: 'To identify the violation for BCNF, we see, if there is any Proper Subset of Candidate Key, that gives, any other Proper Subset of Candidate Key in the FD Set. This ensures complete removal of any kind of dependencies, if were left.',
         explanation2: 'In BCNF, it\'s ensured that, every determinant is a Super Key.'
     }
 ]
@@ -458,16 +459,16 @@ export const NormalisationExample1 = {
     ClosureAB: 'ABC',
     ClosureA: 'ADEIJ',
     ClosureB: 'BFGH',
-    Nf2Identification: 'In this relation, AB is the Candidate Key of Given relation. As for 2NF, the given relation violates, due to the presence of Partial Dependency. The Proper Subsets of Candidate Key AB, A and B, both are violating (A->DE and B->F).',
+    Nf2Identification: 'In this relation, A B is the Candidate Key of Given relation. As for 2NF, the given relation violates, due to the presence of Partial Dependency. The Proper Subsets of Candidate Key A B, A and B, both are violating (A-> (gives) DE and B-> (gives) F).',
     Nf2Decomposition: 'R1(ABC), R2(ADEIJ), R3(BFGH)',
     Nf2DecompositionExplanation: 'It\'s simple to decompose a given relation to 2NF. To decompose the given relation to 2NF, check for the FDs that are violating. Then, when we take FD Closure of the determinant (LHS of FD), that Closure, as a whole is said to be one Separate Relation. Hence we get three new decomposed Relations.',
     Nf3Violationg: '[D->IJ, F->GH]',
     ClosureD: 'DIJ',
     ClosureF: 'FGH',
-    Nf3Identification: 'As for 3NF, the given relation violates, due to the presence of Transitive Dependency. The NonKey attributes, D and F are violating (D->IJ and F->GH).',
+    Nf3Identification: 'As for 3NF, the given relation violates, due to the presence of Transitive Dependency. The NonKey attributes, D and F are violating (D-> (gives) IJ and F-> (gives) GH).',
     Nf3Decomposition: 'R1(ABC), R2(ADE), R3(DIJ), R4(BF), R5(FGH)',
     Nf3DecompositionExplanation1: 'To decompose relations into 3NF, we will refer the relations that we got in 2NF. When we see that the determinant violating 3NF in a particular Relation, we will focus on that particular Relation. And then, from that relation, we will remove the whole FD Closure of the Violating determinant, except the determinant itself, and the FD Closure will be the new relation.',
-    Nf3DecompositionExplanation2: 'For Example, the violating FD is D->IJ, so, when we take FD Closure of determinant "D", we get, DIJ. Now, we can see, D is in R2(ADEIJ) that we got from 2NF Decomposition, so we will remove "IJ", and keep D in the relation, and decompose a new relation R3, that will have the FD Closure of determinant D, that is, R3(DIJ). Same for the violating determinant, F.',
+    Nf3DecompositionExplanation2: 'For Example, the violating FD is D-> (gives) IJ, so, when we take FD Closure of determinant "D", we get, DIJ. Now, we can see, D is in R2(ADEIJ) that we got from 2NF Decomposition, so we will remove "IJ", and keep D in the relation, and decompose a new relation R3, that will have the FD Closure of determinant D, that is, R3(DIJ). Same for the violating determinant, F.',
     BCNFDecomposition: 'For BCNF Decomposition, we have no FD Violating.',
     BCNFDecompositionExplanation: 'For BCNF Decomposition, we have no FD Violating, in this case. Hence it\'s in BCNF as well. Let\'s take another example to understand BCNF Decomposition.'
 }

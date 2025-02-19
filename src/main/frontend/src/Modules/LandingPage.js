@@ -111,6 +111,7 @@ const ProgressStars = () => {
 
 const LandingPage = () => {
     const [showDiv1, setShowDiv1] = useState(true);
+    const [showButton, setShowButton] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedType, setSelectedType] = useState("");
     const [showLoginModal, setShowLoginModal] = useState(false);
@@ -170,15 +171,15 @@ const LandingPage = () => {
 
     useEffect(() => {
 
-        if (!isLoggedIn && !isLoggedIn_session) {
-            setShowLoginModal(true);
-        }
-
         const timer = setTimeout(() => {
-            setShowDiv1(false);
-        }, 3500);
+            setShowButton(true);
+        }, 2000);
 
         return () => clearTimeout(timer);
+
+        if (!isLoggedIn && !isLoggedIn_session) {
+            setTimeout(() =>setShowLoginModal(true), 500);
+        }
     }, []);
 
 
@@ -235,6 +236,17 @@ const LandingPage = () => {
                         animate={{scale: 0.8}}
                         transition={{duration: 1.5, ease: "easeInOut"}}
                     />
+                    {showButton && (
+                        <motion.button
+                            onClick={() => setShowDiv1(false)}
+                            className="px-5 py-3 absolute right-16 bottom-16 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.8, ease: "easeInOut" }}
+                        >
+                            Launch Game
+                        </motion.button>
+                    )}
                 </div>
             ) : (
                 <>

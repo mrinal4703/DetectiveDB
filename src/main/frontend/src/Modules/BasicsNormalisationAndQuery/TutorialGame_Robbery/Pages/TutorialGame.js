@@ -317,7 +317,10 @@ const KnowMore = ({ show, onClose }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -647,7 +650,10 @@ const FDs = ({ show, onClose }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -770,7 +776,10 @@ const FDClosure = ({ show, onClose }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -893,7 +902,10 @@ const WhatFDclosures = ({ show, onClose }) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -1023,7 +1035,10 @@ const HowFDclosures = ({show, onClose, value, scrollornot}) => {
         utterance.onboundary = (event) => {
             if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 

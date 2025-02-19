@@ -16,57 +16,126 @@ import {
     WhatNormalisationData
 } from "../../../../Constants/Texts";
 import {useNavigate} from "react-router-dom";
-import {ingame} from "../../../../Resources/Sounds";
+import {clicksound, ingame} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
 
-const FinaleModule1 = ({show, onClose}) => {
+const FinaleModule1 = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("female", AppText.FinaleModule1, show);
+    const text = AppText.FinaleModule1;
+    const voiceMain = "Microsoft Zira";
+    const position = "left";
+    const img = assisstantconclude;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 13000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={assisstantconclude}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.FinaleModule1],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -76,54 +145,123 @@ const FinaleModule1 = ({show, onClose}) => {
     );
 };
 
-const WhatisNormalisation = ({show, onClose}) => {
+const WhatisNormalisation = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("boss", AppText.WhatisNormalisation, show);
+    const text = AppText.WhatisNormalisation;
+    const voiceMain = "Microsoft David";
+    const position = "right";
+    const img = chief;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 13000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={chief}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.WhatisNormalisation],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -133,54 +271,123 @@ const WhatisNormalisation = ({show, onClose}) => {
     );
 };
 
-const WhyNormalisation = ({show, onClose}) => {
+const WhyNormalisation = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("boss", AppText.WhyNormalisation, show);
+    const text = AppText.WhyNormalisation;
+    const voiceMain = "Microsoft David";
+    const position = "right";
+    const img = chief;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 13000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={chief}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.WhyNormalisation],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -190,54 +397,123 @@ const WhyNormalisation = ({show, onClose}) => {
     );
 };
 
-const NormalForm1 = ({show, onClose}) => {
+const NormalForm1 = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("female", AppText.NormalForm1, show);
+    const text = AppText.NormalForm1;
+    const voiceMain = "Microsoft Zira";
+    const position = "left";
+    const img = assisstantconclude;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 13000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={assisstantconclude}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.NormalForm1],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -247,54 +523,123 @@ const NormalForm1 = ({show, onClose}) => {
     );
 };
 
-const NormalForm2 = ({show, onClose}) => {
+const NormalForm2 = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("female", AppText.NormalForm2, show);
+    const text = AppText.NormalForm2;
+    const voiceMain = "Microsoft Zira";
+    const position = "left";
+    const img = assisstantconclude;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 8000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={assisstantconclude}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.NormalForm2],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -304,54 +649,123 @@ const NormalForm2 = ({show, onClose}) => {
     );
 };
 
-const NormalForm3 = ({show, onClose}) => {
+const NormalForm3 = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("female", AppText.NormalForm3, show);
+    const text = AppText.NormalForm3;
+    const voiceMain = "Microsoft Zira";
+    const position = "left";
+    const img = assisstantthinking;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 12500);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={assisstantthinking}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.NormalForm3],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -361,54 +775,123 @@ const NormalForm3 = ({show, onClose}) => {
     );
 };
 
-const LetsDiscussNormalForm = ({show, onClose}) => {
+const LetsDiscussNormalForm = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("junior", AppText.Discuss, show);
+    const text = AppText.Discuss;
+    const voiceMain = "Microsoft Mark";
+    const position = "left";
+    const img = helperright;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 6000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={helperright}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.Discuss],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -418,54 +901,123 @@ const LetsDiscussNormalForm = ({show, onClose}) => {
     );
 };
 
-const IndentifyingNormalForm = ({show, onClose, value, time}) => {
+const IndentifyingNormalForm = ({ show, onClose, value }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("junior", value, show);
+    const text = value;
+    const voiceMain = "Microsoft Mark";
+    const position = "right";
+    const img = helperpeekleft;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, time);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={helperpeekleft}
-                    className="h-80 w-80 absolute top-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute top-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute h-auto w-[450px] top-44 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black">
-                    <Typewriter
-                        options={{
-                            strings: [value],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute h-auto w-[450px] top-44 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -475,54 +1027,123 @@ const IndentifyingNormalForm = ({show, onClose, value, time}) => {
     );
 };
 
-const IndentifyingNormalFormExample = ({show, onClose, value, time}) => {
+const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("junior", value, show);
+    const text = value;
+    const voiceMain = "Microsoft Mark";
+    const position = "left";
+    const img = helperpeekright;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, time);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={helperpeekright}
-                    className="h-80 w-80 absolute top-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute top-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute h-auto w-[450px] top-44 left-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black">
-                    <Typewriter
-                        options={{
-                            strings: [value],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute h-auto w-[450px] top-44 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -532,174 +1153,123 @@ const IndentifyingNormalFormExample = ({show, onClose, value, time}) => {
     );
 };
 
-const MovetoDecomposition = ({show, onClose}) => {
+const MovetoDecomposition = ({ show, onClose }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    useVoiceSynthesis("boss", AppText.MoveToDecomposition, show);
+    const text = AppText.MoveToDecomposition;
+    const voiceMain = "Microsoft David";
+    const position = "right";
+    const img = chief;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 10000);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={chief}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
-
-                <div
-                    className="absolute bottom-28 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.MoveToDecomposition],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
                     />
-                    <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={() => {
-                            window.scrollBy({
-                                top: window.innerHeight, // Scroll down by the full height of the viewport
-                                behavior: "smooth" // Smooth scrolling effect
-                            });
-                            onClose(); // Call your existing function
-                        }}
-                    >
-                        Okay
-                    </button>
                 </div>
-            </motion.div>
-        )
-    );
-}
-
-const NFDecomposition1 = ({show, onClose, value, time}) => {
-    const [showButton, setShowButton] = useState(false);
-
-    useVoiceSynthesis("junior", value, show);
-
-    useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, time);
-            return () => clearTimeout(timer); // Clean up timer
-        }
-    }, [show]);
-
-    return (
-        show && (
-            <motion.div
-                className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
-            >
-                <motion.img
-                    src={helperleft}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
 
                 <div
-                    className="absolute min-h-[120px] w-[450px] bottom-28 right-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black">
-                    <Typewriter
-                        options={{
-                            strings: [value],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
-                    >
-                        Okay
-                    </button>
-                </div>
-            </motion.div>
-        )
-    );
-};
-
-const NFDecomposition2 = ({show, onClose, value, time}) => {
-    const [showButton, setShowButton] = useState(false);
-
-    useVoiceSynthesis("junior", value, show);
-
-    useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, time);
-            return () => clearTimeout(timer); // Clean up timer
-        }
-    }, [show]);
-
-    return (
-        show && (
-            <motion.div
-                className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
-            >
-                <motion.img
-                    src={helperright}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
-
-                <div
-                    className="absolute min-h-[120px] w-[450px] bottom-28 left-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black">
-                    <Typewriter
-                        options={{
-                            strings: [value],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
-                    <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={onClose}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Okay
                     </button>
@@ -709,59 +1279,378 @@ const NFDecomposition2 = ({show, onClose, value, time}) => {
     );
 };
 
-const PracticeNormalisation = ({show}) => {
+const NFDecomposition1 = ({ show, onClose, value }) => {
+    const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
+
+    const text = value;
+    const voiceMain = "Microsoft Mark";
+    const position = "right";
+    const img = helperleft;
+
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
+        }
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+
+    return (
+        show && (
+            <motion.div
+                className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
+
+                <div
+                    className={`absolute min-h-[120px] w-[450px] bottom-28 ${position}-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    <div>
+                        {displayText}
+                    </div>
+                    <button
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
+                    >
+                        Okay
+                    </button>
+                </div>
+            </motion.div>
+        )
+    );
+};
+
+const NFDecomposition2 = ({ show, onClose, value }) => {
+    const [displayText, setDisplayText] = useState("");
+    const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
+
+    const text = value;
+    const voiceMain = "Microsoft Mark";
+    const position = "left";
+    const img = helperright;
+
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
+        }
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+
+    return (
+        show && (
+            <motion.div
+                className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+            >
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
+
+                <div
+                    className={`absolute min-h-[120px] w-[450px] bottom-28 ${position}-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    <div>
+                        {displayText}
+                    </div>
+                    <button
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
+                    >
+                        Okay
+                    </button>
+                </div>
+            </motion.div>
+        )
+    );
+};
+
+const PracticeNormalisation = ({ show }) => {
+    const [displayText, setDisplayText] = useState("");
+    const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
+
     const navigate = useNavigate();
 
-    useVoiceSynthesis("boss", AppText.FinalTest, show);
+    const text = AppText.FinalTest;
+    const voiceMain = "Microsoft David";
+    const position = "right";
+    const img = chief;
 
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        navigate("/TutorialNFPractice");
+        window.scrollTo(0, 0);
+    };
+
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
-        if (show) {
-            const timer = setTimeout(() => {
-                setShowButton(true);
-            }, 5000);
-            // }, 10);
-            return () => clearTimeout(timer); // Clean up timer
+        if (!isSpeechSynthesisSupported) return;
+
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices(); // Initial call to load voices
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, [isSpeechSynthesisSupported]);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+
+        // Cancel any ongoing speech synthesis
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
         }
-    }, [show]);
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = text.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length) {
+                wordIndex++;
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                transition={{duration: 0.3, ease: "easeOut"}}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
             >
-                <motion.img
-                    src={chief}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
-                    alt="Assistant"
-                    initial={{scale: 0}}
-                    animate={{scale: 1}}
-                    transition={{duration: 0.3, ease: "easeOut"}}
-                />
+                <div className={`absolute bottom-0 ${position}-0`}>
+                    <motion.img
+                        src={img}
+                        className="h-80 w-80 object-contain rounded-xl"
+                        alt="Assistant"
+                        initial={{scale: 0}}
+                        animate={{scale: 1}}
+                        transition={{duration: 0.3, ease: "easeOut"}}
+                    />
+                </div>
 
                 <div
-                    className="absolute bottom-28 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
-                    <Typewriter
-                        options={{
-                            strings: [AppText.FinalTest],
-                            autoStart: true,
-                            loop: false, // Stops after typing once
-                            delay: 60,
-                            cursor: "|",
-                            deleteSpeed: Infinity,
-                        }}
-                    />
+                    className={`absolute bottom-28 ${position}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto`}>
+                    <div>
+                        {displayText}
+                    </div>
                     <button
-                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${
-                            showButton ? "block" : "hidden"
-                        }`}
-                        onClick={() => {
-                            navigate("/TutorialNFPractice");
-                            window.scrollTo(0, 0);
-                        }}
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
                     >
                         Next
                     </button>
@@ -912,7 +1801,7 @@ const NormalisationTutorial = () => {
 
     const handleClose19 = () => {
         setShowNormalFormBCIdentify(false);
-        setShowMoveTODecomp(true);
+        setTimeout(() => setShowMoveTODecomp(true), 2000);
     };
 
     const handleClose20 = () => {
@@ -1074,36 +1963,36 @@ const NormalisationTutorial = () => {
             <NormalForm3 show={showNormalForm3} onClose={handleClose6}/>
             <LetsDiscussNormalForm show={showDiscussNormalForm} onClose={handleClose7}/>
             <IndentifyingNormalForm show={showIdentify1NormalForm} onClose={handleClose8}
-                                    value={WhatNormalisationData[0].explanation} time={13000}/>
+                                    value={WhatNormalisationData[0].explanation}/>
             <IndentifyingNormalForm show={showIdentify2NormalFormHow} onClose={handleClose9}
-                                    value={WhatNormalisationData[1].how} time={7500}/>
+                                    value={WhatNormalisationData[1].how}/>
             <IndentifyingNormalForm show={showIdentify2NormalFormExplanation} onClose={handleClose10}
-                                    value={WhatNormalisationData[1].explanation} time={18000}/>
+                                    value={WhatNormalisationData[1].explanation}/>
             <IndentifyingNormalForm show={showIdentify3NormalFormHow} onClose={handleClose11}
-                                    value={WhatNormalisationData[2].how} time={7500}/>
+                                    value={WhatNormalisationData[2].how}/>
             <IndentifyingNormalForm show={showIdentify3NormalFormExplanation1} onClose={handleClose12}
-                                    value={WhatNormalisationData[2].explanation1} time={18000}/>
+                                    value={WhatNormalisationData[2].explanation1}/>
             <IndentifyingNormalForm show={showIdentify3NormalFormExplanation2} onClose={handleClose13}
-                                    value={WhatNormalisationData[2].explanation2} time={7500}/>
+                                    value={WhatNormalisationData[2].explanation2}/>
             <IndentifyingNormalForm show={showIdentifyBCNormalFormHow} onClose={handleClose14}
-                                    value={WhatNormalisationData[3].how} time={7500}/>
+                                    value={WhatNormalisationData[3].how}/>
             <IndentifyingNormalForm show={showIdentifyBCNormalFormExplanation1} onClose={handleClose15}
-                                    value={WhatNormalisationData[3].explanation1} time={16000}/>
+                                    value={WhatNormalisationData[3].explanation1}/>
             <IndentifyingNormalForm show={showIdentifyBCNormalFormExplanation2} onClose={handleClose16}
-                                    value={WhatNormalisationData[3].explanation2} time={6000}/>
+                                    value={WhatNormalisationData[3].explanation2}/>
             <IndentifyingNormalFormExample show={showNormalForm2Identify} onClose={handleClose17}
-                                           value={NormalisationExample1.Nf2Identification} time={14600}/>
+                                           value={NormalisationExample1.Nf2Identification}/>
             <IndentifyingNormalFormExample show={showNormalForm3Identify} onClose={handleClose18}
-                                           value={NormalisationExample1.Nf3Identification} time={10000}/>
+                                           value={NormalisationExample1.Nf3Identification}/>
             <IndentifyingNormalFormExample show={showNormalFormBCIdentify} onClose={handleClose19}
-                                           value={NormalisationExample1.BCNFDecomposition} time={5000}/>
+                                           value={NormalisationExample1.BCNFDecomposition}/>
             <MovetoDecomposition show={showMoveTODecomp} onClose={handleClose20} />
-            <NFDecomposition1 show={showDecompose2NormalForm} onClose={handleClose21} time={20000} value={NormalisationExample1.Nf2DecompositionExplanation}/>
-            <NFDecomposition1 show={showDecompose3NormalForm1} onClose={handleClose22} time={25500} value={NormalisationExample1.Nf3DecompositionExplanation1}/>
-            <NFDecomposition1 show={showDecompose3NormalForm2} onClose={handleClose23} time={24500} value={NormalisationExample1.Nf3DecompositionExplanation2}/>
-            <NFDecomposition1 show={showDecomposeBCNormalForm1} onClose={handleClose24} time={11000} value={NormalisationExample1.BCNFDecompositionExplanation}/>
-            <NFDecomposition2 show={showDecomposeBCNormalForm2} onClose={handleClose25} time={22500} value={NormalisationExample2.BcnfDecompositionExplanation1}/>
-            <NFDecomposition2 show={showDecomposeBCNormalForm3} onClose={handleClose26} time={17000} value={NormalisationExample2.BcnfDecompositionExplanation2}/>
+            <NFDecomposition1 show={showDecompose2NormalForm} onClose={handleClose21} value={NormalisationExample1.Nf2DecompositionExplanation}/>
+            <NFDecomposition1 show={showDecompose3NormalForm1} onClose={handleClose22} value={NormalisationExample1.Nf3DecompositionExplanation1}/>
+            <NFDecomposition1 show={showDecompose3NormalForm2} onClose={handleClose23} value={NormalisationExample1.Nf3DecompositionExplanation2}/>
+            <NFDecomposition1 show={showDecomposeBCNormalForm1} onClose={handleClose24} value={NormalisationExample1.BCNFDecompositionExplanation}/>
+            <NFDecomposition2 show={showDecomposeBCNormalForm2} onClose={handleClose25} value={NormalisationExample2.BcnfDecompositionExplanation1}/>
+            <NFDecomposition2 show={showDecomposeBCNormalForm3} onClose={handleClose26} value={NormalisationExample2.BcnfDecompositionExplanation2}/>
             <PracticeNormalisation show={showFinalTest} />
         </div>
     );

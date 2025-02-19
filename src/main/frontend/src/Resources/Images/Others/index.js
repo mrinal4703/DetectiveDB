@@ -9,8 +9,12 @@ import andsql from './AndExample.png'
 import orsql from './OrExample.png'
 import wheresql from './WhereExample.png'
 import orderbysql from './OrderbyExample.png'
+import notsql from './NotExample.png'
+import groupbysql from './GroupbyExample.png'
+import havingsql from './HavingExample.png'
+import distinctsql from './DistinctExample.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
-    orderbysql
+    orderbysql, distinctsql, notsql, groupbysql, havingsql
 }
