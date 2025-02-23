@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {
     AppText,
     NormalFormTest,
-    NormalisationExample2,
+    NormalisationExample2, updateProgress,
     useBackgroundMusic,
     useVoiceSynthesis
 } from "../../../../Constants/Texts";
@@ -418,6 +418,7 @@ const NormalisationTest = () => {
     const handleNf2Submit = () => {
         playClickSound();
         if (validateInputs(nf2Inputs, NormalFormTest.Nf2Rel)) {
+            updateProgress(1.8);
             setNf2Correct(true);
         } else {
             setShowWrongModal(true);

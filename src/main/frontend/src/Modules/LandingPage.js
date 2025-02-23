@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import NavBar from "./NavBar";
 import {murder1, murder2, robbery} from "../Resources/Images/Crimes";
-import {loadinglogo, tutorial} from "../Resources/Images/Others";
+import {loadinglogo, star3, tutorial} from "../Resources/Images/Others";
 import {motion} from "framer-motion";
 import {detective} from "../Resources/Images/People";
-import {DetailsofCases} from "../Constants/Texts";
+import {DetailsofCases, ProgressStars} from "../Constants/Texts";
 import {TbPoint, TbPointFilled} from "react-icons/tb";
 import {GoInfo} from "react-icons/go";
 import {IoClose} from "react-icons/io5";
@@ -59,56 +59,6 @@ const Sidebar = ({isOpen, onClose, selectedType}) => {
     );
 };
 
-const ProgressStars = () => {
-    const [progress, setProgress] = useState(0);
-
-    useEffect(() => {
-        // Get email from localStorage or sessionStorage
-        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
-
-        if (email) {
-            axios.get(`http://${username}/progress/${email}`)
-                .then(response => {
-                    setProgress(response.data); // Store progress directly
-                })
-                .catch(error => {
-                    console.error("Error fetching progress:", error);
-                });
-        }
-    }, []);
-
-    const fullStars = Math.floor(progress); // Number of fully filled stars
-    const decimalPart = progress - fullStars; // Decimal part for partial filling
-    const stars = Array(7).fill(0); // 7-star array
-
-    return (
-        <div className="mx-4 flex gap-1">
-            {stars.map((_, index) => (
-                <div key={index} className="relative w-8 h-8">
-                    {/* Empty Star */}
-                    <IoIosStar className="absolute text-gray-400 w-full h-full" />
-
-                    {/* Fully Filled Star */}
-                    {index < fullStars && (
-                        <IoIosStar className="absolute text-yellow-400 w-full h-full" />
-                    )}
-
-                    {/* Partially Filled Star */}
-                    {index === fullStars && decimalPart > 0 && (
-                        <div className="absolute w-full h-full overflow-hidden">
-                            <div
-                                className="absolute bg-yellow-400 h-full left-0"
-                                style={{ width: `${decimalPart * 100}%` }}
-                            />
-                            <IoIosStar className="absolute text-yellow-400 w-full h-full" />
-                        </div>
-                    )}
-                </div>
-            ))}
-        </div>
-    );
-};
-
 const LandingPage = () => {
     const [showDiv1, setShowDiv1] = useState(true);
     const [showButton, setShowButton] = useState(false);
@@ -136,7 +86,7 @@ const LandingPage = () => {
 
             if (lastSavedPage ===  "TutorialFDPractice" || lastSavedPage ===  "TutorialKeysPractice" || lastSavedPage === "KeysTutorial"
                 || lastSavedPage ===  "TutorialNFPractice" || lastSavedPage === "NormalisationTutorial" ||
-            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2") {
+            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2" || lastSavedPage === "TutorialSQLPractice") {
                 setBasicsTutorial(lastSavedPage);
             }
         } catch (error) {
@@ -295,11 +245,29 @@ const LandingPage = () => {
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
                                                 <Link to={`/${basicsTutorial}`}>
+                                                    {/*<div*/}
+                                                    {/*    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"*/}
+                                                    {/*    style={{backgroundImage: `url(${robbery})`}}*/}
+                                                    {/*>*/}
+                                                    {/*    <div className={''}>*/}
+                                                    {/*        <img src={tutorial} className="-mt-1" alt="Image"/>*/}
+                                                    {/*        /!*<img src={star3} className="" alt="Image"/>*!/*/}
+                                                    {/*    </div>*/}
+                                                    {/*</div>*/}
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
                                                         style={{backgroundImage: `url(${robbery})`}}
                                                     >
-                                                        <img src={tutorial} className="-mt-1" alt="Image"/>
+                                                        <div
+                                                            className="absolute top-0 transform">
+                                                            <img src={tutorial} alt="Tutorial"
+                                                                 className="max-w-full max-h-full"/>
+                                                        </div>
+                                                        <div
+                                                            className="absolute -bottom-1 transform">
+                                                            <img src={star3} alt="Star"
+                                                                 className="max-w-full max-h-full"/>
+                                                        </div>
                                                     </div>
                                                     <h1 className="text-lg text-black text-start">Robbery</h1>
                                                 </Link>

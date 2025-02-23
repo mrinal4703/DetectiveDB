@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {CheckCircle} from "lucide-react";
-import {AppText, practiceFDClosure, useVoiceSynthesis} from "../../../../Constants/Texts"; // Assuming helper functions are from this file
+import {AppText, practiceFDClosure, updateProgress, useVoiceSynthesis} from "../../../../Constants/Texts"; // Assuming helper functions are from this file
 import {motion} from "framer-motion";
 import {chief, helperleft, helperright} from "../../../../Resources/Images/People";
 import {SlMagnifier} from "react-icons/sl";
@@ -555,6 +555,7 @@ export default function FDTest() {
 
         if (allCorrect) {
             console.log(`🎉 All correct! Modal opens after last check button click: ${lastChecked.key}`);
+            updateProgress(0.6);
             setTimeout(() => setShowSuperKeyDiscussions(true), 300);
         }
 

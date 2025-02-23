@@ -5,6 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {clicksound, hoversound} from "../../../Resources/Sounds";
 import {email, email_session, isLoggedIn, isLoggedIn_session, username} from "../../../Constants/Texts/constants";
 import axios from "axios";
+import {ProgressStars} from "../../../Constants/Texts";
 
 const NavBarInGame = ({pageName}) => {
 
@@ -81,7 +82,8 @@ const NavBarInGame = ({pageName}) => {
         <div>
             <div className={'fixed right-4 top-0.5 z-[60] h-20'}>
                 <div className="flex items-end mr-10">
-                    <div className="mx-2 text-white my-auto">
+                    <div className="flex mx-2 text-white my-auto">
+                        <div className={'mt-2'}><ProgressStars /></div>
                         <div className={'flex justify-between'}>
                             <Menu as="div" className="inline-block text-left">
                                 <div>

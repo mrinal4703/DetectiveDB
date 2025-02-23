@@ -1,5 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
 import {bcnf, nf2, nf3} from "../../Resources/Images/Others";
+import axios from "axios";
+import {username} from "./constants";
+import {IoIosStar} from "react-icons/io";
 
 export const AppText = {
     IntroText1: 'Hello Detective, I am Detective Query Quinn, your Personal Assistant.',
@@ -804,4 +807,74 @@ export const useBackgroundMusic = (bgm) => {
     }, [audio]);
 
     return audio; // Return audio if needed
+};
+
+export const ProgressStars = () => {
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
+
+    const fullStars = Math.floor(progress); // Fully filled stars
+    const decimalPart = progress - fullStars; // Decimal part for partial fill
+    const stars = Array(7).fill(0); // 7 stars
+
+    return (
+        <div className="mx-4 flex gap-1">
+            {stars.map((_, index) => (
+                <div key={index} className="relative w-8 h-8">
+                    {/* Empty Star */}
+                    <IoIosStar className="absolute text-gray-400 w-full h-full" />
+
+                    {/* Fully Filled Star */}
+                    {index < fullStars && (
+                        <IoIosStar className="absolute text-[#f5bf03] w-full h-full" />
+                    )}
+
+                    {/* Partially Filled Star */}
+                    {index === fullStars && decimalPart > 0 && (
+                        <div className="absolute w-full h-full">
+                            <IoIosStar
+                                className="absolute text-[#f5bf03] w-full h-full"
+                                style={{
+                                    clipPath: `inset(0 ${(1 - decimalPart) * 100}% 0 0)` // Clip the star itself
+                                }}
+                            />
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export const updateProgress = async (value) => {
+    const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+    if (!email) {
+        alert("User not logged in!");
+        return;
+    }
+
+    try {
+        const response = await axios.put(`http://${username}/updateProgress`, {
+            email: email,
+            progress: value  // Use the dynamic value here
+        });
+
+    } catch (error) {
+        console.error("Error updating progress:", error);
+        alert("Failed to update progress");
+    }
 };

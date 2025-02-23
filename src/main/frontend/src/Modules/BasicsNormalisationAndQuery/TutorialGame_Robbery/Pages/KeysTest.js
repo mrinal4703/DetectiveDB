@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {AppText, practiceKeys, useBackgroundMusic, useVoiceSynthesis} from "../../../../Constants/Texts";
+import {
+    AppText,
+    practiceKeys,
+    updateProgress,
+    useBackgroundMusic,
+    useVoiceSynthesis
+} from "../../../../Constants/Texts";
 import {SlMagnifier} from "react-icons/sl";
 import {motion} from "framer-motion";
 import {chief, helperleft, helperright} from "../../../../Resources/Images/People";
@@ -567,6 +573,7 @@ export default function KeysTest() {
         const allCorrect = practiceKeys.every(q => selectedAnswers[q.id] === q.correctAnswer);
         playClickSound();
         if (allCorrect) {
+            updateProgress(1.2);
             setShowCorrectModal(true);
         } else {
             setSelectedAnswers({});

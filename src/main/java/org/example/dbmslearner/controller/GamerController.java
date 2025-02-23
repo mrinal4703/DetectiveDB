@@ -103,4 +103,18 @@ public class GamerController {
         }
     }
 
+    @PutMapping("/updateProgress")
+    public ResponseEntity<?> updateProgress(@RequestBody GamerEntity updatedGamer) {
+        GamerEntity user = gamerRepository.findByEmail(updatedGamer.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        user.setProgress(updatedGamer.getProgress());
+        gamerRepository.save(user);
+
+        return ResponseEntity.ok("Progress updated successfully to: " + updatedGamer.getProgress());
+    }
+
 }
