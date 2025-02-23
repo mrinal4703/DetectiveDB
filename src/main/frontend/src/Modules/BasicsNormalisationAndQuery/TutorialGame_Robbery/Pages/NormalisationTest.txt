@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
     AppText,
-    NormalFormTest,
-    NormalisationExample2,
-    useBackgroundMusic,
-    useVoiceSynthesis
+    NormalFormTest
 } from "../../../../Constants/Texts";
 import {assisstantconclude, chief, helperleft, helperleftnobg, helperright} from "../../../../Resources/Images/People";
 import {motion} from "framer-motion";
@@ -12,7 +9,7 @@ import Typewriter from "typewriter-effect";
 import {Link, useNavigate} from "react-router-dom";
 import {clicksound, ingame} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
-import {normalisationpracticepic, normalisationtestpic} from "../../../../Resources/Images/Others";
+import {fdtextpic, normalisationtestpic} from "../../../../Resources/Images/Others";
 
 const HelperAtFirstFinally = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
@@ -20,7 +17,7 @@ const HelperAtFirstFinally = ({show, onClose, value}) => {
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const texts = value;
+    const text = value;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -35,33 +32,37 @@ const HelperAtFirstFinally = ({show, onClose, value}) => {
         onClose();
     };
 
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
+        if (!isSpeechSynthesisSupported) return;
+
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
-            } else {
-                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
+        loadVoices(); // Initial call to load voices
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, []);
+    }, [isSpeechSynthesisSupported]);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!show || !texts || !voicesLoaded) return;
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(texts);
+        const utterance = new SpeechSynthesisUtterance(text);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -74,13 +75,16 @@ const HelperAtFirstFinally = ({show, onClose, value}) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = texts.split(" ");
+        const words = text.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length - 1) {
+            if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -92,10 +96,10 @@ const HelperAtFirstFinally = ({show, onClose, value}) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, voices]);
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
@@ -141,7 +145,7 @@ const CorrectModal = ({show}) => {
 
     const navigate = useNavigate();
 
-    const texts = AppText.CorrectAnsKNF;
+    const text = AppText.CorrectAnsKNF;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -157,33 +161,37 @@ const CorrectModal = ({show}) => {
         window.scrollTo(0, 0);
     };
 
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
+        if (!isSpeechSynthesisSupported) return;
+
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
-            } else {
-                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
+        loadVoices(); // Initial call to load voices
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, []);
+    }, [isSpeechSynthesisSupported]);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!show || !texts || !voicesLoaded) return;
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(texts);
+        const utterance = new SpeechSynthesisUtterance(text);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -196,13 +204,16 @@ const CorrectModal = ({show}) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = texts.split(" ");
+        const words = text.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length - 1) {
+            if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -214,10 +225,10 @@ const CorrectModal = ({show}) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, voices]);
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
@@ -261,7 +272,7 @@ const WrongModal = ({show, onClose}) => {
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const texts = AppText.WrongAnsKeys;
+    const text = AppText.WrongAnsKeys;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -276,33 +287,37 @@ const WrongModal = ({show, onClose}) => {
         onClose();
     };
 
+    // Check for SpeechSynthesis support
+    const isSpeechSynthesisSupported = !!window.speechSynthesis;
+
+    // Load voices and set the state when available
     useEffect(() => {
+        if (!isSpeechSynthesisSupported) return;
+
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
-            } else {
-                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
+        loadVoices(); // Initial call to load voices
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, []);
+    }, [isSpeechSynthesisSupported]);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!show || !texts || !voicesLoaded) return;
+        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(texts);
+        const utterance = new SpeechSynthesisUtterance(text);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -315,13 +330,16 @@ const WrongModal = ({show, onClose}) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = texts.split(" ");
+        const words = text.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length - 1) {
+            if (event.name === "word" && wordIndex < words.length) {
                 wordIndex++;
-                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+                const currentWord = words[wordIndex];
+                if (currentWord) {
+                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
+                }
             }
         };
 
@@ -333,10 +351,10 @@ const WrongModal = ({show, onClose}) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts
+            // Cancel the speech synthesis if the component unmounts or the effect is rerun
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, voices]);
+    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
 
     return (
         show && (
@@ -387,6 +405,14 @@ const NormalisationTest = () => {
     const [showNFtest1, setShowNFtest1] = useState(false);
     const [showNFtest2, setShowNFtest2] = useState(false);
 
+    const handleClick = () => {
+        playClickSound();
+        setShowDiv1(false);
+        setTimeout(() => {
+            setShowNFtest(true);
+        }, 1000);
+    };
+
     // useBackgroundMusic(ingame);
 
     // useEffect(() => {
@@ -398,21 +424,15 @@ const NormalisationTest = () => {
     //     return () => clearTimeout(timer); // Cleanup timeout on unmount
     // }, []);
 
-    const playClickSound = () => {
-        const audio = new Audio(clicksound);
-        audio.play();
-    };
-
-    const handleClickDiv1 = () => {
-        playClickSound();
-        setShowDiv1(false);
-        setTimeout(() => setShowNFtest(true), 1000);
-    };
-
     const validateInputs = (userInputs, correctAnswers) => {
         const sortedUserInputs = userInputs.map(input => input.replace(/\s+/g, '').split(',').sort().join(','));
         const sortedCorrectAnswers = correctAnswers.map(ans => ans.replace(/\s+/g, '').split(',').sort().join(','));
         return sortedUserInputs.sort().join('|') === sortedCorrectAnswers.sort().join('|');
+    };
+
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
     };
 
     const handleNf2Submit = () => {
@@ -453,16 +473,15 @@ const NormalisationTest = () => {
                 <>
                     <div className={'w-screen h-screen bg-[#343237] grid grid-cols-3'}>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
-                            <Link to={'/NormalisationTutorial'}>
-                                <button
-                                    onClick={() => {
-                                        playClickSound();
-                                    }}
-                                    className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
-                                >
-                                    Replay Normalisation Introduction
-                                </button>
+                            <button
+                                onClick={() => {
+                                    playClickSound();
+                                }}
+                                className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            ><Link to={'/NormalisationTutorial'}>
+                                Replay Normalisation Introduction
                             </Link>
+                            </button>
                         </div>
                         <div className={'flex my-auto items-end justify-center align-middle'}>
                             <img
@@ -470,15 +489,13 @@ const NormalisationTest = () => {
                                 alt="Detective"
                                 className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
                             />
-                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Normalisation
-                                Test/Practice</h1>
                         </div>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
                             <button
-                                onClick={handleClickDiv1}
+                                onClick={handleClick}
                                 className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                             >
-                                Continue to the Next Part
+                                Continue to Next Part
                             </button>
                         </div>
                     </div>
@@ -492,18 +509,6 @@ const NormalisationTest = () => {
                                 Normalisation Test
                             </h1>
                         </div>
-
-                        {/*<div className="w-[1260px] mx-2.5 h-[562px] bg-white my-2 rounded-2xl p-1">*/}
-                        {/*    <div className={'grid grid-cols-2 gap-3 p-1 h-full'}>*/}
-                        {/*        <div className={'rounded-xl border-2 border-black'}>*/}
-
-                        {/*        </div>*/}
-                        {/*        <div className={'rounded-xl border-2 border-black'}>*/}
-
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
                         <div className="w-[1260px] mx-2.5 h-[562px] bg-white my-2 rounded-2xl p-1">
                             <div className="grid grid-cols-2 gap-3 p-1 h-full">
                                 <div className='rounded-xl border-2 border-black p-2.5'>
@@ -568,16 +573,16 @@ const NormalisationTest = () => {
                         </div>
 
                     </div>
+                    <HelperAtFirstFinally show={showNFtest} onClose={handleClose1} time={12500}
+                                          value={AppText.IntrotoTest}/>
+                    <HelperAtFirstFinally show={showNFtest1} onClose={handleClose2} time={8000}
+                                          value={AppText.EveryGameDecompose}/>
+                    <HelperAtFirstFinally show={showNFtest2} onClose={handleClose3} time={4200}
+                                          value={AppText.LetsDecompose}/>
+                    <CorrectModal show={showCorrectModal} onClose={() => setShowCorrectModal(false)}/>
+                    <WrongModal show={showWrongModal} onClose={() => setShowWrongModal(false)}/>
                 </div>
             )}
-            <HelperAtFirstFinally show={showNFtest} onClose={handleClose1} time={12500}
-                                  value={AppText.IntrotoTest}/>
-            <HelperAtFirstFinally show={showNFtest1} onClose={handleClose2} time={8000}
-                                  value={AppText.EveryGameDecompose}/>
-            <HelperAtFirstFinally show={showNFtest2} onClose={handleClose3} time={4200}
-                                  value={AppText.LetsDecompose}/>
-            <CorrectModal show={showCorrectModal} onClose={() => setShowCorrectModal(false)}/>
-            <WrongModal show={showWrongModal} onClose={() => setShowWrongModal(false)}/>
         </div>
     );
 };

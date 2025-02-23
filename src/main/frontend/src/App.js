@@ -9,6 +9,7 @@ import NormalisationTutorial from "./Modules/BasicsNormalisationAndQuery/Tutoria
 import NormalisationTest from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/NormalisationTest";
 import TutorialModule2 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/TutorialModule2";
 import {useEffect} from "react";
+import QueryLanguageTest1 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/QueryLanguageTest1";
 
 function App() {
 
@@ -52,6 +53,8 @@ function App() {
                                element={<NormalisationTest/>}/>
                         <Route exact path="/TutorialModule2"
                                element={<TutorialModule2/>}/>
+                        <Route exact path="/TutorialSQLPractice"
+                               element={<QueryLanguageTest1/>}/>
                     </Routes>
                 </Router>
             </div>

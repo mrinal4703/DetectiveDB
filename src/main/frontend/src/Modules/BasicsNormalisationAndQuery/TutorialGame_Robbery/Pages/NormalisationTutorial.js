@@ -3,7 +3,7 @@ import {motion} from "framer-motion";
 import {
     assisstantconclude,
     assisstantthinking,
-    chief, helperleft,
+    chief, detective, helperleft,
     helperpeekleft, helperpeekright,
     helperright
 } from "../../../../Resources/Images/People";
@@ -15,17 +15,18 @@ import {
     SuperKeysExample1Json, useBackgroundMusic, useVoiceSynthesis,
     WhatNormalisationData
 } from "../../../../Constants/Texts";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 import {clicksound, ingame} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
+import {normalisationpracticepic} from "../../../../Resources/Images/Others";
 
-const FinaleModule1 = ({ show, onClose }) => {
+const FinaleModule1 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.FinaleModule1;
+    const texts = AppText.FinaleModule1;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -40,37 +41,33 @@ const FinaleModule1 = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -83,16 +80,13 @@ const FinaleModule1 = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -104,18 +98,18 @@ const FinaleModule1 = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -145,13 +139,13 @@ const FinaleModule1 = ({ show, onClose }) => {
     );
 };
 
-const WhatisNormalisation = ({ show, onClose }) => {
+const WhatisNormalisation = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.WhatisNormalisation;
+    const texts = AppText.WhatisNormalisation;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -166,37 +160,33 @@ const WhatisNormalisation = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -209,16 +199,13 @@ const WhatisNormalisation = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -230,18 +217,18 @@ const WhatisNormalisation = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -271,13 +258,13 @@ const WhatisNormalisation = ({ show, onClose }) => {
     );
 };
 
-const WhyNormalisation = ({ show, onClose }) => {
+const WhyNormalisation = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.WhyNormalisation;
+    const texts = AppText.WhyNormalisation;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -292,37 +279,33 @@ const WhyNormalisation = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -335,16 +318,13 @@ const WhyNormalisation = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -356,18 +336,18 @@ const WhyNormalisation = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -397,13 +377,13 @@ const WhyNormalisation = ({ show, onClose }) => {
     );
 };
 
-const NormalForm1 = ({ show, onClose }) => {
+const NormalForm1 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.NormalForm1;
+    const texts = AppText.NormalForm1;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -418,37 +398,33 @@ const NormalForm1 = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -461,16 +437,13 @@ const NormalForm1 = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -482,18 +455,18 @@ const NormalForm1 = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -523,13 +496,13 @@ const NormalForm1 = ({ show, onClose }) => {
     );
 };
 
-const NormalForm2 = ({ show, onClose }) => {
+const NormalForm2 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.NormalForm2;
+    const texts = AppText.NormalForm2;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -544,37 +517,33 @@ const NormalForm2 = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -587,16 +556,13 @@ const NormalForm2 = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -608,18 +574,18 @@ const NormalForm2 = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -649,13 +615,13 @@ const NormalForm2 = ({ show, onClose }) => {
     );
 };
 
-const NormalForm3 = ({ show, onClose }) => {
+const NormalForm3 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.NormalForm3;
+    const texts = AppText.NormalForm3;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantthinking;
@@ -670,37 +636,33 @@ const NormalForm3 = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -713,16 +675,13 @@ const NormalForm3 = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -734,18 +693,18 @@ const NormalForm3 = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -775,13 +734,13 @@ const NormalForm3 = ({ show, onClose }) => {
     );
 };
 
-const LetsDiscussNormalForm = ({ show, onClose }) => {
+const LetsDiscussNormalForm = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.Discuss;
+    const texts = AppText.Discuss;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -796,37 +755,33 @@ const LetsDiscussNormalForm = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -839,16 +794,13 @@ const LetsDiscussNormalForm = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -860,18 +812,18 @@ const LetsDiscussNormalForm = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -901,13 +853,13 @@ const LetsDiscussNormalForm = ({ show, onClose }) => {
     );
 };
 
-const IndentifyingNormalForm = ({ show, onClose, value }) => {
+const IndentifyingNormalForm = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "right";
     const img = helperpeekleft;
@@ -922,37 +874,33 @@ const IndentifyingNormalForm = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -965,16 +913,13 @@ const IndentifyingNormalForm = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -986,18 +931,18 @@ const IndentifyingNormalForm = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute top-0 ${position}-0`}>
                     <motion.img
@@ -1027,13 +972,13 @@ const IndentifyingNormalForm = ({ show, onClose, value }) => {
     );
 };
 
-const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
+const IndentifyingNormalFormExample = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperpeekright;
@@ -1048,37 +993,33 @@ const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1091,16 +1032,13 @@ const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1112,18 +1050,18 @@ const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute top-0 ${position}-0`}>
                     <motion.img
@@ -1153,13 +1091,13 @@ const IndentifyingNormalFormExample = ({ show, onClose, value }) => {
     );
 };
 
-const MovetoDecomposition = ({ show, onClose }) => {
+const MovetoDecomposition = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.MoveToDecomposition;
+    const texts = AppText.MoveToDecomposition;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -1171,40 +1109,41 @@ const MovetoDecomposition = ({ show, onClose }) => {
 
     const handleClick = () => {
         playClickSound();
+        window.scrollBy({
+            top: window.innerHeight, // Scroll down by the full height of the viewport
+            behavior: "smooth" // Smooth scrolling effect
+        });
+        onClose();
 
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1217,16 +1156,13 @@ const MovetoDecomposition = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1238,18 +1174,18 @@ const MovetoDecomposition = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1279,13 +1215,13 @@ const MovetoDecomposition = ({ show, onClose }) => {
     );
 };
 
-const NFDecomposition1 = ({ show, onClose, value }) => {
+const NFDecomposition1 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "right";
     const img = helperleft;
@@ -1300,37 +1236,33 @@ const NFDecomposition1 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1343,16 +1275,13 @@ const NFDecomposition1 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1364,18 +1293,18 @@ const NFDecomposition1 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1389,7 +1318,7 @@ const NFDecomposition1 = ({ show, onClose, value }) => {
                 </div>
 
                 <div
-                    className={`absolute min-h-[120px] w-[450px] bottom-28 ${position}-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    className={`absolute min-h-[120px] w-[400px] bottom-28 ${position}-28 text-lg mr-28 text-black p-3 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
                     <div>
                         {displayText}
                     </div>
@@ -1405,13 +1334,13 @@ const NFDecomposition1 = ({ show, onClose, value }) => {
     );
 };
 
-const NFDecomposition2 = ({ show, onClose, value }) => {
+const NFDecomposition2 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -1426,37 +1355,33 @@ const NFDecomposition2 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1469,16 +1394,13 @@ const NFDecomposition2 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1490,18 +1412,18 @@ const NFDecomposition2 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1513,9 +1435,8 @@ const NFDecomposition2 = ({ show, onClose, value }) => {
                         transition={{duration: 0.3, ease: "easeOut"}}
                     />
                 </div>
-
                 <div
-                    className={`absolute min-h-[120px] w-[450px] bottom-28 ${position}-32 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
+                    className={`absolute min-h-[120px] w-[400px] bottom-28 ${position}-28 ml-28 text-lg text-black p-3 bg-white my-6 rounded-2xl shadow-inner border-2 border-black`}>
                     <div>
                         {displayText}
                     </div>
@@ -1531,7 +1452,7 @@ const NFDecomposition2 = ({ show, onClose, value }) => {
     );
 };
 
-const PracticeNormalisation = ({ show }) => {
+const PracticeNormalisation = ({show}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
@@ -1539,7 +1460,7 @@ const PracticeNormalisation = ({ show }) => {
 
     const navigate = useNavigate();
 
-    const text = AppText.FinalTest;
+    const texts = AppText.FinalTest;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -1555,37 +1476,33 @@ const PracticeNormalisation = ({ show }) => {
         window.scrollTo(0, 0);
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1598,16 +1515,13 @@ const PracticeNormalisation = ({ show }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1619,18 +1533,18 @@ const PracticeNormalisation = ({ show }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1661,6 +1575,7 @@ const PracticeNormalisation = ({ show }) => {
 };
 
 const NormalisationTutorial = () => {
+    const [showDiv1, setShowDiv1] = useState(true);
     const [showWhatNormalisation, setShowWhatNormalisation] = useState(false);
     const [showWhatisNormalisation, setWhatisNormalisation] = useState(false);
     const [showWhyNormalisation, setWhyNormalisation] = useState(false);
@@ -1700,14 +1615,26 @@ const NormalisationTutorial = () => {
 
     // useBackgroundMusic(ingame);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            // window.location.reload();
-            setShowWhatNormalisation(true);
-        }, 2000);
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
 
-        return () => clearTimeout(timer); // Cleanup timeout on unmount
-    }, []);
+    const handleClickDiv1 = () => {
+        playClickSound();
+        setShowDiv1(false);
+        setTimeout(() => setShowWhatNormalisation(true), 1500);
+    };
+
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         // window.location.reload();
+    //         setShowDiv1(false);
+    //         setTimeout(() => setShowWhatNormalisation(true), 500);
+    //     }, 1500);
+    //
+    //     return () => clearTimeout(timer); // Cleanup timeout on unmount
+    // }, []);
 
     const handleClose1 = () => {
         setShowWhatNormalisation(false);
@@ -1806,7 +1733,7 @@ const NormalisationTutorial = () => {
 
     const handleClose20 = () => {
         setShowMoveTODecomp(false);
-        setShowDecompose2NormalForm(true);
+        setTimeout(() => setShowDecompose2NormalForm(true), 2000);
     }
 
     const handleClose21 = () => {
@@ -1841,120 +1768,182 @@ const NormalisationTutorial = () => {
 
     return (
         <div>
-            <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
-                <NavBarInGame pageName={"NormalisationTutorial"} />
-                <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                    <h1 className="text-left text-white font-semibold text-4xl mb-3">Normalisation, Identification and
-                        Decomposition</h1>
-                </div>
-                <div className={'flex'}>
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                        <h1 className={'text-black text-start mx-8 text-xl font-semibold my-2'}>Possible Non Trivial FD
-                            which
-                            create Redundancy</h1>
-                        <div className="grid grid-rows-3 grid-cols-1 gap-2 mt-3">
-                            {WhatNormalisationData.filter(({id}) => id >= 2).map(({id, image, form}) => (
-                                <div key={id} className="flex flex-col items-center">
-                                    <img src={image} className="h-32 object-contain" alt={form}/>
-                                    <p className="text-lg font-semibold text-gray-700">{form}</p>
+            {showDiv1 ? (
+                // <div className="flex flex-col justify-center items-center bg-[#445c63] h-screen">
+                //     <motion.img
+                //         src={detective}
+                //         alt="Detective"
+                //         className="h-screen rounded-full"
+                //         initial={{scale: 0.1}}
+                //         animate={{scale: 0.8}}
+                //         transition={{duration: 1.5, ease: "easeInOut"}}
+                //     />
+                // </div>
+                <>
+                    <div className={'w-screen h-screen bg-[#343237] grid grid-cols-3'}>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <Link to={'/TutorialKeysPractice'}>
+                                <button
+                                    onClick={() => {
+                                        playClickSound();
+                                    }}
+                                    className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                >
+                                    Redo Keys Practice
+                                </button>
+                            </Link>
+                        </div>
+                        <div className={'flex my-auto items-end justify-center align-middle'}>
+                            <img
+                                src={normalisationpracticepic}
+                                alt="Detective"
+                                className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
+                            />
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Introduction
+                                to Normalisation in DBMS</h1>
+                        </div>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <button
+                                onClick={handleClickDiv1}
+                                className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            >
+                                Continue to the Next Part
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <div>
+                    <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
+                        <NavBarInGame pageName={"NormalisationTutorial"}/>
+                        <div className={'w-screen bg-[#2f3749] py-0.5'}>
+                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Normalisation,
+                                Identification
+                                and
+                                Decomposition</h1>
+                        </div>
+                        <div className={'flex'}>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-2'}>Possible Non
+                                    Trivial
+                                    FD
+                                    which
+                                    create Redundancy</h1>
+                                <div className="grid grid-rows-3 grid-cols-1 gap-2 mt-3">
+                                    {WhatNormalisationData.filter(({id}) => id >= 2).map(({id, image, form}) => (
+                                        <div key={id} className="flex flex-col items-center">
+                                            <img src={image} className="h-32 object-contain" alt={form}/>
+                                            <p className="text-lg font-semibold text-gray-700">{form}</p>
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                        <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-6'}>Example for
-                            Normal Form Identification</h1>
-                        <h1 className={'text-black text-start mx-8 text-3xl mt-6 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
-                        <h1 className={'text-black text-end mx-8 text-xl my-1'}>FD
-                            Set: {NormalisationExample1.fdSet}</h1>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>1NF</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>Bigger Relation, always in 1NF.</h1>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>2NF Violating FDs</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>3NF Violating FDs</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
-                    </div>
-                </div>
-
-                <div className={'w-screen bg-[#2f3749] py-2 mb-3'}>
-                    <h1 className="text-left text-white font-semibold text-3xl">Decomposition of Relations into Normal
-                        Forms</h1>
-                </div>
-                <div className={'flex'}>
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-1">
-                        <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-3'}>Example for
-                            Decomposition into Normal Forms</h1>
-                        <h1 className={'text-black text-start mx-8 text-3xl mt-2 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
-                        <div className={'flex justify-between'}>
-                            <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
-                                Key: {NormalisationExample1.CandidateKey}</h1>
-                            <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
-                                Set: {NormalisationExample1.fdSet}</h1>
-                        </div>
-                        <div className={'grid grid-cols-2 grid-rows-2'}>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>2NF Violating
+                            </div>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-6'}>Example for
+                                    Normal Form Identification</h1>
+                                <h1 className={'text-black text-start mx-8 text-3xl mt-6 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
+                                <h1 className={'text-black text-end mx-8 text-xl my-1'}>FD
+                                    Set: {NormalisationExample1.fdSet}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>1NF</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>Bigger Relation, always in
+                                    1NF.</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>2NF Violating
                                     FDs</h1>
                                 <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
-                            </div>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>3NF Violating
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>3NF Violating
                                     FDs</h1>
                                 <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
-                            </div>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>2NF Violating
-                                    FD Closures</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureA}, {NormalisationExample1.ClosureB}</h1>
-                            </div>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>3NF Violating
-                                    FD Closures</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureD}, {NormalisationExample1.ClosureF}</h1>
-                            </div>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>2NF Decomposed
-                                    Relations</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Decomposition}</h1>
-                            </div>
-                            <div>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>3NF Decomposed
-                                    Relations</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Decomposition}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
                             </div>
                         </div>
-                    </div>
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                        <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
-                        <hr className={'my-7  mx-auto w-5/6 h-0.5 rounded-lg bg-black'}/>
-                        <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-4'}>Example for BCNF
-                            Decomposition</h1>
-                        <h1 className={'text-black text-start mx-8 text-3xl mt-4 mb-3'}>Relation: {NormalisationExample2.Relation}</h1>
-                        <div className={'flex justify-between'}>
-                            <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
-                                Key: {NormalisationExample2.CandidateKey}</h1>
-                            <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
-                                Set: {NormalisationExample2.fdSet}</h1>
+
+                        <div className={'w-screen bg-[#2f3749] py-2 mb-3'}>
+                            <h1 className="text-left text-white font-semibold text-3xl">Decomposition of Relations into
+                                Normal
+                                Forms</h1>
                         </div>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-2 text-2xl my-1'}>BCNF Violating
-                            FDs</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfViolation}</h1>
-                        <h1 className={'text-gray-400 text-start mt-5 mx-8 text-2xl my-1'}>BCNF Violating
-                            FD Closures</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.ClosureD}</h1>
-                        <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>BCNF Decomposed
-                            Relations</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfDecomposition}</h1>
+                        <div className={'flex'}>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-1">
+                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-3'}>Example for
+                                    Decomposition into Normal Forms</h1>
+                                <h1 className={'text-black text-start mx-8 text-3xl mt-2 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
+                                <div className={'flex justify-between'}>
+                                    <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
+                                        Key: {NormalisationExample1.CandidateKey}</h1>
+                                    <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
+                                        Set: {NormalisationExample1.fdSet}</h1>
+                                </div>
+                                <div className={'grid grid-cols-2 grid-rows-2'}>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>2NF Violating
+                                            FDs</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
+                                    </div>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>3NF Violating
+                                            FDs</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
+                                    </div>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>2NF
+                                            Violating
+                                            FD Closures</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureA}, {NormalisationExample1.ClosureB}</h1>
+                                    </div>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>3NF
+                                            Violating
+                                            FD Closures</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureD}, {NormalisationExample1.ClosureF}</h1>
+                                    </div>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>2NF
+                                            Decomposed
+                                            Relations</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Decomposition}</h1>
+                                    </div>
+                                    <div>
+                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>3NF
+                                            Decomposed
+                                            Relations</h1>
+                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Decomposition}</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
+                                <hr className={'my-7  mx-auto w-5/6 h-0.5 rounded-lg bg-black'}/>
+                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-4'}>Example for
+                                    BCNF
+                                    Decomposition</h1>
+                                <h1 className={'text-black text-start mx-8 text-3xl mt-4 mb-3'}>Relation: {NormalisationExample2.Relation}</h1>
+                                <div className={'flex justify-between'}>
+                                    <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
+                                        Key: {NormalisationExample2.CandidateKey}</h1>
+                                    <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
+                                        Set: {NormalisationExample2.fdSet}</h1>
+                                </div>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-2 text-2xl my-1'}>BCNF Violating
+                                    FDs</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfViolation}</h1>
+                                <h1 className={'text-gray-400 text-start mt-5 mx-8 text-2xl my-1'}>BCNF Violating
+                                    FD Closures</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.ClosureD}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>BCNF Decomposed
+                                    Relations</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfDecomposition}</h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
+
             <FinaleModule1 show={showWhatNormalisation} onClose={handleClose1}/>
             <WhatisNormalisation show={showWhatisNormalisation} onClose={handleClose2}/>
             <WhyNormalisation show={showWhyNormalisation} onClose={handleClose3}/>
@@ -1986,14 +1975,20 @@ const NormalisationTutorial = () => {
                                            value={NormalisationExample1.Nf3Identification}/>
             <IndentifyingNormalFormExample show={showNormalFormBCIdentify} onClose={handleClose19}
                                            value={NormalisationExample1.BCNFDecomposition}/>
-            <MovetoDecomposition show={showMoveTODecomp} onClose={handleClose20} />
-            <NFDecomposition1 show={showDecompose2NormalForm} onClose={handleClose21} value={NormalisationExample1.Nf2DecompositionExplanation}/>
-            <NFDecomposition1 show={showDecompose3NormalForm1} onClose={handleClose22} value={NormalisationExample1.Nf3DecompositionExplanation1}/>
-            <NFDecomposition1 show={showDecompose3NormalForm2} onClose={handleClose23} value={NormalisationExample1.Nf3DecompositionExplanation2}/>
-            <NFDecomposition1 show={showDecomposeBCNormalForm1} onClose={handleClose24} value={NormalisationExample1.BCNFDecompositionExplanation}/>
-            <NFDecomposition2 show={showDecomposeBCNormalForm2} onClose={handleClose25} value={NormalisationExample2.BcnfDecompositionExplanation1}/>
-            <NFDecomposition2 show={showDecomposeBCNormalForm3} onClose={handleClose26} value={NormalisationExample2.BcnfDecompositionExplanation2}/>
-            <PracticeNormalisation show={showFinalTest} />
+            <MovetoDecomposition show={showMoveTODecomp} onClose={handleClose20}/>
+            <NFDecomposition1 show={showDecompose2NormalForm} onClose={handleClose21}
+                              value={NormalisationExample1.Nf2DecompositionExplanation}/>
+            <NFDecomposition1 show={showDecompose3NormalForm1} onClose={handleClose22}
+                              value={NormalisationExample1.Nf3DecompositionExplanation1}/>
+            <NFDecomposition1 show={showDecompose3NormalForm2} onClose={handleClose23}
+                              value={NormalisationExample1.Nf3DecompositionExplanation2}/>
+            <NFDecomposition1 show={showDecomposeBCNormalForm1} onClose={handleClose24}
+                              value={NormalisationExample1.BCNFDecompositionExplanation}/>
+            <NFDecomposition2 show={showDecomposeBCNormalForm2} onClose={handleClose25}
+                              value={NormalisationExample2.BcnfDecompositionExplanation1}/>
+            <NFDecomposition2 show={showDecomposeBCNormalForm3} onClose={handleClose26}
+                              value={NormalisationExample2.BcnfDecompositionExplanation2}/>
+            <PracticeNormalisation show={showFinalTest}/>
         </div>
     );
 };

@@ -15,11 +15,125 @@ import {
     SuperKeysExample1Json,
     SuperKeysExample2Json, useVoiceSynthesis,
 } from "../../../../Constants/Texts";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {clicksound} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
+import {keyspracticepic, normalisationpracticepic} from "../../../../Resources/Images/Others";
 
-const WhatAreKeys = ({ show, onClose }) => {
+const WhatAreKeys = ({show, onClose}) => {
+    const [displayText, setDisplayText] = useState("");
+    const [showButton, setShowButton] = useState(false);
+    const [voices, setVoices] = useState([]);
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
+
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClick = () => {
+        playClickSound();
+        onClose();
+    };
+
+    // Load voices properly with retries
+    useEffect(() => {
+        const loadVoices = () => {
+            const availableVoices = window.speechSynthesis.getVoices();
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
+            }
+        };
+
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
+    }, []);
+
+    // Speak the text and update display text word by word
+    useEffect(() => {
+        if (!show || !AppText.WhatAreKeys || !voicesLoaded) return;
+
+        // Cancel any ongoing speech before starting a new one
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(AppText.WhatAreKeys);
+        let selectedVoice = voices.find((voice) => voice.name.includes("Microsoft David")) || voices[0];
+
+        if (!selectedVoice) {
+            console.warn("Desired voice not found. Using default voice.");
+            selectedVoice = voices[0]; // Fallback to the first available voice
+        }
+
+        utterance.voice = selectedVoice;
+
+        // Reset the display text before starting speech
+        setDisplayText("");
+
+        const words = AppText.WhatAreKeys.split(" ");
+        let wordIndex = -1;
+
+        utterance.onboundary = (event) => {
+            if (event.name === "word" && wordIndex < words.length - 1) {
+                wordIndex++;
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
+            }
+        };
+
+        utterance.onend = () => {
+            setShowButton(true); // Show the button when speech ends
+        };
+
+        // Speak the utterance
+        window.speechSynthesis.speak(utterance);
+
+        return () => {
+            // Cancel the speech synthesis if the component unmounts
+            window.speechSynthesis.cancel();
+        };
+    }, [show, voicesLoaded, voices]);
+
+    return (
+        show && (
+            <motion.div
+                className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
+            >
+                <motion.img
+                    src={chief}
+                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
+                    alt="Assistant"
+                    initial={{scale: 0}}
+                    animate={{scale: 1}}
+                    transition={{duration: 0.3, ease: "easeOut"}}
+                />
+
+                <div
+                    className="absolute bottom-28 right-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-auto">
+                    <div>
+                        {displayText}
+                    </div>
+                    <button
+                        className={`mt-4 px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in ${showButton ? "block" : "hidden"}`}
+                        onClick={handleClick}
+                    >
+                        Next
+                    </button>
+                </div>
+            </motion.div>
+        )
+    );
+};
+
+const WhatAreKeys1 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
@@ -113,9 +227,9 @@ const WhatAreKeys = ({ show, onClose }) => {
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -145,13 +259,13 @@ const WhatAreKeys = ({ show, onClose }) => {
     );
 };
 
-const SomeSpecialKeys = ({ show, onClose }) => {
+const SomeSpecialKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.SomeSpecialKeys;
+    const texts = AppText.SomeSpecialKeys;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -166,37 +280,34 @@ const SomeSpecialKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -209,16 +320,13 @@ const SomeSpecialKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -230,18 +338,18 @@ const SomeSpecialKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -271,13 +379,13 @@ const SomeSpecialKeys = ({ show, onClose }) => {
     );
 };
 
-const SuperKeys = ({ show, onClose }) => {
+const SuperKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.SuperKeys;
+    const texts = AppText.SuperKeys;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -292,37 +400,34 @@ const SuperKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -335,16 +440,13 @@ const SuperKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -356,18 +458,18 @@ const SuperKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -397,15 +499,15 @@ const SuperKeys = ({ show, onClose }) => {
     );
 };
 
-const ReadSuperKeys = ({ show, onClose }) => {
+const ReadSuperKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.ReadOutSuperKeys;
+    const texts = AppText.ReadOutSuperKeys;
     const voiceMain = "Microsoft Mark";
-    const position = "right";
+    const position = `right`;
     const img = helperleft;
 
     const playClickSound = () => {
@@ -418,37 +520,34 @@ const ReadSuperKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -461,16 +560,13 @@ const ReadSuperKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -482,18 +578,18 @@ const ReadSuperKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -618,13 +714,13 @@ const SuperKeysExample = ({show, onClose}) => {
     );
 };
 
-const CandidateKeys = ({ show, onClose }) => {
+const CandidateKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.CandidateKeys;
+    const texts = AppText.CandidateKeys;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantconclude;
@@ -639,37 +735,34 @@ const CandidateKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -682,16 +775,13 @@ const CandidateKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -703,18 +793,18 @@ const CandidateKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -744,15 +834,15 @@ const CandidateKeys = ({ show, onClose }) => {
     );
 };
 
-const WhatAreCandidateKeys = ({ show, onClose }) => {
+const WhatAreCandidateKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.CandidateKeysDef;
+    const texts = AppText.CandidateKeysDef;
     const voiceMain = "Microsoft David";
-    const position = "right";
+    const position = `right`;
     const img = chief;
 
     const playClickSound = () => {
@@ -765,37 +855,34 @@ const WhatAreCandidateKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -808,16 +895,13 @@ const WhatAreCandidateKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -829,18 +913,18 @@ const WhatAreCandidateKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -870,13 +954,13 @@ const WhatAreCandidateKeys = ({ show, onClose }) => {
     );
 };
 
-const CandidateKeysEasy = ({ show, onClose }) => {
+const CandidateKeysEasy = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.CandidateKeyEasy1;
+    const texts = AppText.CandidateKeyEasy1;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantthinking;
@@ -891,37 +975,34 @@ const CandidateKeysEasy = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -934,16 +1015,13 @@ const CandidateKeysEasy = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -955,18 +1033,18 @@ const CandidateKeysEasy = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -996,13 +1074,13 @@ const CandidateKeysEasy = ({ show, onClose }) => {
     );
 };
 
-const CandidateKeysEasy2 = ({ show, onClose }) => {
+const CandidateKeysEasy2 = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.CandidateKeyEasy2;
+    const texts = AppText.CandidateKeyEasy2;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -1017,37 +1095,34 @@ const CandidateKeysEasy2 = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1060,16 +1135,13 @@ const CandidateKeysEasy2 = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1081,18 +1153,18 @@ const CandidateKeysEasy2 = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1122,13 +1194,13 @@ const CandidateKeysEasy2 = ({ show, onClose }) => {
     );
 };
 
-const CandidateKeyExplanation1 = ({ show, onClose, value }) => {
+const CandidateKeyExplanation1 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -1143,37 +1215,34 @@ const CandidateKeyExplanation1 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1186,16 +1255,13 @@ const CandidateKeyExplanation1 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1207,18 +1273,18 @@ const CandidateKeyExplanation1 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1248,13 +1314,13 @@ const CandidateKeyExplanation1 = ({ show, onClose, value }) => {
     );
 };
 
-const CandidateKeyExplanation2 = ({ show, onClose, value }) => {
+const CandidateKeyExplanation2 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperpeekright;
@@ -1269,37 +1335,34 @@ const CandidateKeyExplanation2 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1312,16 +1375,13 @@ const CandidateKeyExplanation2 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1333,18 +1393,18 @@ const CandidateKeyExplanation2 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute top-10 ${position}-0`}>
                     <motion.img
@@ -1374,15 +1434,15 @@ const CandidateKeyExplanation2 = ({ show, onClose, value }) => {
     );
 };
 
-const WhatArePrimaryKeys = ({ show, onClose }) => {
+const WhatArePrimaryKeys = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.PrimaryKeyDef;
+    const texts = AppText.PrimaryKeyDef;
     const voiceMain = "Microsoft David";
-    const position = "right";
+    const position = `right`;
     const img = chief;
 
     const playClickSound = () => {
@@ -1399,37 +1459,34 @@ const WhatArePrimaryKeys = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1442,16 +1499,13 @@ const WhatArePrimaryKeys = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1463,18 +1517,18 @@ const WhatArePrimaryKeys = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1504,13 +1558,13 @@ const WhatArePrimaryKeys = ({ show, onClose }) => {
     );
 };
 
-const DirectWay = ({ show, onClose }) => {
+const DirectWay = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.DirectWay;
+    const texts = AppText.DirectWay;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantthinking;
@@ -1525,37 +1579,34 @@ const DirectWay = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1568,16 +1619,13 @@ const DirectWay = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1589,18 +1637,18 @@ const DirectWay = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1630,13 +1678,13 @@ const DirectWay = ({ show, onClose }) => {
     );
 };
 
-const GoldenMantra = ({ show, onClose }) => {
+const GoldenMantra = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.GoldenMantra;
+    const texts = AppText.GoldenMantra;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantthinking;
@@ -1651,37 +1699,34 @@ const GoldenMantra = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1694,16 +1739,13 @@ const GoldenMantra = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1715,18 +1757,18 @@ const GoldenMantra = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1756,13 +1798,13 @@ const GoldenMantra = ({ show, onClose }) => {
     );
 };
 
-const CandidateKeyUnderstand = ({ show, onClose }) => {
+const CandidateKeyUnderstand = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.CandidateKeyUnderstand;
+    const texts = AppText.CandidateKeyUnderstand;
     const voiceMain = "Microsoft Zira";
     const position = "left";
     const img = assisstantthinking;
@@ -1777,37 +1819,34 @@ const CandidateKeyUnderstand = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1820,16 +1859,13 @@ const CandidateKeyUnderstand = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1841,18 +1877,18 @@ const CandidateKeyUnderstand = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -1882,15 +1918,15 @@ const CandidateKeyUnderstand = ({ show, onClose }) => {
     );
 };
 
-const PrimeKeyAttribute = ({ show, onClose }) => {
+const PrimeKeyAttribute = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.PrimeKeyAttributes;
+    const texts = AppText.PrimeKeyAttributes;
     const voiceMain = "Microsoft Mark";
-    const position = "right";
+    const position = `right`;
     const img = helperleft;
 
     const playClickSound = () => {
@@ -1903,37 +1939,34 @@ const PrimeKeyAttribute = ({ show, onClose }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -1946,16 +1979,13 @@ const PrimeKeyAttribute = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -1967,18 +1997,18 @@ const PrimeKeyAttribute = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -2008,15 +2038,15 @@ const PrimeKeyAttribute = ({ show, onClose }) => {
     );
 };
 
-const DirectMethodExplanation1 = ({ show, onClose, value }) => {
+const DirectMethodExplanation1 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
-    const position = "right";
+    const position = `right`;
     const img = helperleft;
 
     const playClickSound = () => {
@@ -2029,37 +2059,34 @@ const DirectMethodExplanation1 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -2072,16 +2099,13 @@ const DirectMethodExplanation1 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -2093,18 +2117,18 @@ const DirectMethodExplanation1 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -2134,13 +2158,13 @@ const DirectMethodExplanation1 = ({ show, onClose, value }) => {
     );
 };
 
-const DirectMethodExplanation2 = ({ show, onClose, value }) => {
+const DirectMethodExplanation2 = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = value;
+    const texts = value;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -2155,37 +2179,34 @@ const DirectMethodExplanation2 = ({ show, onClose, value }) => {
         onClose();
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -2198,16 +2219,13 @@ const DirectMethodExplanation2 = ({ show, onClose, value }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -2219,18 +2237,18 @@ const DirectMethodExplanation2 = ({ show, onClose, value }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -2260,7 +2278,7 @@ const DirectMethodExplanation2 = ({ show, onClose, value }) => {
     );
 };
 
-const PracticeCandidateKeys = ({ show }) => {
+const PracticeCandidateKeys = ({show}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
@@ -2268,9 +2286,9 @@ const PracticeCandidateKeys = ({ show }) => {
 
     const navigate = useNavigate();
 
-    const text = AppText.PracticeKeys;
+    const texts = AppText.PracticeKeys;
     const voiceMain = "Microsoft David";
-    const position = "right";
+    const position = `right`;
     const img = chief;
 
     const playClickSound = () => {
@@ -2284,37 +2302,34 @@ const PracticeCandidateKeys = ({ show }) => {
         window.scrollTo(0, 0);
     };
 
-    // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
     // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -2327,16 +2342,13 @@ const PracticeCandidateKeys = ({ show }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -2348,18 +2360,18 @@ const PracticeCandidateKeys = ({ show }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -2390,6 +2402,7 @@ const PracticeCandidateKeys = ({ show }) => {
 };
 
 const KeysTutorial = () => {
+    const [showDiv1, setShowDiv1] = useState(true);
     const [showWhatKeys, setShowWhatKeys] = useState(false);
     const [showSpecialKeys, setShowSpecialKeys] = useState(false);
     const [showSuperKeys, setShowSuperKeys] = useState(false);
@@ -2430,14 +2443,25 @@ const KeysTutorial = () => {
 
     const [showLetsPracticeKeys, setShowLetsPracticeKeys] = useState(false);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            // window.location.reload();
-            setShowWhatKeys(true);
-        }, 2000);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         // window.location.reload();
+    //         setShowWhatKeys(true);
+    //     }, 2000);
+    //
+    //     return () => clearTimeout(timer); // Cleanup timeout on unmount
+    // }, []);
 
-        return () => clearTimeout(timer); // Cleanup timeout on unmount
-    }, []);
+    const playClickSound = () => {
+        const audio = new Audio(clicksound);
+        audio.play();
+    };
+
+    const handleClickDiv1 = () => {
+        playClickSound();
+        setShowDiv1(false);
+        setTimeout(() => setShowWhatKeys(true), 1000);
+    };
 
     const handleClose1 = () => {
         setShowWhatKeys(false);
@@ -2616,104 +2640,154 @@ const KeysTutorial = () => {
 
     return (
         <div>
-            <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
-                <NavBarInGame pageName={"KeysTutorial"} />
-                <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                    <h1 className="text-left text-white font-semibold text-4xl mb-3">Different and Necessary Keys</h1>
-                </div>
-                <div className={'grid grid-cols-2 gap-2 mr-10'}>
-
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                        <h1 className={'text-black text-center text-3xl font-semibold'}>Super Keys</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example 1</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
-                            Set: {SuperKeysExample1Json[0].fdSet}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super Keys
-                            for the given Relations:</h1>
-                        <h1
-                            className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].superKey1}, {SuperKeysExample1Json[0].superKey2}, {SuperKeysExample1Json[0].superKey3}, {SuperKeysExample1Json[0].superKey4}, {SuperKeysExample1Json[0].superKey5}, {SuperKeysExample1Json[0].superKey6}</h1>
-                        <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example 2</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
-                            Set: {SuperKeysExample2Json[0].fdSet}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super Keys
-                            for the given Relations:</h1>
-                        <h1
-                            className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].superKey1}, {SuperKeysExample2Json[0].superKey2}, {SuperKeysExample2Json[0].superKey3}</h1>
+            {showDiv1 ? (
+                <>
+                    <div className={'w-screen h-screen bg-[#343237] grid grid-cols-3'}>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <Link to={'/TutorialFDPractice'}>
+                                <button
+                                    onClick={() => {
+                                        playClickSound();
+                                    }}
+                                    className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                >
+                                    Redo FD Practice
+                                </button>
+                            </Link>
+                        </div>
+                        <div className={'flex my-auto items-end justify-center align-middle'}>
+                            <img
+                                src={keyspracticepic}
+                                alt="Detective"
+                                className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
+                            />
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Introduction
+                                to Keys in DBMS</h1>
+                        </div>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <button
+                                onClick={handleClickDiv1}
+                                className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            >
+                                Continue to the Next Part
+                            </button>
+                        </div>
                     </div>
+                </>
+            ) : (
+                <div>
+                    <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
+                        <NavBarInGame pageName={"KeysTutorial"}/>
+                        <div className={'w-screen bg-[#2f3749] py-0.5'}>
+                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Different and Necessary
+                                Keys</h1>
+                        </div>
+                        <div className={'grid grid-cols-2 gap-2 mr-10'}>
 
-                    <div
-                        className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                        <h1 className={'text-black text-center text-3xl font-semibold'}>Candidate Keys</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the Example
-                            1</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
-                            Set: {SuperKeysExample1Json[0].fdSet}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate Keys for
-                            the given Relations:</h1>
-                        <h1
-                            className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].candidateKey1}</h1>
-                        <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the Example
-                            2</h1>
-                        <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
-                            Set: {SuperKeysExample2Json[0].fdSet}</h1>
-                        <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate Keys for
-                            the given Relations:</h1>
-                        <h1
-                            className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].candidateKey1}, {SuperKeysExample2Json[0].candidateKey2}, {SuperKeysExample2Json[0].candidateKey3}</h1>
-                    </div>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center text-3xl font-semibold'}>Super Keys</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example
+                                    1</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                    Set: {SuperKeysExample1Json[0].fdSet}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super
+                                    Keys
+                                    for the given Relations:</h1>
+                                <h1
+                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].superKey1}, {SuperKeysExample1Json[0].superKey2}, {SuperKeysExample1Json[0].superKey3}, {SuperKeysExample1Json[0].superKey4}, {SuperKeysExample1Json[0].superKey5}, {SuperKeysExample1Json[0].superKey6}</h1>
+                                <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example
+                                    2</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                    Set: {SuperKeysExample2Json[0].fdSet}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super
+                                    Keys
+                                    for the given Relations:</h1>
+                                <h1
+                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].superKey1}, {SuperKeysExample2Json[0].superKey2}, {SuperKeysExample2Json[0].superKey3}</h1>
+                            </div>
 
-                </div>
+                            <div
+                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center text-3xl font-semibold'}>Candidate Keys</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the
+                                    Example
+                                    1</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                    Set: {SuperKeysExample1Json[0].fdSet}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate
+                                    Keys
+                                    for
+                                    the given Relations:</h1>
+                                <h1
+                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].candidateKey1}</h1>
+                                <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the
+                                    Example
+                                    2</h1>
+                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                    Set: {SuperKeysExample2Json[0].fdSet}</h1>
+                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate
+                                    Keys
+                                    for
+                                    the given Relations:</h1>
+                                <h1
+                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].candidateKey1}, {SuperKeysExample2Json[0].candidateKey2}, {SuperKeysExample2Json[0].candidateKey3}</h1>
+                            </div>
 
-                <div className={'mb-5'}>
-                    <h1 className={'w-screen bg-[#2f3749] py-1 text-left text-white font-semibold text-4xl'}>More Examples for Candidate Keys, using Direct Method</h1>
-                    <div className={'grid grid-cols-2 gap-2 mr-10'}>
-
-                        <div
-                            className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
-                            <h1 className={'text-black text-center text-3xl font-semibold'}>Example 1</h1>
-                            <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[0].relation}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
-                                Set: {goodCandidateKeysExample[0].fdset}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The Candidate
-                                Keys
-                                for the given Relations:</h1>
-                            <h1
-                                className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[0].candidateKeys}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
-                                Attributes: {goodCandidateKeysExample[0].primeattributes}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
-                                Attributes: {goodCandidateKeysExample[0].nonkeyattributes}</h1>
                         </div>
 
-                        <div
-                            className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
-                            <h1 className={'text-black text-center text-3xl font-semibold'}>Example 2</h1>
-                            <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[1].relation}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
-                                Set: {goodCandidateKeysExample[1].fdset}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The Candidate
-                                Keys
-                                for the given Relations:</h1>
-                            <h1
-                                className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[1].candidateKeys}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
-                                Attributes: {goodCandidateKeysExample[1].primeattributes}</h1>
-                            <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
-                                Attributes: {goodCandidateKeysExample[1].nonkeyattributes}</h1>
+                        <div className={'mb-5'}>
+                            <h1 className={'w-screen bg-[#2f3749] py-1 text-left text-white font-semibold text-4xl'}>More
+                                Examples for Candidate Keys, using Direct Method</h1>
+                            <div className={'grid grid-cols-2 gap-2 mr-10'}>
+
+                                <div
+                                    className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
+                                    <h1 className={'text-black text-center text-3xl font-semibold'}>Example 1</h1>
+                                    <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[0].relation}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
+                                        Set: {goodCandidateKeysExample[0].fdset}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The
+                                        Candidate
+                                        Keys
+                                        for the given Relations:</h1>
+                                    <h1
+                                        className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[0].candidateKeys}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
+                                        Attributes: {goodCandidateKeysExample[0].primeattributes}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
+                                        Attributes: {goodCandidateKeysExample[0].nonkeyattributes}</h1>
+                                </div>
+
+                                <div
+                                    className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
+                                    <h1 className={'text-black text-center text-3xl font-semibold'}>Example 2</h1>
+                                    <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[1].relation}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
+                                        Set: {goodCandidateKeysExample[1].fdset}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The
+                                        Candidate
+                                        Keys
+                                        for the given Relations:</h1>
+                                    <h1
+                                        className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[1].candidateKeys}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
+                                        Attributes: {goodCandidateKeysExample[1].primeattributes}</h1>
+                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
+                                        Attributes: {goodCandidateKeysExample[1].nonkeyattributes}</h1>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
+
                 </div>
-
-            </div>
-
+            )}
             <WhatAreKeys show={showWhatKeys} onClose={handleClose1}/>
             <SomeSpecialKeys show={showSpecialKeys} onClose={handleClose2}/>
             <SuperKeys show={showSuperKeys} onClose={handleClose3}/>
@@ -2724,44 +2798,55 @@ const KeysTutorial = () => {
             <CandidateKeysEasy show={showCandidateKeysEasy1} onClose={handleClose7}/>
             <CandidateKeysEasy2 show={showCandidateKeysEasy2} onClose={handleClose9}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation1} onClose={handleClose10}
-                                      value={SuperKeysExample1Json[0].candidateKey1Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey1Explanation}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation2} onClose={handleClose11}
-                                      value={SuperKeysExample1Json[0].candidateKey2Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey2Explanation}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation3} onClose={handleClose12}
-                                      value={SuperKeysExample1Json[0].candidateKey3Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey3Explanation}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation4} onClose={handleClose13}
-                                      value={SuperKeysExample1Json[0].candidateKey4Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey4Explanation}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation5} onClose={handleClose14}
-                                      value={SuperKeysExample1Json[0].candidateKey5Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey5Explanation}/>
             <CandidateKeyExplanation1 show={showCandidateKeysExample1Explanation6} onClose={handleClose15}
-                                      value={SuperKeysExample1Json[0].candidateKey6Explanation} />
+                                      value={SuperKeysExample1Json[0].candidateKey6Explanation}/>
             <CandidateKeyExplanation2 show={showCandidateKeysExample2Explanation1} onClose={handleClose16}
-                                      value={SuperKeysExample2Json[0].candidateKey1Explanation} />
+                                      value={SuperKeysExample2Json[0].candidateKey1Explanation}/>
             <CandidateKeyExplanation2 show={showCandidateKeysExample2Explanation2} onClose={handleClose17}
-                                      value={SuperKeysExample2Json[0].candidateKey2Explanation} />
+                                      value={SuperKeysExample2Json[0].candidateKey2Explanation}/>
             <CandidateKeyExplanation2 show={showCandidateKeysExample2Explanation3} onClose={handleClose18}
-                                      value={SuperKeysExample2Json[0].candidateKey3Explanation} />
+                                      value={SuperKeysExample2Json[0].candidateKey3Explanation}/>
             <WhatArePrimaryKeys show={showWhatarePrimaryKeys} onClose={handleClose19}/>
             <DirectWay show={showDirectWay} onClose={handleClose20}/>
             <GoldenMantra show={showGoldenMantra} onClose={handleClose21}/>
             <CandidateKeyUnderstand show={showCandidateKeyUnderstand} onClose={handleClose22}/>
             <PrimeKeyAttribute show={showPrimeKeyAttribute} onClose={handleClose23}/>
 
-            <DirectMethodExplanation1 show={showDirectMethodExplanation1Example1} onClose={handleClose24} value={goodCandidateKeysExample[0].explanation1} />
-            <DirectMethodExplanation1 show={showDirectMethodExplanation2Example1} onClose={handleClose25} value={goodCandidateKeysExample[0].explanation2} />
-            <DirectMethodExplanation1 show={showDirectMethodExplanation3Example1} onClose={handleClose26} value={goodCandidateKeysExample[0].explanation3} />
-            <DirectMethodExplanation1 show={showDirectMethodExplanation4Example1} onClose={handleClose27} value={goodCandidateKeysExample[0].explanation4} />
+            <DirectMethodExplanation1 show={showDirectMethodExplanation1Example1} onClose={handleClose24}
+                                      value={goodCandidateKeysExample[0].explanation1}/>
+            <DirectMethodExplanation1 show={showDirectMethodExplanation2Example1} onClose={handleClose25}
+                                      value={goodCandidateKeysExample[0].explanation2}/>
+            <DirectMethodExplanation1 show={showDirectMethodExplanation3Example1} onClose={handleClose26}
+                                      value={goodCandidateKeysExample[0].explanation3}/>
+            <DirectMethodExplanation1 show={showDirectMethodExplanation4Example1} onClose={handleClose27}
+                                      value={goodCandidateKeysExample[0].explanation4}/>
 
-            <DirectMethodExplanation2 show={showDirectMethodExplanation0Example2} onClose={handleClose28} value={goodCandidateKeysExample[1].explanation0} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation1Example2} onClose={handleClose29} value={goodCandidateKeysExample[1].explanation1} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation2Example2} onClose={handleClose30} value={goodCandidateKeysExample[1].explanation2} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation3Example2} onClose={handleClose31} value={goodCandidateKeysExample[1].explanation3} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation4Example2} onClose={handleClose32} value={goodCandidateKeysExample[1].explanation4} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation5Example2} onClose={handleClose33} value={goodCandidateKeysExample[1].explanation5} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation6Example2} onClose={handleClose34} value={goodCandidateKeysExample[1].explanation6} />
-            <DirectMethodExplanation2 show={showDirectMethodExplanation7Example2} onClose={handleClose35} value={goodCandidateKeysExample[1].explanation7} />
+            <DirectMethodExplanation2 show={showDirectMethodExplanation0Example2} onClose={handleClose28}
+                                      value={goodCandidateKeysExample[1].explanation0}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation1Example2} onClose={handleClose29}
+                                      value={goodCandidateKeysExample[1].explanation1}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation2Example2} onClose={handleClose30}
+                                      value={goodCandidateKeysExample[1].explanation2}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation3Example2} onClose={handleClose31}
+                                      value={goodCandidateKeysExample[1].explanation3}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation4Example2} onClose={handleClose32}
+                                      value={goodCandidateKeysExample[1].explanation4}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation5Example2} onClose={handleClose33}
+                                      value={goodCandidateKeysExample[1].explanation5}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation6Example2} onClose={handleClose34}
+                                      value={goodCandidateKeysExample[1].explanation6}/>
+            <DirectMethodExplanation2 show={showDirectMethodExplanation7Example2} onClose={handleClose35}
+                                      value={goodCandidateKeysExample[1].explanation7}/>
             <PracticeCandidateKeys show={showLetsPracticeKeys}/>
-
         </div>
     );
 };

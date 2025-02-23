@@ -175,12 +175,13 @@ const LandingPage = () => {
             setShowButton(true);
         }, 2000);
 
+        if (!isLoggedIn && !isLoggedIn_session && !showDiv1) {
+            setTimeout(() =>setShowLoginModal(true), 800);
+        }
+
         return () => clearTimeout(timer);
 
-        if (!isLoggedIn && !isLoggedIn_session) {
-            setTimeout(() =>setShowLoginModal(true), 500);
-        }
-    }, []);
+    }, [showDiv1]);
 
 
     const [audio] = useState(new Audio(bgm));
@@ -238,7 +239,10 @@ const LandingPage = () => {
                     />
                     {showButton && (
                         <motion.button
-                            onClick={() => setShowDiv1(false)}
+                            onClick={() => {
+                                playClickSound();
+                                setShowDiv1(false);
+                            }}
                             className="px-5 py-3 absolute right-16 bottom-16 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}

@@ -13,8 +13,20 @@ import notsql from './NotExample.png'
 import groupbysql from './GroupbyExample.png'
 import havingsql from './HavingExample.png'
 import distinctsql from './DistinctExample.png'
+import fdtestpic from './FDTestPic.png'
+import keyspracticepic from './KeysPracticePic.png'
+import keystestpic from './KeyTestPic.png'
+import normalisationpracticepic from './NormalisationPracticePic.png'
+import normalisationtestpic from './NormalisationTestPic.png'
+import sqlpracticepic from './SQLPracticePic.png'
+import maxminsql from './MaxMinExample.png'
+import countsql from './CountExample.png'
+import sumsql from './SumExample.png'
+import avgsql from './AverageExample.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
-    orderbysql, distinctsql, notsql, groupbysql, havingsql
+    orderbysql, distinctsql, notsql, groupbysql, havingsql, keystestpic, normalisationtestpic,
+    normalisationpracticepic, sqlpracticepic, fdtestpic, keyspracticepic, avgsql, sumsql,
+    maxminsql, countsql
 }

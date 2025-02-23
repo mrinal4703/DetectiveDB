@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { CheckCircle } from "lucide-react";
+import React, {useEffect, useState} from "react";
+import {CheckCircle} from "lucide-react";
 import {AppText, practiceFDClosure, useVoiceSynthesis} from "../../../../Constants/Texts"; // Assuming helper functions are from this file
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import {chief, helperleft, helperright} from "../../../../Resources/Images/People";
 import {SlMagnifier} from "react-icons/sl";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {clicksound} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
+import {fdtestpic, normalisationpracticepic} from "../../../../Resources/Images/Others";
 
-const HelperAtFirst = ({ show, onClose }) => {
+const HelperAtFirst = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.HelpingFD;
+    const texts = AppText.HelpingFD;
     const voiceMain = "Microsoft Mark";
     const position = "left";
     const img = helperright;
@@ -30,36 +31,33 @@ const HelperAtFirst = ({ show, onClose }) => {
     };
 
     // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -72,16 +70,13 @@ const HelperAtFirst = ({ show, onClose }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -93,18 +88,18 @@ const HelperAtFirst = ({ show, onClose }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -134,7 +129,7 @@ const HelperAtFirst = ({ show, onClose }) => {
     );
 };
 
-const HelpEasy = ({ show, onClose }) => {
+const HelpEasy = ({show, onClose}) => {
     const [showButton, setShowButton] = useState(false);
 
     useVoiceSynthesis("junior", AppText.Hmm, show);
@@ -162,17 +157,17 @@ const HelpEasy = ({ show, onClose }) => {
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <motion.img
                     src={helperleft}
                     className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
                     alt="Assistant"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    initial={{scale: 0}}
+                    animate={{scale: 1}}
+                    transition={{duration: 0.3, ease: "easeOut"}}
                 />
 
                 <div
@@ -301,13 +296,13 @@ const HelpDifficult = ({show, onClose}) => {
     );
 };
 
-const SuperKeyDiscussions = ({ show }) => {
+const SuperKeyDiscussions = ({show}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const text = AppText.NiceWorkFD;
+    const texts = AppText.NiceWorkFD;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -326,36 +321,33 @@ const SuperKeyDiscussions = ({ show }) => {
     };
 
     // Check for SpeechSynthesis support
-    const isSpeechSynthesisSupported = !!window.speechSynthesis;
-
-    // Load voices and set the state when available
     useEffect(() => {
-        if (!isSpeechSynthesisSupported) return;
-
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
             if (availableVoices.length > 0) {
                 setVoices(availableVoices);
                 setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
             }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices(); // Initial call to load voices
+        loadVoices();
 
         return () => {
             window.speechSynthesis.onvoiceschanged = null;
         };
-    }, [isSpeechSynthesisSupported]);
+    }, []);
 
     // Speak the text and update display text word by word
     useEffect(() => {
-        if (!isSpeechSynthesisSupported || !show || !text || !voicesLoaded) return;
+        if (!show || !texts || !voicesLoaded) return;
 
         // Cancel any ongoing speech synthesis
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(texts);
         let selectedVoice = voices.find((voice) => voice.name.includes(voiceMain)) || voices[0];
 
         if (!selectedVoice) {
@@ -368,16 +360,13 @@ const SuperKeyDiscussions = ({ show }) => {
         // Reset the display text before starting speech
         setDisplayText("");
 
-        const words = text.split(" ");
+        const words = texts.split(" ");
         let wordIndex = -1;
 
         utterance.onboundary = (event) => {
-            if (event.name === "word" && wordIndex < words.length) {
+            if (event.name === "word" && wordIndex < words.length - 1) {
                 wordIndex++;
-                const currentWord = words[wordIndex];
-                if (currentWord) {
-                    setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                }
+                setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
             }
         };
 
@@ -389,18 +378,18 @@ const SuperKeyDiscussions = ({ show }) => {
         window.speechSynthesis.speak(utterance);
 
         return () => {
-            // Cancel the speech synthesis if the component unmounts or the effect is rerun
+            // Cancel the speech synthesis if the component unmounts
             window.speechSynthesis.cancel();
         };
-    }, [show, voicesLoaded, isSpeechSynthesisSupported, voices]);
+    }, [show, voicesLoaded, voices]);
 
     return (
         show && (
             <motion.div
                 className="fixed inset-0 z-50 bg-black/50 flex justify-center items-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{duration: 0.3, ease: "easeOut"}}
             >
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
@@ -431,6 +420,7 @@ const SuperKeyDiscussions = ({ show }) => {
 };
 
 export default function FDTest() {
+    const [showDiv1, setShowDiv1] = useState(true);
     const [showFdtest, setShowFdtest] = useState(false);
     const [showEasyHelp, setShowEasyHelp] = useState(false);
     const [showDifficultHelp, setShowDifficultHelp] = useState(false);
@@ -439,43 +429,51 @@ export default function FDTest() {
 
     // useBackgroundMusic(ingame);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            // window.location.reload();
-            setShowFdtest(true);
-        }, 1000);
-
-        return () => clearTimeout(timer); // Cleanup timeout on unmount
-    }, []);
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         // window.location.reload();
+    //         setShowFdtest(true);
+    //     }, 1000);
+    //
+    //     return () => clearTimeout(timer); // Cleanup timeout on unmount
+    // }, []);
 
     const playClickSound = () => {
         const audio = new Audio(clicksound);
         audio.play();
     };
 
+    const handleClickDiv1 = () => {
+        playClickSound();
+        setShowDiv1(false);
+        setTimeout(() => setShowFdtest(true), 1000);
+    };
+
     useEffect(() => {
-        const blinkButton = () => {
-            let blinkCount = 0;
-            const interval = setInterval(() => {
-                setIsBlinking((prev) => !prev);
-                blinkCount += 1;
-                if (blinkCount >= 4) {
-                    clearInterval(interval);
-                    setIsBlinking(false);
-                }
-            }, 200);
+        if (!showDiv1) {
+            const blinkButton = () => {
+                let blinkCount = 0;
+                const interval = setInterval(() => {
+                    setIsBlinking((prev) => !prev);
+                    blinkCount += 1;
+                    if (blinkCount >= 4) {
+                        clearInterval(interval);
+                        setIsBlinking(false);
+                    }
+                }, 200);
 
-            return interval;
-        };
+                return interval;
+            };
 
-        const timeout = setTimeout(() => {
-            blinkButton(); // Start blinking after 6 seconds
-        }, 7000); // 6 seconds delay before starting the blink
+            const timeout = setTimeout(() => {
+                blinkButton(); // Start blinking after 6 seconds
+            }, 7000); // 6 seconds delay before starting the blink
 
-        return () => {
-            clearTimeout(timeout); // Clean up the timeout if component unmounts
-        };
-    }, []);
+            return () => {
+                clearTimeout(timeout); // Clean up the timeout if component unmounts
+            };
+        }
+    }, [showDiv1]);
 
     // Initialize user inputs from practiceFDClosure
     const [userInputs, setUserInputs] = useState(
@@ -495,8 +493,8 @@ export default function FDTest() {
                 item.id === id
                     ? {
                         ...item,
-                        inputs: { ...item.inputs, [key]: value.trim() },
-                        errors: { ...item.errors, [key]: null }, // Reset errors when typing
+                        inputs: {...item.inputs, [key]: value.trim()},
+                        errors: {...item.errors, [key]: null}, // Reset errors when typing
                     }
                     : item
             )
@@ -511,7 +509,7 @@ export default function FDTest() {
     const [allChecked, setAllChecked] = useState(false); // Ensures all inputs have been checked before opening modal
 
     const handleSubmit = (id, key) => {
-        setLastChecked({ id, key }); // Store last clicked button
+        setLastChecked({id, key}); // Store last clicked button
         setIsProcessing(true); // Mark as processing
 
         setUserInputs(prevInputs => {
@@ -564,72 +562,113 @@ export default function FDTest() {
     }, [userInputs, lastChecked, isProcessing, allChecked]);
 
     return (
-        <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
-            <NavBarInGame pageName={"TutorialFDPractice"} />
-            <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                <h1 className="text-left text-white font-semibold text-4xl mb-3">Practice FD Closure</h1>
-            </div>
-            <div className="w-[1220px] mx-5 h-auto bg-white my-2 rounded-[30px] p-10">
-                <div className="grid grid-cols-2 gap-6">
-                    {userInputs.map(({ id, inputs, errors }) => {
-                        const fdData = practiceFDClosure.find(fd => fd.id === id);
-                        return (
-                            <div key={id} className="border p-5 rounded-lg shadow">
-                                <p className="text-3xl text-gray-600 mb-4">
-                                    Level: {fdData.level}
-                                    <button
-                                        onClick={() => {
-                                            playClickSound();
-                                            fdData.level === "Easy"
-                                                ? setShowEasyHelp(true)
-                                                : setShowDifficultHelp(true)
-                                        }
-                                        }
-                                        className={`ml-8 text-black font-semibold border-blue-500 border-2 hover:scale-110 ease-in rounded-full p-2 ${isBlinking ? "opacity-0 z-50" : ""}`}
-                                    >
-                                        <SlMagnifier />
-                                    </button>
-                                </p>
-                                <h2 className="text-2xl font-bold mb-2">{fdData.relations}</h2>
-                                <p className="text-xl font-semibold mb-6">FD Set: {fdData.fdset}</p>
-                                {Object.keys(fdData)
-                                    .filter(key => key.startsWith("fd") && key !== "fdset")
-                                    .map(key => (
-                                        <div key={key} className="my-3 w-full flex justify-center items-center">
-                                            <label className="block text-gray-700 mr-10">closure[{key.replace(/^fd/, "")}]</label>
-                                            <input
-                                                type="text"
-                                                value={inputs[key]}
-                                                onChange={e => handleChange(id, key, e.target.value)}
-                                                className={`w-96 mx-8 text-center p-2 border rounded-lg ${
-                                                    errors[key] ? "border-red-500 text-red-500" : "border-gray-300"
-                                                }`}
-                                            />
-                                            <button
-                                                onClick={() => {
-                                                    playClickSound();
-                                                    handleSubmit(id, key);
-                                                }}
-                                                className={`ml-2 px-2 py-1 rounded-lg text-white ${
-                                                    errors[key] ? "bg-red-500" : "bg-blue-500 hover:bg-blue-600"
-                                                }`}
-                                            >
-                                                Check
-                                            </button>
-                                            {errors[key] === false && <CheckCircle className="ml-1 text-green-500" />}
+        <div>
+            {showDiv1 ? (
+                <>
+                    <div className={'w-screen h-screen bg-[#343237] grid grid-cols-3'}>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <Link to={'/Tutorial'}>
+                                <button
+                                    onClick={() => {
+                                        playClickSound();
+                                    }}
+                                    className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                >
+                                    Replay Basic Introduction
+                                </button>
+                            </Link>
+                        </div>
+                        <div className={'flex my-auto items-end justify-center align-middle'}>
+                            <img
+                                src={fdtestpic}
+                                alt="Detective"
+                                className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
+                            />
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Functional
+                                Dependency Test/Practice</h1>
+                        </div>
+                        <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
+                            <button
+                                onClick={handleClickDiv1}
+                                className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            >
+                                Continue to the Next Part
+                            </button>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <div>
+                    <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
+                        <NavBarInGame pageName={"TutorialFDPractice"}/>
+                        <div className={'w-screen bg-[#2f3749] py-0.5'}>
+                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Practice FD Closure</h1>
+                        </div>
+                        <div className="w-[1220px] mx-5 h-auto bg-white my-2 rounded-[30px] p-10">
+                            <div className="grid grid-cols-2 gap-6">
+                                {userInputs.map(({id, inputs, errors}) => {
+                                    const fdData = practiceFDClosure.find(fd => fd.id === id);
+                                    return (
+                                        <div key={id} className="border p-5 rounded-lg shadow">
+                                            <p className="text-3xl text-gray-600 mb-4">
+                                                Level: {fdData.level}
+                                                <button
+                                                    onClick={() => {
+                                                        playClickSound();
+                                                        fdData.level === "Easy"
+                                                            ? setShowEasyHelp(true)
+                                                            : setShowDifficultHelp(true)
+                                                    }
+                                                    }
+                                                    className={`ml-8 text-black font-semibold border-blue-500 border-2 hover:scale-110 ease-in rounded-full p-2 ${isBlinking ? "opacity-0 z-50" : ""}`}
+                                                >
+                                                    <SlMagnifier/>
+                                                </button>
+                                            </p>
+                                            <h2 className="text-2xl font-bold mb-2">{fdData.relations}</h2>
+                                            <p className="text-xl font-semibold mb-6">FD Set: {fdData.fdset}</p>
+                                            {Object.keys(fdData)
+                                                .filter(key => key.startsWith("fd") && key !== "fdset")
+                                                .map(key => (
+                                                    <div key={key}
+                                                         className="my-3 w-full flex justify-center items-center">
+                                                        <label
+                                                            className="block text-gray-700 mr-10">closure[{key.replace(/^fd/, "")}]</label>
+                                                        <input
+                                                            type="text"
+                                                            value={inputs[key]}
+                                                            onChange={e => handleChange(id, key, e.target.value)}
+                                                            className={`w-96 mx-8 text-center p-2 border rounded-lg ${
+                                                                errors[key] ? "border-red-500 text-red-500" : "border-gray-300"
+                                                            }`}
+                                                        />
+                                                        <button
+                                                            onClick={() => {
+                                                                playClickSound();
+                                                                handleSubmit(id, key);
+                                                            }}
+                                                            className={`ml-2 px-2 py-1 rounded-lg text-white ${
+                                                                errors[key] ? "bg-red-500" : "bg-blue-500 hover:bg-blue-600"
+                                                            }`}
+                                                        >
+                                                            Check
+                                                        </button>
+                                                        {errors[key] === false &&
+                                                            <CheckCircle className="ml-1 text-green-500"/>}
+                                                    </div>
+                                                ))}
                                         </div>
-                                    ))}
+                                    );
+                                })}
                             </div>
-                        );
-                    })}
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            {/* Modals */}
-            <HelperAtFirst show={showFdtest} onClose={() => setShowFdtest(false)} />
-            <HelpEasy show={showEasyHelp} onClose={() => setShowEasyHelp(false)} />
-            <HelpDifficult show={showDifficultHelp} onClose={() => setShowDifficultHelp(false)} />
-            <SuperKeyDiscussions show={showSuperKeyDiscussions} />
+            )}
+            <HelperAtFirst show={showFdtest} onClose={() => setShowFdtest(false)}/>
+            <HelpEasy show={showEasyHelp} onClose={() => setShowEasyHelp(false)}/>
+            <HelpDifficult show={showDifficultHelp} onClose={() => setShowDifficultHelp(false)}/>
+            <SuperKeyDiscussions show={showSuperKeyDiscussions}/>
         </div>
     );
 }
