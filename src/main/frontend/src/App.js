@@ -11,6 +11,7 @@ import TutorialModule2 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_
 import {useEffect} from "react";
 import FinalTest from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/FinalTest";
 import QueryLanguageTest1 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/QueryLanguageTest1";
+import JoinsNestedTutorial from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/JoinsNestedTutorial";
 
 function App() {
 
@@ -56,6 +57,8 @@ function App() {
                                element={<TutorialModule2/>}/>
                         <Route exact path="/TutorialSQLPractice"
                                element={<QueryLanguageTest1/>}/>
+                        <Route exact path="/JoinsTutorial"
+                               element={<JoinsNestedTutorial/>}/>
                         <Route exact path="/TutorialFinalSQLPractice"
                                element={<FinalTest/>}/>
                     </Routes>

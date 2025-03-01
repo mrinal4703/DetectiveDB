@@ -4,19 +4,16 @@ import NavBar from "./NavBar";
 import {murder1, murder2, robbery} from "../Resources/Images/Crimes";
 import {loadinglogo, star3, tutorial} from "../Resources/Images/Others";
 import {motion} from "framer-motion";
-import {detective} from "../Resources/Images/People";
 import {DetailsofCases, ProgressStars} from "../Constants/Texts";
 import {TbPoint, TbPointFilled} from "react-icons/tb";
 import {GoInfo} from "react-icons/go";
 import {IoClose} from "react-icons/io5";
 import {bgm, clicksound} from "../Resources/Sounds";
-import {email, email_session, isLoggedIn, isLoggedIn_session, username} from "../Constants/Texts/constants";
+import {email, isLoggedIn, isLoggedIn_session, username} from "../Constants/Texts/constants";
 import Login_Signup from "../Constants/Texts/Login_Signup";
-import {IoIosStar} from "react-icons/io";
 import axios from "axios";
 
 const Sidebar = ({isOpen, onClose, selectedType}) => {
-    // Filter the case details based on the selected type
     const filteredCases = DetailsofCases.filter(dash => dash.type === selectedType);
 
     const playClickSound = () => {
@@ -86,7 +83,7 @@ const LandingPage = () => {
 
             if (lastSavedPage ===  "TutorialFDPractice" || lastSavedPage ===  "TutorialKeysPractice" || lastSavedPage === "KeysTutorial"
                 || lastSavedPage ===  "TutorialNFPractice" || lastSavedPage === "NormalisationTutorial" ||
-            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2" || lastSavedPage === "TutorialSQLPractice") {
+            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2" || lastSavedPage === "TutorialSQLPractice" || lastSavedPage === "JoinsTutorial") {
                 setBasicsTutorial(lastSavedPage);
             }
         } catch (error) {

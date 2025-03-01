@@ -1365,46 +1365,9 @@ const TutorialModule2 = () => {
                                         </div>
                                     </div>
                                 </div>
-                                {/*<div*/}
-                                {/*    className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 mb-3.5 rounded-lg p-2">*/}
-                                {/*</div>*/}
                             </div>
                         </div>
                     </div>
-                    {/*<div>*/}
-                    {/*    <input*/}
-                    {/*        type="text"*/}
-                    {/*        value={query}*/}
-                    {/*        onChange={(e) => setQuery(e.target.value)}*/}
-                    {/*        placeholder="Enter your SQL query"*/}
-                    {/*    />*/}
-                    {/*    <button onClick={executeQuery}>Run Query</button>*/}
-
-                    {/*    {error && <p style={{color: "red"}}>{error}</p>}*/}
-
-                    {/*    {result && Array.isArray(result) ? (*/}
-                    {/*        <table border="1">*/}
-                    {/*            <thead>*/}
-                    {/*            <tr>*/}
-                    {/*                {Object.keys(result[0]).map((key) => (*/}
-                    {/*                    <th key={key}>{key}</th>*/}
-                    {/*                ))}*/}
-                    {/*            </tr>*/}
-                    {/*            </thead>*/}
-                    {/*            <tbody>*/}
-                    {/*            {result.map((row, index) => (*/}
-                    {/*                <tr key={index}>*/}
-                    {/*                    {Object.values(row).map((value, i) => (*/}
-                    {/*                        <td key={i}>{value}</td>*/}
-                    {/*                    ))}*/}
-                    {/*                </tr>*/}
-                    {/*            ))}*/}
-                    {/*            </tbody>*/}
-                    {/*        </table>*/}
-                    {/*    ) : (*/}
-                    {/*        result && <p>{result}</p>*/}
-                    {/*    )}*/}
-                    {/*</div>*/}
 
                 </div>
             )}

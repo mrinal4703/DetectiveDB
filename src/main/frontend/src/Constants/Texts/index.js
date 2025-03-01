@@ -107,6 +107,10 @@ export const AppText = {
     PracticeQuery1: 'Detective, let\'s practice these SQL Queries, the operations and functions, on a predefined database.',
     SQL1Help1: 'Let\'s utilise the knowledge gained in the last section, related to Query Language. Practice simple Query statements for each clause and operations we discussed earlier.',
     SQL1Help2: 'Don\'t worry about, if you remember all of them at once, the module will provide you with a tracker, having all of them, and will make sure you practised at least one query statement for each, on the dummy database given here.',
+    MovetoJoins: 'Remarkable, Detective. Let\'s finally dive into the topic of Joins, used in Structured Query Language, in DBMS.',
+    IntrotoJoins: 'Congratulations Detective on reaching the final tutorial session for the Module.',
+    LearnJoins: 'We will cover all kinds of joins, that are necessary in query statements.',
+    WhatisJoins: 'A join clause is used to combine rows from two or more tables, based on a related column between them.',
 }
 
 export const DetailsofCases = [
@@ -837,11 +841,11 @@ export const ProgressStars = () => {
             {stars.map((_, index) => (
                 <div key={index} className="relative w-8 h-8">
                     {/* Empty Star */}
-                    <IoIosStar className="absolute text-gray-400 w-full h-full" />
+                    <IoIosStar className="absolute text-gray-400 w-full h-full"/>
 
                     {/* Fully Filled Star */}
                     {index < fullStars && (
-                        <IoIosStar className="absolute text-[#f5bf03] w-full h-full" />
+                        <IoIosStar className="absolute text-[#f5bf03] w-full h-full"/>
                     )}
 
                     {/* Partially Filled Star */}
@@ -896,7 +900,7 @@ export const SQLTest1 = {
             id: 2,
             concept: 'WHERE',
             question: 'Find employees in the IT department.',
-                query: 'SELECT * FROM employees WHERE department = "IT";',
+            query: 'SELECT * FROM employees WHERE department = "IT";',
             validation: ['select', 'from', 'employees', 'where', 'department', 'it']
         },
         {
@@ -981,7 +985,65 @@ export const SQLTest1 = {
             concept: 'AVG',
             question: 'Find the average employee age.',
             query: 'SELECT AVG(age) FROM employees;',
-            validation: ['select', 'avg', 'from', 'employees', 'age']
+            validation: ['select', 'avg', 'from', 'employees', '(age)']
         }
     ]
+};
+
+export const EmployeesTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="table-auto my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2">Attributes</th>
+                    <th className="border border-black px-4 py-2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2">employee_id</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">first_name</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">last_name</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">department</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">position</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">salary</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">age</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">joining_date</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">performance_rating</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">active</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
 };

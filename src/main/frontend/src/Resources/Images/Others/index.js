@@ -26,10 +26,11 @@ import avgsql from './AverageExample.png'
 import star3 from './star3.png'
 import star2 from './star2.png'
 import sqltest1pic from './SQLTest1Pic.png'
+import joinsqlpractice from './JoinsSQLPractice.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
     orderbysql, distinctsql, notsql, groupbysql, havingsql, keystestpic, normalisationtestpic,
     normalisationpracticepic, sqlpracticepic, fdtestpic, keyspracticepic, avgsql, sumsql,
-    maxminsql, countsql, star2, star3, sqltest1pic
+    maxminsql, countsql, star2, star3, sqltest1pic, joinsqlpractice
 }
