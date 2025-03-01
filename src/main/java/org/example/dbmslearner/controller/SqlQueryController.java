@@ -37,7 +37,8 @@ public class SqlQueryController {
                 lowerCaseQuery.startsWith("update") ||
                 lowerCaseQuery.startsWith("insert") ||
                 lowerCaseQuery.startsWith("alter") ||
-                lowerCaseQuery.contains(";") ||
+//                lowerCaseQuery.contains(";") ||
+                (lowerCaseQuery.contains(";") && lowerCaseQuery.lastIndexOf(";") != lowerCaseQuery.length() - 1) ||
                 lowerCaseQuery.contains("select * from gamers") ||
                 lowerCaseQuery.contains("--");
     }

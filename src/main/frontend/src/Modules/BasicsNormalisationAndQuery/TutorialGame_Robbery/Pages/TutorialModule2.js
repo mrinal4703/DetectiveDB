@@ -262,6 +262,7 @@ const SQLContents1 = ({show, onClose}) => {
     const [isPreSpeaking, setIsPreSpeaking] = useState(true);
     const [isTyping, setIsTyping] = useState(false);
     const [displayText, setDisplayText] = useState('');
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
     const steps = [
         {
@@ -319,14 +320,22 @@ const SQLContents1 = ({show, onClose}) => {
     useEffect(() => {
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
-            setVoices(availableVoices);
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
+            }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
     }, []);
 
-    // Find the female voice
     const juniorVoice = voices.find(voice => voice.name.includes('Microsoft Mark')) || voices[0];
 
     useEffect(() => {
@@ -346,27 +355,25 @@ const SQLContents1 = ({show, onClose}) => {
 
     useEffect(() => {
         if (show && juniorVoice && !isPreSpeaking && currentStep < steps.length) {
-            const {text} = steps[currentStep];
-            setDisplayText(' ');
+            const { text } = steps[currentStep];
+            setDisplayText('');
             setIsTyping(true);
 
-            const utterance = new SpeechSynthesisUtterance(steps[currentStep].text);
+            const utterance = new SpeechSynthesisUtterance(text);
             utterance.voice = juniorVoice;
 
             const words = text.split(' ');
             let wordIndex = -1;
 
             utterance.onboundary = (event) => {
-                if (event.name === 'word' && wordIndex < words.length) {
+                if (event.name === 'word' && wordIndex < words.length - 1) {
                     wordIndex++;
-                    const currentWord = words[wordIndex];
-                    if (currentWord) {
-                        setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                    }
+                    setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
                 }
             };
 
             utterance.onend = () => {
+                setIsTyping(false);
                 setCurrentStep((prev) => prev + 1); // Move to the next step
             };
 
@@ -457,6 +464,7 @@ const SQLContents2 = ({ show, onClose }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [voices, setVoices] = useState([]);
     const [displayText, setDisplayText] = useState('');
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
     const steps = [
         {
@@ -504,11 +512,20 @@ const SQLContents2 = ({ show, onClose }) => {
     useEffect(() => {
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
-            setVoices(availableVoices);
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
+            }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
     }, []);
 
     const juniorVoice = voices.find(voice => voice.name.includes('Microsoft Mark')) || voices[0];
@@ -516,7 +533,7 @@ const SQLContents2 = ({ show, onClose }) => {
     useEffect(() => {
         if (show && juniorVoice && currentStep < steps.length) {
             const { text } = steps[currentStep];
-            setDisplayText(' ');
+            setDisplayText('');
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.voice = juniorVoice;
@@ -525,28 +542,25 @@ const SQLContents2 = ({ show, onClose }) => {
             let wordIndex = -1;
 
             utterance.onboundary = (event) => {
-                if (event.name === 'word' && wordIndex < words.length) {
+                if (event.name === 'word' && wordIndex < words.length - 1) {
                     wordIndex++;
-                    const currentWord = words[wordIndex];
-                    if (currentWord) {
-                        setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                    }
+                    setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
                 }
             };
 
             utterance.onend = () => {
-                setCurrentStep((prev) => prev + 1);
+                setCurrentStep((prev) => prev + 1); // Move to the next step
             };
 
             window.speechSynthesis.speak(utterance);
         } else if (currentStep >= steps.length) {
-            onClose();
+            onClose(); // Close the component when all steps are done
         }
     }, [show, currentStep, juniorVoice]);
 
     useEffect(() => {
         return () => {
-            window.speechSynthesis.cancel();
+            window.speechSynthesis.cancel(); // Cleanup speech synthesis on unmount
         };
     }, []);
 
@@ -830,6 +844,7 @@ const SQLContents3 = ({ show, onClose }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [voices, setVoices] = useState([]);
     const [displayText, setDisplayText] = useState('');
+    const [voicesLoaded, setVoicesLoaded] = useState(false);
 
     const steps = [
         {
@@ -877,11 +892,20 @@ const SQLContents3 = ({ show, onClose }) => {
     useEffect(() => {
         const loadVoices = () => {
             const availableVoices = window.speechSynthesis.getVoices();
-            setVoices(availableVoices);
+            if (availableVoices.length > 0) {
+                setVoices(availableVoices);
+                setVoicesLoaded(true);
+            } else {
+                setTimeout(loadVoices, 100); // Retry after a short delay
+            }
         };
 
         window.speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
+
+        return () => {
+            window.speechSynthesis.onvoiceschanged = null;
+        };
     }, []);
 
     const juniorVoice = voices.find(voice => voice.name.includes('Microsoft Mark')) || voices[0];
@@ -889,7 +913,7 @@ const SQLContents3 = ({ show, onClose }) => {
     useEffect(() => {
         if (show && juniorVoice && currentStep < steps.length) {
             const { text } = steps[currentStep];
-            setDisplayText(' ');
+            setDisplayText('');
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.voice = juniorVoice;
@@ -898,28 +922,25 @@ const SQLContents3 = ({ show, onClose }) => {
             let wordIndex = -1;
 
             utterance.onboundary = (event) => {
-                if (event.name === 'word' && wordIndex < words.length) {
+                if (event.name === 'word' && wordIndex < words.length - 1) {
                     wordIndex++;
-                    const currentWord = words[wordIndex];
-                    if (currentWord) {
-                        setDisplayText((prev) => (prev ? `${prev} ${currentWord}` : currentWord));
-                    }
+                    setDisplayText((prev) => (prev ? `${prev} ${words[wordIndex]}` : words[wordIndex]));
                 }
             };
 
             utterance.onend = () => {
-                setCurrentStep((prev) => prev + 1);
+                setCurrentStep((prev) => prev + 1); // Move to the next step
             };
 
             window.speechSynthesis.speak(utterance);
         } else if (currentStep >= steps.length) {
-            onClose();
+            onClose(); // Close the component when all steps are done
         }
     }, [show, currentStep, juniorVoice]);
 
     useEffect(() => {
         return () => {
-            window.speechSynthesis.cancel();
+            window.speechSynthesis.cancel(); // Cleanup speech synthesis on unmount
         };
     }, []);
 

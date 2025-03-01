@@ -5302,3 +5302,117 @@ export default TutorialModule2;
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+// import React, { useState } from "react";
+// import axios from "axios";
+// import { username } from "../../../../Constants/Texts/constants";
+//
+// function QueryLanguageTest1() {
+//     const [query, setQuery] = useState("");
+//     const [result, setResult] = useState(null);
+//     const [error, setError] = useState(null);
+//     const [guess, setGuess] = useState("");
+//     const [attemptsLeft, setAttemptsLeft] = useState(3);
+//     const [culpritFound, setCulpritFound] = useState(false);
+//
+//     const executeQuery = async () => {
+//         if (!query.trim()) {
+//             setError("Please enter a valid SQL query.");
+//             return;
+//         }
+//
+//         try {
+//             const response = await axios.get(`http://${username}/api/sql/execute`, {
+//                 params: { query },
+//             });
+//
+//             if (response.data.error) {
+//                 setError(response.data.error);
+//                 setResult(null);
+//             } else if (response.data.message) {
+//                 setError(null);
+//                 setResult("No data found.");
+//             } else {
+//                 setError(null);
+//                 setResult(response.data.data);
+//             }
+//         } catch (err) {
+//             setError("Server Error: " + err.message);
+//         }
+//     };
+//
+//     const handleGuess = () => {
+//         if (attemptsLeft > 0) {
+//             if (guess.trim().toLowerCase() === "hank") {
+//                 setCulpritFound(true);
+//             } else {
+//                 setAttemptsLeft(attemptsLeft - 1);
+//                 setError(`Incorrect guess! ${attemptsLeft - 1} attempts left.`);
+//             }
+//         }
+//     };
+//
+//     return (
+//         <div className="p-6 max-w-4xl mx-auto bg-gray-100 rounded-xl shadow-md space-y-6">
+//             <h1 className="text-2xl font-bold">Detective Game - Solve the Robbery!</h1>
+//             <p>Use SQL queries to gather clues and find the culprit. You have 3 attempts to guess the culprit's name.</p>
+//
+//             <div className="space-y-4">
+//                 <input
+//                     type="text"
+//                     value={query}
+//                     onChange={(e) => setQuery(e.target.value)}
+//                     placeholder="Enter your SQL query"
+//                     className="w-full p-2 border rounded"
+//                 />
+//                 <button onClick={executeQuery} className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Run Query</button>
+//             </div>
+//
+//             {error && <p className="text-red-500">{error}</p>}
+//
+//             {result && Array.isArray(result) ? (
+//                 <table className="table-auto w-full border">
+//                     <thead>
+//                     <tr>
+//                         {Object.keys(result[0]).map((key) => (
+//                             <th key={key} className="px-4 py-2">{key}</th>
+//                         ))}
+//                     </tr>
+//                     </thead>
+//                     <tbody>
+//                     {result.map((row, index) => (
+//                         <tr key={index}>
+//                             {Object.values(row).map((value, i) => (
+//                                 <td key={i} className="border px-4 py-2">{value}</td>
+//                             ))}
+//                         </tr>
+//                     ))}
+//                     </tbody>
+//                 </table>
+//             ) : (
+//                 result && <p>{result}</p>
+//             )}
+//
+//             <div className="space-y-4 mt-6">
+//                 <input
+//                     type="text"
+//                     value={guess}
+//                     onChange={(e) => setGuess(e.target.value)}
+//                     placeholder="Guess the culprit's name"
+//                     className="w-full p-2 border rounded"
+//                 />
+//                 <button onClick={handleGuess} className="bg-red-500 text-white p-2 rounded hover:bg-red-600">
+//                     Submit Guess
+//                 </button>
+//             </div>
+//
+//             {culpritFound && (
+//                 <div className="mt-6 p-4 bg-green-200 border border-green-600 rounded">
+//                     <h2 className="text-xl font-bold">Case Solved!</h2>
+//                     <p>You found the culprit: <strong>Hank</strong>. Congratulations, Detective!</p>
+//                 </div>
+//             )}
+//         </div>
+//     );
+// }
+// export default QueryLanguageTest1;

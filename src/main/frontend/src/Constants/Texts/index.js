@@ -104,7 +104,9 @@ export const AppText = {
     CountSQL: 'Here we see and example on, Count() aggregate function for SQL. This function, provide the total existence of a particular value for the attribute, and with distinct, can be used to get the total existing distinct values in that attribute specified in the parenthesis. Note one thing that, Count() DOESN\'T IGNORE NULL VALUES, LIKE OTHER AGGREGATE FUNCTIONS.',
     SumSQL: 'Here we see and example on, Sum() aggregate function for SQL. This function, provide the total sum of all values for the attribute, specified in the parenthesis.',
     AvgSQL: 'Here we see and example on, Avg() aggregate function for SQL. This function, provide the average of overall values for the attribute, specified in the parenthesis.',
-    PracticeQuery1: 'Detective, let\'s practice these SQL Queries, the operations and functions, on a predefined database.'
+    PracticeQuery1: 'Detective, let\'s practice these SQL Queries, the operations and functions, on a predefined database.',
+    SQL1Help1: 'Let\'s utilise the knowledge gained in the last section, related to Query Language. Practice simple Query statements for each clause and operations we discussed earlier.',
+    SQL1Help2: 'Don\'t worry about, if you remember all of them at once, the module will provide you with a tracker, having all of them, and will make sure you practised at least one query statement for each, on the dummy database given here.',
 }
 
 export const DetailsofCases = [
@@ -877,4 +879,109 @@ export const updateProgress = async (value) => {
         console.error("Error updating progress:", error);
         alert("Failed to update progress");
     }
+};
+
+export const SQLTest1 = {
+    RelationName: 'R(employees)',
+    Relation: 'R(employee_id, first_name, last_name, department, position, salary, age, joining_date, performance_rating, active)',
+    Questions: [
+        {
+            id: 1,
+            concept: 'SELECT',
+            question: 'Retrieve all employee\'s first names, last names and departments.',
+            query: 'SELECT first_name, last_name, department FROM employees;',
+            validation: ['select', 'from', 'employees', 'first_name', 'last_name', 'department']
+        },
+        {
+            id: 2,
+            concept: 'WHERE',
+            question: 'Find employees in the IT department.',
+                query: 'SELECT * FROM employees WHERE department = "IT";',
+            validation: ['select', 'from', 'employees', 'where', 'department', 'it']
+        },
+        {
+            id: 3,
+            concept: 'ORDER BY',
+            question: 'List employees sorted by salary in descending order.',
+            query: 'SELECT * FROM employees ORDER BY salary DESC;',
+            validation: ['select', 'from', 'employees', 'order by', 'salary', 'desc']
+        },
+        {
+            id: 4,
+            concept: 'AND',
+            question: 'Get employees in IT with a performance rating of 4 or higher.',
+            query: 'SELECT * FROM employees WHERE department = "IT" AND performance_rating >= 4;',
+            validation: ['select', 'from', 'employees', 'where', 'and', 'department', 'performance_rating', 'it', '4']
+        },
+        {
+            id: 5,
+            concept: 'OR',
+            question: 'Find employees in either HR or Marketing.',
+            query: 'SELECT * FROM employees WHERE department = "HR" OR department = "Marketing";',
+            validation: ['select', 'from', 'employees', 'where', 'or', 'department', 'hr', 'marketing']
+        },
+        {
+            id: 6,
+            concept: 'DISTINCT',
+            question: 'List all unique departments.',
+            query: 'SELECT DISTINCT department FROM employees;',
+            validation: ['select', 'distinct', 'department', 'from', 'employees']
+        },
+        {
+            id: 7,
+            concept: 'NOT',
+            question: 'Get employees who are not active.',
+            query: 'SELECT * FROM employees WHERE active NOT LIKE true;',
+            validation: ['select', 'from', 'employees', 'where', 'not', 'active', 'like']
+        },
+        {
+            id: 8,
+            concept: 'GROUP BY',
+            question: 'Count the number of employees in each department.',
+            query: 'SELECT department, COUNT(*) FROM employees GROUP BY department;',
+            validation: ['select', 'count', 'from', 'employees', 'group by', 'department']
+        },
+        {
+            id: 9,
+            concept: 'HAVING',
+            question: 'Count departments with more than 2 employees.',
+            query: 'SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 2;',
+            validation: ['select', 'count', 'from', 'employees', 'group by', 'having', 'department', '2']
+        },
+        {
+            id: 10,
+            concept: 'MAX',
+            question: 'Find the highest salary.',
+            query: 'SELECT MAX(salary) FROM employees;',
+            validation: ['select', 'max', 'from', 'employees', 'salary']
+        },
+        {
+            id: 11,
+            concept: 'MIN',
+            question: 'Find the lowest performance rating.',
+            query: 'SELECT MIN(performance_rating) FROM employees;',
+            validation: ['select', 'min', 'from', 'employees', 'performance_rating']
+        },
+        {
+            id: 12,
+            concept: 'COUNT',
+            question: 'Count all employees.',
+            query: 'SELECT COUNT(*) FROM employees;',
+            validation: ['select', 'count', 'from', 'employees']
+        },
+        {
+            id: 13,
+            concept: 'SUM',
+            question: 'Calculate the total salary of all employees.',
+            query: 'SELECT SUM(salary) FROM employees;',
+            validation: ['select', 'sum', 'from', 'employees', 'salary']
+        },
+        {
+            id: 14,
+            concept: 'AVG',
+            question: 'Find the average employee age.',
+            query: 'SELECT AVG(age) FROM employees;',
+            validation: ['select', 'avg', 'from', 'employees', 'age']
+        }
+    ]
 };
