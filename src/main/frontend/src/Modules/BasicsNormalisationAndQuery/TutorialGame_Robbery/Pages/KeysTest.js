@@ -573,7 +573,7 @@ export default function KeysTest() {
         const allCorrect = practiceKeys.every(q => selectedAnswers[q.id] === q.correctAnswer);
         playClickSound();
         if (allCorrect) {
-            updateProgress(1.2);
+            updateProgress(1.0);
             setShowCorrectModal(true);
         } else {
             setSelectedAnswers({});

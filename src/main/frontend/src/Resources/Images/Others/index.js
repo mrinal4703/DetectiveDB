@@ -27,10 +27,27 @@ import star3 from './star3.png'
 import star2 from './star2.png'
 import sqltest1pic from './SQLTest1Pic.png'
 import joinsqlpractice from './JoinsSQLPractice.png'
+import innerjoinexample from './InnerJoinExample.png'
+import joinsgif from './Joins.gif'
+import leftjoinexample from './LeftJoinExample.png'
+import rightjoinexample from './RightJoinExample.png'
+import fullouterexample from './FullOuterJoinExample.png'
+import independentnestedexample from './IndependendNestedExample.png'
+import dependentnestedexample from './DependentNestedExample.png'
+import allexample from './AllExample.png'
+import anyexample from './AnyExample.png'
+import notinexample from './NotinExample.png'
+import inexample from './InExample.png'
+import existsexample from './ExistsExample.png'
+import notexistsexample from './NotExistsExample.png'
+import sqltest2pic from './SQLTest2Pic.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
     orderbysql, distinctsql, notsql, groupbysql, havingsql, keystestpic, normalisationtestpic,
     normalisationpracticepic, sqlpracticepic, fdtestpic, keyspracticepic, avgsql, sumsql,
-    maxminsql, countsql, star2, star3, sqltest1pic, joinsqlpractice
+    maxminsql, countsql, star2, star3, sqltest1pic, joinsqlpractice, innerjoinexample,
+    joinsgif, fullouterexample, leftjoinexample, rightjoinexample, inexample, allexample,
+    dependentnestedexample, anyexample, existsexample, notinexample, notexistsexample,
+    independentnestedexample, sqltest2pic
 }

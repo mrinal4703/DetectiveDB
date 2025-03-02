@@ -26,6 +26,7 @@ public class DataInitializerController {
         insertLocations();
         insertCameras();
         insertEmployees();
+        insertProjects();
 
         return "Data initialization completed!";
     }
@@ -37,6 +38,7 @@ public class DataInitializerController {
         String checkLocationsSql = "SELECT COUNT(*) FROM locations";
         String checkCamerasSql = "SELECT COUNT(*) FROM camera";
         String checkEmployeesSql = "SELECT COUNT(*) FROM employees";
+        String checkProjectsSql = "SELECT COUNT(*) FROM projects";
 
         int personsCount = jdbcTemplate.queryForObject(checkPersonsSql, Integer.class);
         int personRoomsCount = jdbcTemplate.queryForObject(checkPersonRoomsSql, Integer.class);
@@ -44,9 +46,10 @@ public class DataInitializerController {
         int locationsCount = jdbcTemplate.queryForObject(checkLocationsSql, Integer.class);
         int camerasCount = jdbcTemplate.queryForObject(checkCamerasSql, Integer.class);
         int employeesCount = jdbcTemplate.queryForObject(checkEmployeesSql, Integer.class);
+        int projectsCount = jdbcTemplate.queryForObject(checkProjectsSql, Integer.class);
 
         return personsCount > 0 || personRoomsCount > 0 || witnessStatementsCount > 0 || locationsCount > 0
-                || camerasCount > 0 || employeesCount > 0;
+                || camerasCount > 0 || employeesCount > 0 || projectsCount > 0;
     }
 
     private void insertPersons() {
@@ -132,5 +135,15 @@ public class DataInitializerController {
         jdbcTemplate.update(sql, 8, "Anna", "Garcia", "HR", "Assistant", 48000, 23, "2022-01-15", 3, "true");
         jdbcTemplate.update(sql, 9, "James", "Martinez", "Marketing", "Manager", 78000, 38, "2015-12-05", 4, "true");
         jdbcTemplate.update(sql, 10, "Sophia", "Taylor", "IT", "Developer", 62000, 27, "2019-07-30", 4, "false");
+    }
+
+    private void insertProjects() {
+        String sql = "INSERT IGNORE INTO projects (project_id, project_name, department, start_date, end_date, budget) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, 1, "Project Alpha", "IT", "2021-01-15", "2022-06-30", 150000);
+        jdbcTemplate.update(sql, 2, "HR Revamp", "HR", "2020-05-10", "2021-09-20", 80000);
+        jdbcTemplate.update(sql, 3, "Finance Tracker", "Finance", "2019-03-01", "2021-12-31", 120000);
+        jdbcTemplate.update(sql, 4, "Marketing Blitz", "Marketing", "2022-01-01", "2023-07-15", 95000);
+        jdbcTemplate.update(sql, 5, "Cloud Migration", "IT", "2018-09-01", "2020-12-31", 200000);
+        jdbcTemplate.update(sql, 6, "Compliance Update", "Finance", "2021-04-10", "2022-10-01", 110000);
     }
 }

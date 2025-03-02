@@ -1123,15 +1123,6 @@ const TutorialModule2 = () => {
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         setShowIntroto1Module2(true);
-    //
-    //     }, 2000);
-    //
-    //     return () => clearTimeout(timer); // Cleanup timeout on unmount
-    // }, []);
-
     const playClickSound = () => {
         const audio = new Audio(clicksound);
         audio.play();
@@ -1141,27 +1132,6 @@ const TutorialModule2 = () => {
         playClickSound();
         setShowDiv1(false);
         setTimeout(() => setShowIntroto1Module2(true), 1500);
-    };
-
-    const executeQuery = async () => {
-        try {
-            const response = await axios.get(`http://${username}/api/sql/execute`, {
-                params: {query},
-            });
-
-            if (response.data.error) {
-                setError(response.data.error);
-                setResult(null);
-            } else if (response.data.message) {
-                setError(null);
-                setResult("No data found.");
-            } else {
-                setError(null);
-                setResult(response.data.data);
-            }
-        } catch (err) {
-            setError("Server Error: " + err.message);
-        }
     };
 
     const handleClose1 = () => {

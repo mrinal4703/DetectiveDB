@@ -83,7 +83,8 @@ const LandingPage = () => {
 
             if (lastSavedPage ===  "TutorialFDPractice" || lastSavedPage ===  "TutorialKeysPractice" || lastSavedPage === "KeysTutorial"
                 || lastSavedPage ===  "TutorialNFPractice" || lastSavedPage === "NormalisationTutorial" ||
-            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2" || lastSavedPage === "TutorialSQLPractice" || lastSavedPage === "JoinsTutorial") {
+            lastSavedPage === "Tutorial" || lastSavedPage ===  "TutorialModule2" || lastSavedPage === "TutorialSQLPractice" || lastSavedPage === "JoinsTutorial"
+            || lastSavedPage === "TutorialJoinsPractice" || lastSavedPage === "TutorialFinalSQLPractice") {
                 setBasicsTutorial(lastSavedPage);
             }
         } catch (error) {

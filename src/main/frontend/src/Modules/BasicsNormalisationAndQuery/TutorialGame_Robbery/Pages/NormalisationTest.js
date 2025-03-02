@@ -418,7 +418,7 @@ const NormalisationTest = () => {
     const handleNf2Submit = () => {
         playClickSound();
         if (validateInputs(nf2Inputs, NormalFormTest.Nf2Rel)) {
-            updateProgress(1.8);
+            updateProgress(1.5);
             setNf2Correct(true);
         } else {
             setShowWrongModal(true);

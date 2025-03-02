@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {AppText, EmployeesTables, SQLTest1, updateProgress} from "../../../../Constants/Texts";
+import {AppText, EmployeesTables, ProjectsTables, SQLTest2, updateProgress} from "../../../../Constants/Texts";
 import {chief, helperright} from "../../../../Resources/Images/People";
 import {clicksound} from "../../../../Resources/Sounds";
 import {motion} from "framer-motion";
 import {Link, useNavigate} from "react-router-dom";
-import {sqltest1pic} from "../../../../Resources/Images/Others";
 import {username} from "../../../../Constants/Texts/constants";
 import axios from "axios";
 import NavBarInGame from "../NavBarInGame";
 import {IoClose} from "react-icons/io5";
+import {sqltest2pic} from "../../../../Resources/Images/Others";
 
 const HelperAtFirst = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
@@ -129,13 +129,13 @@ const HelperAtFirst = ({show, onClose, value}) => {
     );
 };
 
-const JoinsDiscussions = ({show}) => {
+const FinalDiscussions = ({show}) => {
     const [displayText, setDisplayText] = useState("");
     const [showButton, setShowButton] = useState(false);
     const [voices, setVoices] = useState([]);
     const [voicesLoaded, setVoicesLoaded] = useState(false);
 
-    const texts = AppText.MovetoJoins;
+    const texts = AppText.MovetoFinale;
     const voiceMain = "Microsoft David";
     const position = "right";
     const img = chief;
@@ -149,7 +149,7 @@ const JoinsDiscussions = ({show}) => {
 
     const handleClick = () => {
         playClickSound();
-        navigate("/JoinsTutorial");
+        navigate("/TutorialFinalSQLPractice");
         window.scrollTo(0, 0);
     };
 
@@ -252,9 +252,9 @@ const JoinsDiscussions = ({show}) => {
     );
 };
 
-const QueryLanguageTest1 = () => {
+const QueryLanguageTest2 = () => {
     const [showDiv1, setShowDiv1] = useState(true);
-    const [showSqltest1, setShowSqltest1] = useState(false);
+    const [showSQLTest2, setShowSQLTest2] = useState(false);
     const [showJoinsDiscussions, setShowJoinsDiscussions] = useState(false);
 
     const [answers, setAnswers] = useState({});
@@ -263,7 +263,7 @@ const QueryLanguageTest1 = () => {
     const [showTable, setShowTable] = useState({}); // Track visibility of tables for each question
 
     const handleInputChange = (id, value) => {
-        setAnswers((prev) => ({ ...prev, [id]: value }));
+        setAnswers((prev) => ({...prev, [id]: value}));
     };
 
     const validateQuery = (id, validation) => {
@@ -272,16 +272,16 @@ const QueryLanguageTest1 = () => {
 
         // Update the results state with the validation result for the current question
         setResults((prev) => {
-            const updatedResults = { ...prev, [id]: isValid ? 'Correct!' : 'Incorrect' };
+            const updatedResults = {...prev, [id]: isValid ? 'Correct!' : 'Incorrect'};
             console.log("Updated Results:", updatedResults); // Debugging
 
             // Check if all answers are correct
-            const allCorrect = SQLTest1.Questions.every((q) => updatedResults[q.id] === 'Correct!');
+            const allCorrect = SQLTest2.Questions.every((q) => updatedResults[q.id] === 'Correct!');
             console.log("All Correct:", allCorrect); // Debugging
 
             if (allCorrect) {
                 console.log("All answers are correct. Proceeding to JoinsDiscussions..."); // Debugging
-                updateProgress(2.0);
+                updateProgress(2.5);
                 setTimeout(() => setShowJoinsDiscussions(true), 300);
             }
 
@@ -292,23 +292,23 @@ const QueryLanguageTest1 = () => {
     const executeQuery = async (id, query) => {
         try {
             const response = await axios.get(`http://${username}/api/sql/execute`, {
-                params: { query },
+                params: {query},
             });
             if (response.data.error) {
-                setError((prev) => ({ ...prev, [id]: response.data.error }));
-                setResults((prev) => ({ ...prev, [id]: null }));
+                setError((prev) => ({...prev, [id]: response.data.error}));
+                setResults((prev) => ({...prev, [id]: null}));
             } else {
-                setError((prev) => ({ ...prev, [id]: null }));
-                setResults((prev) => ({ ...prev, [id]: response.data.data || response.data.message }));
-                setShowTable((prev) => ({ ...prev, [id]: true })); // Show the table for this question
+                setError((prev) => ({...prev, [id]: null}));
+                setResults((prev) => ({...prev, [id]: response.data.data || response.data.message}));
+                setShowTable((prev) => ({...prev, [id]: true})); // Show the table for this question
             }
         } catch (err) {
-            setError((prev) => ({ ...prev, [id]: 'Server Error: ' + err.message }));
+            setError((prev) => ({...prev, [id]: 'Server Error: ' + err.message}));
         }
     };
 
     const handleCloseTable = (id) => {
-        setShowTable((prev) => ({ ...prev, [id]: false })); // Hide the table for this question
+        setShowTable((prev) => ({...prev, [id]: false})); // Hide the table for this question
     };
 
     const playClickSound = () => {
@@ -319,11 +319,11 @@ const QueryLanguageTest1 = () => {
     const handleClickDiv1 = () => {
         playClickSound();
         setShowDiv1(false);
-        setTimeout(() => setShowSqltest1(true), 1500);
+        setTimeout(() => setShowSQLTest2(true), 1500);
     };
 
     const handleClose1 = () => {
-        setShowSqltest1(false);
+        setShowSQLTest2(false);
     };
 
     return (
@@ -332,20 +332,20 @@ const QueryLanguageTest1 = () => {
                 <>
                     <div className={'w-screen h-screen bg-[#343237] grid grid-cols-3'}>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
-                            <Link to={'/TutorialNFPractice'}>
+                            <Link to={'/TutorialSQLPractice'}>
                                 <button
                                     onClick={() => {
                                         playClickSound();
                                     }}
                                     className="z-50 px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                                 >
-                                    Replay Query Language Basics
+                                    Replay Joins Tutorial
                                 </button>
                             </Link>
                         </div>
                         <div className={'flex my-auto items-end justify-center align-middle'}>
                             <img
-                                src={sqltest1pic}
+                                src={sqltest2pic}
                                 alt="Detective"
                                 className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
                             />
@@ -364,7 +364,7 @@ const QueryLanguageTest1 = () => {
                 </>
             ) : (
                 <div>
-                    {showJoinsDiscussions && <JoinsDiscussions onClose={() => setShowJoinsDiscussions(false)} />}
+                    {showJoinsDiscussions && <FinalDiscussions onClose={() => setShowJoinsDiscussions(false)}/>}
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialSQLPractice"}/>
                         <div className="w-screen bg-[#2f3749] py-0.5">
@@ -374,9 +374,9 @@ const QueryLanguageTest1 = () => {
                         </div>
 
                         <div className={'grid grid-cols-6 gap-1'}>
-                            <div className={'col-span-4 p-3'}>
+                            <div className={'col-span-3 p-3'}>
                                 <div className="space-y-6">
-                                    {SQLTest1.Questions.map((q) => (
+                                    {SQLTest2.Questions.map((q) => (
                                         <div key={q.id} className="bg-white p-6 rounded-lg shadow-md">
                                             <h2 className="text-xl font-semibold">{q.concept} Question</h2>
                                             <p className="text-gray-700 mb-4">{q.question}</p>
@@ -430,7 +430,7 @@ const QueryLanguageTest1 = () => {
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        <div className="relative">
+                                                        <div className="relative overflow-x-auto">
                                                             <table
                                                                 className="w-full border-collapse border border-gray-300">
                                                                 <thead>
@@ -483,11 +483,20 @@ const QueryLanguageTest1 = () => {
                                     ))}
                                 </div>
                             </div>
-                            <div className={'col-span-2 fixed translate-x-[220%] items-center align-middle justify-between p-3'}>
-                                <div className={'bg-white mx-auto p-2 px-10 rounded-lg shadow-md flex flex-col'}>
-                                    <h1 className={'text-black font-semibold mx-8 text-2xl '}>Relation(employees)</h1>
-                                    <div className={'mx-auto'}>
-                                        <EmployeesTables/>
+                            <div
+                                className={'col-span-3 z-20 fixed translate-x-[104%] items-center align-middle justify-between p-3'}>
+                                <div className={'bg-white flex p-2 px-4 rounded-lg shadow-md'}>
+                                    <div className={'bg-white mx-auto flex flex-col'}>
+                                        <h1 className={'text-black font-semibold mx-8 text-2xl '}>Relation(employees)</h1>
+                                        <div className={'mx-auto justify-between'}>
+                                            <EmployeesTables/>
+                                        </div>
+                                    </div>
+                                    <div className={'bg-white mx-auto flex flex-col'}>
+                                        <h1 className={'text-black font-semibold mx-8 text-2xl '}>Relation(projects)</h1>
+                                        <div className={'mx-auto justify-between'}>
+                                            <ProjectsTables/>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -495,11 +504,10 @@ const QueryLanguageTest1 = () => {
                     </div>
                 </div>
             )}
-            <HelperAtFirst show={showSqltest1} onClose={handleClose1} value={AppText.SQL1Help1}/>
-            <JoinsDiscussions show={showJoinsDiscussions} />
+            <HelperAtFirst show={showSQLTest2} onClose={handleClose1} value={AppText.SQL1Help2}/>
+            <FinalDiscussions show={showJoinsDiscussions}/>
         </div>
     );
 };
 
-export default QueryLanguageTest1;
-
+export default QueryLanguageTest2;

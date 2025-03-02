@@ -555,7 +555,7 @@ export default function FDTest() {
 
         if (allCorrect) {
             console.log(`🎉 All correct! Modal opens after last check button click: ${lastChecked.key}`);
-            updateProgress(0.6);
+            updateProgress(0.5);
             setTimeout(() => setShowSuperKeyDiscussions(true), 300);
         }
 

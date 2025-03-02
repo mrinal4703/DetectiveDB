@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { username } from "../../../../Constants/Texts/constants";
+import {updateProgress} from "../../../../Constants/Texts";
 
 function FinalTest() {
     const [query, setQuery] = useState("");
@@ -102,6 +103,7 @@ function FinalTest() {
 
     const handleGuess = () => {
         if (guess.trim().toLowerCase() === "alice") {
+            updateProgress(3.0);
             setCulpritFound(true);
             setGameOver(true);
         } else {

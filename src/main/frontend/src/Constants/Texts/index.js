@@ -106,11 +106,30 @@ export const AppText = {
     AvgSQL: 'Here we see and example on, Avg() aggregate function for SQL. This function, provide the average of overall values for the attribute, specified in the parenthesis.',
     PracticeQuery1: 'Detective, let\'s practice these SQL Queries, the operations and functions, on a predefined database.',
     SQL1Help1: 'Let\'s utilise the knowledge gained in the last section, related to Query Language. Practice simple Query statements for each clause and operations we discussed earlier.',
-    SQL1Help2: 'Don\'t worry about, if you remember all of them at once, the module will provide you with a tracker, having all of them, and will make sure you practised at least one query statement for each, on the dummy database given here.',
     MovetoJoins: 'Remarkable, Detective. Let\'s finally dive into the topic of Joins, used in Structured Query Language, in DBMS.',
     IntrotoJoins: 'Congratulations Detective on reaching the final tutorial session for the Module.',
     LearnJoins: 'We will cover all kinds of joins, that are necessary in query statements.',
     WhatisJoins: 'A join clause is used to combine rows from two or more tables, based on a related column between them.',
+    AllJoins: 'Inner Join, Left Join, Right Join, Full Outer Join',
+    UnderstandJoins: 'There are four types of join clauses, namely, Inner Join, Left Join, Right Join, and Full Outer Join. Let\'s understand each, one by one, with the examples listed here.',
+    InnerJoinExample: 'This example showcases Inner Join. The inner join clause selects only the records that have desired matching values, given the matching attribute. In this example, The two relations given for joins are, Users and Work. The statement will select the attributes listed in statement, with the condition that, value of attribute Name in Users, is same as the value of attribute Name in Work. This make sure, only that whole record is shown.',
+    LeftExample: 'This example showcases Left Join. The left join clause returns all the records of table, which is mentioned in the left of query statements (or the first table) and then, with the conditioning, it will match it with the records in the second table mentioned, leaving the non matching records left as NULL. In this example, The two relations given for joins are, Users and Work. The statement will select the attributes listed in statement, with the condition that, value of attribute Name in Users, is same as the value of attribute Name in Work. The records which couldn\'t match, is returning NULL.',
+    RightExample: 'This example showcases Right Join. The right join clause returns all the records of table, which is mentioned in the right of query statements (or the second table) and then, with the conditioning, it will match it with the records in the first table mentioned, leaving the non matching records left as NULL. In this example, The two relations given for joins are, Users and Work. The statement will select the attributes listed in statement, with the condition that, value of attribute Name in Users, is same as the value of attribute Name in Work. The records which couldn\'t match, is returning NULL.',
+    FullJoinExample: 'This example showcases Full Join. This join clause works as union of left and right join, leaving the non matching records left as NULL. In this example, The two relations given for joins are, Users and Work. The statement will return firstly the records as left join clause, then right join clause, and then the records which couldn\'t match, returns as NULL.',
+    SomeOtherClauses: 'Before closing in, we need to know some other clauses as well, that are good to know, and can be very helpful. These clauses are listed here.',
+    ListedBelow: 'Before them, we will talk about Nested Queries first.',
+    NestedQueriesDef: 'Nested queries in SQL are a powerful tool for retrieving data from databases in a structured and efficient manner. They allow us to execute a query within another query, making it easier to handle complex data operations.',
+    IndependentNestedExample: 'An independent nested query is a subquery that can execute independently of the outer query. It does not depend on the outer query for its execution. In this example, it returns the names of users who are also listed in the work table.',
+    DependentNestedExample: 'A dependent nested query (correlated subquery) depends on the outer query for its execution. It cannot run independently because it references a column from the outer query. In this example, it returns the names of users who have a corresponding entry in the Work table.',
+    AllExample: 'The ALL clause is used to compare a value to all values in a subquery result. In this example, the user tries to get  users whose age is greater than the age of all users listed in the work table. Since, none such possible record is there, it returns empty set.',
+    AnyExample: 'The ANY clause is used to compare a value to any value in a subquery result. In this example, it returns the users whose age is equal to the age of any user listed in the work table. It\'s obtained through series of nested queries. The subquery returns the ages of users who are also listed in the Work table.',
+    NotinExample: 'The NOT IN clause is used to exclude rows that match any value in a subquery result. In this example, it returns the users who are not listed in the work table. The subquery returns the Names from the Work table (Bharti). The NOT IN clause excludes this name from the result.',
+    InExample: 'The IN clause is used to include rows that match any value in a subquery result. In this example, it returns the users who are listed in the work table. The subquery returns the Names from the Work table (Bharti).',
+    ExistsExample: 'The EXISTS clause is used to check if a subquery returns any rows. You will see, using this clause, when we write a Dependent Nested Query. In this example, it returns the users who have a corresponding entry in the Work table. The subquery checks if there is a matching name in the Work table for each row in the Users table. The EXISTS clause returns true if the subquery finds a match.',
+    NotExistsExample: 'The NOT EXISTS clause is used to check if a subquery returns no rows. In this example, it returns the Users who do not have a corresponding entry in the Work table. The subquery checks if there is a matching Name in the Work table for each row in the Users table. The NOT EXISTS clause returns true if the subquery finds no match.',
+    ProceedToTest: 'Detective, Let\'s utilise the knowledge gained in this part, and perform some query statements on a dummy database.',
+    SQL1Help2: 'Let\'s utilise the knowledge gained in the last section, related to Joins. Practice simple Joins statements, nested queries and other queries we discussed earlier.',
+    MovetoFinale: 'Remarkable, Detective. Let\'s finally find out the culprit using these query language.',
 }
 
 export const DetailsofCases = [
@@ -1046,4 +1065,135 @@ export const EmployeesTables = () => {
             </table>
         </div>
     );
+};
+
+export const ProjectsTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="table-auto my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2">Attributes</th>
+                    <th className="border border-black px-4 py-2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2">project_id</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">project_name</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">department</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">start_date</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">end_date</td>
+                    <td className="border border-black px-4 py-2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2">budget</td>
+                    <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const SQLTest2 = {
+    Questions: [
+        {
+            id: 1,
+            concept: 'INNER JOIN',
+            question: 'Get employee names and their project names.',
+            query: 'SELECT e.first_name, e.last_name, p.project_name FROM employees e INNER JOIN projects p ON e.department = p.department;',
+            validation: ['select', 'inner join', 'on', 'employees', 'projects', 'first_name', 'last_name', 'project_name', 'department']
+        },
+        {
+            id: 2,
+            concept: 'LEFT JOIN',
+            question: 'List all employees and their projects, including employees without projects.',
+            query: 'SELECT e.first_name, e.last_name, p.project_name FROM employees e LEFT JOIN projects p ON e.department = p.department;',
+            validation: ['select', 'left join', 'on', 'employees', 'projects', 'first_name', 'last_name', 'project_name', 'department']
+        },
+        {
+            id: 3,
+            concept: 'RIGHT JOIN',
+            question: 'List all projects and their assigned employees, including projects without employees.',
+            query: 'SELECT e.first_name, e.last_name, p.project_name FROM employees e RIGHT JOIN projects p ON e.department = p.department;',
+            validation: ['select', 'right join', 'on', 'employees', 'projects', 'first_name', 'last_name', 'project_name', 'department']
+        },
+        {
+            id: 4,
+            concept: 'FULL OUTER JOIN',
+            question: 'List all employees and all projects, even if not related.',
+            query: '( SELECT e.first_name, e.last_name, p.project_name FROM employees e LEFT JOIN projects p ON e.department = p.department) UNION (SELECT e.first_name, e.last_name, p.project_name FROM employees e RIGHT JOIN projects p ON e.department = p.department);',
+            validation: ['select', 'union', 'left join', 'right join', 'employees', 'projects']
+        },
+        {
+            id: 5,
+            concept: 'EXISTS',
+            question: 'Find employees who are working on a project.',
+            query: 'SELECT * FROM employees e WHERE EXISTS (SELECT 1 FROM projects p WHERE e.department = p.department);',
+            validation: ['select', 'exists', 'from', 'employees', 'projects']
+        },
+        {
+            id: 6,
+            concept: 'NOT EXISTS',
+            question: 'Find employees who are not assigned to any project.',
+            query: 'SELECT * FROM employees e WHERE NOT EXISTS (SELECT 1 FROM projects p WHERE e.department = p.department);',
+            validation: ['select', 'not exists', 'from', 'employees', 'projects']
+        },
+        {
+            id: 7,
+            concept: 'IN',
+            question: 'Get employees working in departments with projects.',
+            query: 'SELECT * FROM employees WHERE department IN (SELECT department FROM projects);',
+            validation: ['select', 'in', 'from', 'employees', 'projects']
+        },
+        {
+            id: 8,
+            concept: 'NOT IN',
+            question: 'Get employees working in departments without projects.',
+            query: 'SELECT * FROM employees WHERE department NOT IN (SELECT department FROM projects);',
+            validation: ['select', 'not in', 'from', 'employees', 'projects']
+        },
+        {
+            id: 9,
+            concept: 'DEPENDENT SUBQUERY',
+            question: 'Find employees whose salary is above the average salary in their department.',
+            query: 'SELECT * FROM employees e WHERE salary > (SELECT AVG(salary) FROM employees WHERE department = e.department);',
+            validation: ['select', 'from', 'employees', 'salary', 'avg', 'department']
+        },
+        {
+            id: 10,
+            concept: 'INDEPENDENT SUBQUERY',
+            question: 'List departments that have at least one employee with a rating of 5.',
+            query: 'SELECT department FROM employees WHERE department IN (SELECT department FROM employees WHERE performance_rating = 5);',
+            validation: ['select', 'in', 'from', 'employees', 'department', 'performance_rating']
+        },
+        {
+            id: 11,
+            concept: 'ALL',
+            question: 'Find employees whose salary is higher than the salary of all employees in the HR department.',
+            query: 'SELECT * FROM employees WHERE salary > ALL (SELECT salary FROM employees WHERE department = "HR");',
+            validation: ['select', 'all', 'from', 'employees', 'salary', 'department', '>', 'where', 'hr']
+        },
+        {
+            id: 12,
+            concept: 'ANY',
+            question: 'Find employees who earn more than at least one employee in the Finance department.',
+            query: 'SELECT * FROM employees WHERE salary > ANY (SELECT salary FROM employees WHERE department = "Finance");',
+            validation: ['select', 'any', 'from', 'employees', 'salary', 'department', '>', 'where', 'finance']
+        }
+    ]
 };
