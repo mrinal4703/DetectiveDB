@@ -8,8 +8,9 @@ import helperpeekright from './HelperPeekRight.png'
 import helperpeekleft from './HelperPeekLeft.png'
 import helperleftnobg from './HelperLeftNoBG.png'
 import detectivedp from './DetectiveUserProfile.png'
+import successsalute from './SuccessSalute.png'
 
 export {
     detective, chief, assisstantconclude, assisstantthinking, helperleft, helperright,
-    helperpeekright, helperpeekleft, helperleftnobg, detectivedp
+    helperpeekright, helperpeekleft, helperleftnobg, detectivedp, successsalute
 }

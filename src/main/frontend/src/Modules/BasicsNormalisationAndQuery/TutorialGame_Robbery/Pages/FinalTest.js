@@ -15,13 +15,14 @@ import {IoClose} from "react-icons/io5";
 import {clicksound} from "../../../../Resources/Sounds";
 import {
     finalsqltestpic,
-    hintlens,
-    normalisationpracticepic,
-    progress,
-    successsalute, yay
+    hintlens, progresspic, yay
 } from "../../../../Resources/Images/Others";
 import {Link, useNavigate} from "react-router-dom";
-import {assisstantconclude, assisstantthinking, chief, helperright} from "../../../../Resources/Images/People";
+import {
+    assisstantconclude,
+    assisstantthinking,
+    successsalute
+} from "../../../../Resources/Images/People";
 import {motion} from "framer-motion";
 
 const HelperAtFirst = ({show, onClose, value}) => {
@@ -864,7 +865,7 @@ function FinalTest() {
                                                 {/* Image and text */}
                                                 <div className="relative z-10 flex flex-col items-center">
                                                     <img
-                                                        src={progress}
+                                                        src={progresspic}
                                                         className="h-28 rounded-full bg-white"
                                                         alt="Hint Lens"
                                                     />
