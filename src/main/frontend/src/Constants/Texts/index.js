@@ -1071,7 +1071,7 @@ export const ProjectsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="table-auto my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                className="table-fixed my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2">Attributes</th>
@@ -1102,6 +1102,152 @@ export const ProjectsTables = () => {
                 <tr>
                     <td className="border border-black px-4 py-2">budget</td>
                     <td className="border border-black px-4 py-2">Integer</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const PersonsTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">person_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">location</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">action</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const PersonsRoomsTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">person_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">room_type</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">room_contents</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const WitnessSatementsTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className=" my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">room_type</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">time</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">statement</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const LocationsTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">location</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">camera_id</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const CamerasTables = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className=" my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">camera_id</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">status</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">footage</td>
+                    <td className="border border-black px-4 py-2 w-1/2">String</td>
                 </tr>
                 </tbody>
             </table>
