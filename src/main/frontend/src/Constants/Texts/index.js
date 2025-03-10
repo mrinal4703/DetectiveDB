@@ -130,6 +130,10 @@ export const AppText = {
     ProceedToTest: 'Detective, Let\'s utilise the knowledge gained in this part, and perform some query statements on a dummy database.',
     SQL1Help2: 'Let\'s utilise the knowledge gained in the last section, related to Joins. Practice simple Joins statements, nested queries and other queries we discussed earlier.',
     MovetoFinale: 'Remarkable, Detective. Let\'s finally find out the culprit using these query language.',
+    WelcometoFinale: 'Welcome to the Finale Detective, Congratulations. This will be a testament for your complete knowledge of all SQL query statements knowledge.',
+    WhatFinale: 'You are given with the relations, you normalised earlier. Now, you can see what names have been given to the tables for those attributes. Use these tables, to fetch evidences and find the culprit.',
+    HowFinale: 'You could see two buttons beside the query area, where the first one when clicked shows the hint for evidences, and the second button is designed in a way to keep a check if the evidences have been found by you, through query statements.',
+    FinalFinale: 'Finally, when all evidences have been found, you will be prompted to write a nested query, that should combine all the evidence query statements, which will then open a window to enter the culprit\'s name. Good Luck, Detective.'
 }
 
 export const DetailsofCases = [
@@ -1342,4 +1346,26 @@ export const SQLTest2 = {
             validation: ['select', 'any', 'from', 'employees', 'salary', 'department', '>', 'where', 'finance']
         }
     ]
+};
+
+export const updateBasicGame = async () => {
+    const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+    if (!email) {
+        alert("User not logged in!");
+        return;
+    }
+
+    try {
+        const response = await axios.put(`http://${username}/updateBasicTutorial`, {
+            email: email // Only send the email
+        });
+
+        if (response.status === 200) {
+
+        }
+    } catch (error) {
+        console.error("Error updating basic tutorial:", error);
+        alert("Failed to update basic tutorial");
+    }
 };

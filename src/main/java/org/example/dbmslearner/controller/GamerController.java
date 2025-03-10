@@ -116,4 +116,32 @@ public class GamerController {
         return ResponseEntity.ok("Progress updated successfully to: " + updatedGamer.getProgress());
     }
 
+    @PutMapping("/updateBasicTutorial")
+    public ResponseEntity<?> updateBasicTutorial(@RequestBody GamerEntity updatedGamer) {
+        // Find the user by email
+        GamerEntity user = gamerRepository.findByEmail(updatedGamer.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Update the basic_tutorial field to true (1 in MySQL)
+        user.setBasicTutorial(true); // Set to true (1 in MySQL)
+        gamerRepository.save(user);
+
+        return ResponseEntity.ok("Basic tutorial updated successfully to: true");
+    }
+
+    @GetMapping("/getBasicTutorial")
+    public ResponseEntity<?> getBasicTutorial(@RequestParam String email) {
+        GamerEntity user = gamerRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Return the basic_tutorial value
+        return ResponseEntity.ok(Collections.singletonMap("basicTutorial", user.getBasicTutorial()));
+    }
+
 }

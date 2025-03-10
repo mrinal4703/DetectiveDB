@@ -44,6 +44,8 @@ import sqltest2pic from './SQLTest2Pic.png'
 import hintlens from './HintLens.png'
 import progress from './Progress.png'
 import finalsqltestpic from './FinalSQLTestPic.png'
+import successsalute from './SuccessSalute.png'
+import yay from './Yay.gif'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
@@ -52,5 +54,6 @@ export {
     maxminsql, countsql, star2, star3, sqltest1pic, joinsqlpractice, innerjoinexample,
     joinsgif, fullouterexample, leftjoinexample, rightjoinexample, inexample, allexample,
     dependentnestedexample, anyexample, existsexample, notinexample, notexistsexample,
-    independentnestedexample, sqltest2pic, hintlens, progress, finalsqltestpic
+    independentnestedexample, sqltest2pic, hintlens, progress, finalsqltestpic, successsalute,
+    yay
 }
