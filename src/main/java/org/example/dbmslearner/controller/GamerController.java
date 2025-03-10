@@ -126,7 +126,7 @@ public class GamerController {
         }
 
         // Update the basic_tutorial field to true (1 in MySQL)
-        user.setBasicTutorial(true); // Set to true (1 in MySQL)
+        user.setBasicTutorial(updatedGamer.getBasicTutorial()); // Set to true (1 in MySQL)
         gamerRepository.save(user);
 
         return ResponseEntity.ok("Basic tutorial updated successfully to: true");

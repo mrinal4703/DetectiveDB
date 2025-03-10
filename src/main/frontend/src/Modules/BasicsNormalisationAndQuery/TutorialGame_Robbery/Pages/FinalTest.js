@@ -555,10 +555,28 @@ function FinalTest() {
         }
     };
 
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
+
     const handleGuess = () => {
         if (guess.trim().toLowerCase() === "alice") {
-            updateProgress(3.0);
-            updateBasicGame();
+            if (progress < 3) {
+                updateProgress(3.0);
+            }
+            updateBasicGame(true);
             handleSaveProgress();
             setCulpritFound(true);
             setGameOver(true);

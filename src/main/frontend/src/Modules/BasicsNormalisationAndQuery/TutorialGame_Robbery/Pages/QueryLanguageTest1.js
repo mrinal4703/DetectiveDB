@@ -262,6 +262,22 @@ const QueryLanguageTest1 = () => {
     const [error, setError] = useState({});
     const [showTable, setShowTable] = useState({}); // Track visibility of tables for each question
 
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
+
     const handleInputChange = (id, value) => {
         setAnswers((prev) => ({ ...prev, [id]: value }));
     };
@@ -281,7 +297,9 @@ const QueryLanguageTest1 = () => {
 
             if (allCorrect) {
                 console.log("All answers are correct. Proceeding to JoinsDiscussions..."); // Debugging
-                updateProgress(2.0);
+                if (progress < 3) {
+                    updateProgress(2.0);
+                }
                 setTimeout(() => setShowJoinsDiscussions(true), 300);
             }
 

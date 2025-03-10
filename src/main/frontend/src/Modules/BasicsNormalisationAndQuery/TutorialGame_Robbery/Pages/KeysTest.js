@@ -14,6 +14,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {clicksound, ingame} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
 import {keystestpic, normalisationpracticepic} from "../../../../Resources/Images/Others";
+import axios from "axios";
+import {username} from "../../../../Constants/Texts/constants";
 
 const HelperAtFirst = ({show, onClose}) => {
     const [displayText, setDisplayText] = useState("");
@@ -569,11 +571,29 @@ export default function KeysTest() {
         setSelectedAnswers(prev => ({...prev, [id]: value}));
     };
 
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
+
     const handleSubmit = () => {
         const allCorrect = practiceKeys.every(q => selectedAnswers[q.id] === q.correctAnswer);
         playClickSound();
         if (allCorrect) {
-            updateProgress(1.0);
+            if (progress < 3) {
+                updateProgress(1.0);
+            }
             setShowCorrectModal(true);
         } else {
             setSelectedAnswers({});

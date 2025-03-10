@@ -1348,7 +1348,7 @@ export const SQLTest2 = {
     ]
 };
 
-export const updateBasicGame = async () => {
+export const updateBasicGame = async (value) => {
     const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
 
     if (!email) {
@@ -1358,7 +1358,8 @@ export const updateBasicGame = async () => {
 
     try {
         const response = await axios.put(`http://${username}/updateBasicTutorial`, {
-            email: email // Only send the email
+            email: email,
+            basic_tutorial: value
         });
 
         if (response.status === 200) {

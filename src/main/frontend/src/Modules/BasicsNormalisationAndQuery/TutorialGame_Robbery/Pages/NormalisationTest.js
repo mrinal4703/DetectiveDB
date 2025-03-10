@@ -13,6 +13,8 @@ import {Link, useNavigate} from "react-router-dom";
 import {clicksound, ingame} from "../../../../Resources/Sounds";
 import NavBarInGame from "../NavBarInGame";
 import {normalisationpracticepic, normalisationtestpic} from "../../../../Resources/Images/Others";
+import axios from "axios";
+import {username} from "../../../../Constants/Texts/constants";
 
 const HelperAtFirstFinally = ({show, onClose, value}) => {
     const [displayText, setDisplayText] = useState("");
@@ -415,10 +417,28 @@ const NormalisationTest = () => {
         return sortedUserInputs.sort().join('|') === sortedCorrectAnswers.sort().join('|');
     };
 
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
+
     const handleNf2Submit = () => {
         playClickSound();
         if (validateInputs(nf2Inputs, NormalFormTest.Nf2Rel)) {
-            updateProgress(1.5);
+            if (progress < 3) {
+                updateProgress(1.5);
+            }
             setNf2Correct(true);
         } else {
             setShowWrongModal(true);
