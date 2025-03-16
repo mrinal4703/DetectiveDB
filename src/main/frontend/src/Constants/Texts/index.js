@@ -159,73 +159,73 @@ export const FirstTables = () => {
     return (
         <div className={'items-center text-center justify-center mx-auto'}>
             <table
-                className="table-auto mx-10 my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                className="table-auto lg15.6:text-xl text-base lg15.6:mx-12 lg15.6:my-4 mx-10 my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
                 <thead className="bg-gray-100">
                 <tr>
-                    <th className="border border-black px-4 py-2 text-left">Person ID</th>
-                    <th className="border border-black px-4 py-2 text-left">Location</th>
-                    <th className="border border-black px-4 py-2 text-left">Action</th>
-                    <th className="border border-black px-4 py-2 text-left">Room Type</th>
-                    <th className="border border-black px-4 py-2 text-left">Room Contents</th>
-                    <th className="border border-black px-4 py-2 text-left">Camera ID</th>
-                    <th className="border border-black px-4 py-2 text-left">Camera Status</th>
-                    <th className="border border-black px-4 py-2 text-left">Camera Footage</th>
-                    <th className="border border-black px-4 py-2 text-left">Time</th>
-                    <th className="border border-black px-4 py-2 text-left">Witness Statement</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Person ID</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Location</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Action</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Room Type</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Room Contents</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Camera ID</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Camera Status</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Camera Footage</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Time</th>
+                    <th className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2 text-left">Witness Statement</th>
                 </tr>
                 </thead>
                 <tbody className={'border-black'}>
                 <tr>
-                    <td className="border border-black px-4 py-2">1</td>
-                    <td className="border border-black px-4 py-2">Drawing Room</td>
-                    <td className="border border-black px-4 py-2">Sitting</td>
-                    <td className="border border-black px-4 py-2">Drawing Room</td>
-                    <td className="border border-black px-4 py-2">Sofa, Table, Lamp</td>
-                    <td className="border border-black px-4 py-2">101</td>
-                    <td className="border border-black px-4 py-2">Working</td>
-                    <td className="border border-black px-4 py-2">Footage Available</td>
-                    <td className="border border-black px-4 py-2">8:00 PM</td>
-                    <td className="border border-black px-4 py-2">Saw Person A sitting in the Drawing Room at the
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">1</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Drawing Room</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Sitting</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Drawing Room</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Sofa, Table, Lamp</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">101</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Working</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Footage Available</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">8:00 PM</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Saw Person A sitting in the Drawing Room at the
                         time.
                     </td>
                 </tr>
                 <tr>
-                    <td className="border border-black px-4 py-2">2</td>
-                    <td className="border border-black px-4 py-2">Hall</td>
-                    <td className="border border-black px-4 py-2">Standing</td>
-                    <td className="border border-black px-4 py-2">Hall</td>
-                    <td className="border border-black px-4 py-2">Table, Chairs</td>
-                    <td className="border border-black px-4 py-2">102</td>
-                    <td className="border border-black px-4 py-2">Malfunctioning</td>
-                    <td className="border border-black px-4 py-2">Footage Not Available</td>
-                    <td className="border border-black px-4 py-2">8:05 PM</td>
-                    <td className="border border-black px-4 py-2">Witnessed Person B standing in the Hall at the time.
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">2</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Hall</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Standing</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Hall</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Table, Chairs</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">102</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Malfunctioning</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Footage Not Available</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">8:05 PM</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Witnessed Person B standing in the Hall at the time.
                     </td>
                 </tr>
                 <tr>
-                    <td className="border border-black px-4 py-2">3</td>
-                    <td className="border border-black px-4 py-2">Kitchen</td>
-                    <td className="border border-black px-4 py-2">Cooking</td>
-                    <td className="border border-black px-4 py-2">Kitchen</td>
-                    <td className="border border-black px-4 py-2">Refrigerator, Stove</td>
-                    <td className="border border-black px-4 py-2">103</td>
-                    <td className="border border-black px-4 py-2">Working</td>
-                    <td className="border border-black px-4 py-2">Footage Available</td>
-                    <td className="border border-black px-4 py-2">8:10 PM</td>
-                    <td className="border border-black px-4 py-2">Heard noises in the kitchen but couldn't see anyone.
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">3</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Kitchen</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Cooking</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Kitchen</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Refrigerator, Stove</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">103</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Working</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Footage Available</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">8:10 PM</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">Heard noises in the kitchen but couldn't see anyone.
                     </td>
                 </tr>
                 <tr>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
-                    <td className="border border-black px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
+                    <td className="border border-black lg15.6:px-6 lg15.6:py-3 px-4 py-2">...</td>
                 </tr>
                 </tbody>
             </table>
@@ -862,7 +862,7 @@ export const ProgressStars = () => {
     return (
         <div className="mx-4 flex gap-1">
             {stars.map((_, index) => (
-                <div key={index} className="relative w-8 h-8">
+                <div key={index} className="relative lg15.6:w-10 lg15.6:h-10 w-8 h-8">
                     {/* Empty Star */}
                     <IoIosStar className="absolute text-gray-400 w-full h-full"/>
 

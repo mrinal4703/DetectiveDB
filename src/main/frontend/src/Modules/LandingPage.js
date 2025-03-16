@@ -176,7 +176,7 @@ const LandingPage = () => {
         // Fetch the basic_tutorial value when the component mounts
         const fetchBasicTutorial = async () => {
             if (!email) {
-                alert("User not logged in!");
+                // alert("User not logged in!");
                 return;
             }
 
@@ -206,7 +206,7 @@ const LandingPage = () => {
         const loggedInUserEmail = email || email_session;
 
         if (!loggedInUserEmail) {
-            alert("No user logged in.");
+            // alert("No user logged in.");
             return;
         }
 
@@ -247,7 +247,7 @@ const LandingPage = () => {
                                 playClickSound();
                                 setShowDiv1(false);
                             }}
-                            className="px-5 py-3 absolute right-16 bottom-16 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                            className="lg15.6:px-8 lg15.6:py-5 px-5 py-3 absolute right-16 bottom-16 bg-[#495f67] text-white lg15.6:text-xl text-base font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.8, ease: "easeInOut" }}
@@ -268,7 +268,7 @@ const LandingPage = () => {
                                 <div>
                                     {isLoggedIn || isLoggedIn_session ? (
                                         <div className={'flex'}>
-                                            <h1 className={'text-start justify-start text-3xl font-semibold'}>Department
+                                            <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department
                                                 of Basics,
                                                 Normalisation
                                                 and Querying</h1>
@@ -276,19 +276,19 @@ const LandingPage = () => {
                                                 <button
                                                     onClick={handleClick}
                                                     className="absolute z-10 right-0 px-4">
-                                                    <GoInfo className="text-3xl"/>
+                                                    <GoInfo className="lg15.6:text-4xl text-3xl"/>
                                                 </button>
                                         </div>
                                     ) : (
                                         <div>
-                                            <h1 className={'text-start justify-start text-3xl font-semibold'}>Department
+                                            <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department
                                                 of Basics,
                                                 Normalisation
                                                 and Querying
                                                 <button
                                                     onClick={handleClick}
                                                     className="absolute z-10 right-0 px-4">
-                                                    <GoInfo className="text-3xl"/>
+                                                    <GoInfo className="lg15.6:text-4xl text-3xl"/>
                                                 </button></h1>
                                         </div>
                                     )}
@@ -301,7 +301,7 @@ const LandingPage = () => {
                                                 basicTutorial === null ? (
                                                     <Link to={`/${basicsTutorial}`}>
                                                         <div
-                                                            className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
                                                             style={{backgroundImage: `url(${robbery})`}}
                                                         >
                                                             <div className="absolute top-0 transform">
@@ -313,12 +313,12 @@ const LandingPage = () => {
                                                                      className="max-w-full max-h-full"/>
                                                             </div>
                                                         </div>
-                                                        <h1 className="text-lg text-black text-start">Robbery</h1>
+                                                        <h1 className="lg15.6:text-2xl text-lg text-black text-start">Robbery</h1>
                                                     </Link>
                                                 ) : (
                                                     <div>
                                                         <div
-                                                            className="h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
                                                             style={{backgroundImage: `url(${robbery})`}}
                                                         >
                                                             <div className="absolute top-0 transform">
@@ -331,10 +331,10 @@ const LandingPage = () => {
                                                             </div>
                                                         </div>
                                                         <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
-                                                            <h1 className="text-lg text-black text-start">Robbery</h1>
+                                                            <h1 className="lg15.6:text-2xl text-lg text-black text-start">Robbery</h1>
                                                             <button
                                                                 onClick={handleRedoTutorial}
-                                                                className="p-1 bg-[#495f67] text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                                className="lg15.6:p-1.5 p-1 lg15.6:text-lg text-base bg-[#495f67] text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                                                             >
                                                                 Redo Tutorial
                                                             </button>
@@ -345,12 +345,12 @@ const LandingPage = () => {
                                                 // If user is not logged in, show the login modal trigger
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${robbery})`}}
                                                     >
                                                         <img src={tutorial} className="-mt-1" alt="Image"/>
                                                     </div>
-                                                    <h1 className="text-lg text-black text-start">Robbery</h1>
+                                                    <h1 className="lg15.6:text-2xl text-lg text-black text-start">Robbery</h1>
                                                 </button>
                                             )}
                                         </div>
@@ -360,20 +360,20 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                                 <Link to={''}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder1})`}}
                                                     >
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Murder</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>
                                                 </Link>
                                             ) : (
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder1})`}}
                                                     >
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Murder</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>
                                                 </button>
                                             )}
                                         </div>
@@ -383,27 +383,27 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                                 <Link to={''}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder2})`}}
                                                     >
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Feud</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>
                                                 </Link>
                                             ) : (
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder2})`}}
                                                     >
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Feud</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>
                                                 </button>
                                             )}
                                         </div>
                                     </div>
                                 </div>
                                 <hr className={'my-4 h-[1px] w-5/6 mx-auto rounded-lg bg-[#38586d]'}/>
-                                <h1 className={'text-start justify-start text-3xl font-semibold'}>Department of File
+                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department of File
                                     Organisation and Indexing</h1>
                                 <div
                                     className={'grid grid-cols-4 grid-flow-col items-center justify-center align-middle gap-2'}>
@@ -412,22 +412,22 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                                 <Link to={''}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${robbery})`}}
                                                     >
                                                         <img src={tutorial} className={'-mt-1'} alt={'Image'}/>
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                                 </Link>
                                             ) : (
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${robbery})`}}
                                                     >
                                                         <img src={tutorial} className={'-mt-1'} alt={'Image'}/>
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                                 </button>
                                             )}
                                         </div>
@@ -437,27 +437,27 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                                 <Link to={''}>
                                                     <div
-                                                        className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${robbery})`}}
                                                     >
                                                     </div>
-                                                    <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </Link>
                                             ) : (
                                             <button onClick={() => setShowLoginModal(true)}>
                                                 <div
-                                                    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                 </div>
-                                                <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </button>
                                             )}
                                         </div>
                                     </div>
                                 </div>
                                 <hr className={'my-4 h-[1px] w-5/6 mx-auto rounded-lg bg-[#38586d]'}/>
-                                <h1 className={'text-start justify-start text-3xl font-semibold'}>Department of
+                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department of
                                     Relational Algebra</h1>
                                 <div
                                     className={'grid grid-cols-4 grid-flow-col items-center justify-center align-middle gap-2'}>
@@ -466,22 +466,22 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                             <Link to={''}>
                                                 <div
-                                                    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                     <img src={tutorial} className={'-mt-1'} alt={'Image'}/>
                                                 </div>
-                                                <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </Link>
                                             ) : (
                                             <button onClick={() => setShowLoginModal(true)}>
                                                 <div
-                                                    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                     <img src={tutorial} className={'-mt-1'} alt={'Image'}/>
                                                 </div>
-                                                <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </button>
                                             )}
                                         </div>
@@ -491,20 +491,20 @@ const LandingPage = () => {
                                             {isLoggedIn || isLoggedIn_session ? (
                                             <Link to={''}>
                                                 <div
-                                                    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                 </div>
-                                                <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </Link>
                                             ) : (
                                             <button onClick={() => setShowLoginModal(true)}>
                                                 <div
-                                                    className="h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                 </div>
-                                                <h1 className={'text-lg text-black text-start'}>Robbery</h1>
+                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
                                             </button>
                                             )}
                                         </div>

@@ -93,7 +93,7 @@ const NavBarInGame = ({pageName}) => {
                                                 }}
                                                 id="menu-button"
                                                 aria-expanded="true" aria-haspopup="true">
-                                        <img src={detectivedp} className={'w-12 h-12'}/>
+                                        <img src={detectivedp} className={'lg15.6:w-16 lg15.6:h-16 w-12 h-12'} alt={'detective dp'}/>
                                     </MenuButton>
                                 </div>
                                 <MenuItems

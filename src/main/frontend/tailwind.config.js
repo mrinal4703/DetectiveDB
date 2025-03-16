@@ -8,7 +8,8 @@ module.exports = {
       },
       screens :{
         // 'max-md' : {'max': '1024px'},
-        'xls': '360px'
+        'xls': '360px',
+        'lg15.6': '1536px'
       },
       fontSize :{
         'xxs': ['11px', '14px'],

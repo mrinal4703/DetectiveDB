@@ -17,7 +17,7 @@ const Login_Signup = ({ closeModal }) => {
             let basic_game2=0;
             let basic_tutorial=0;
             let progress =0;
-            await axios.post(`http://${username}/newgamer`, { email, password, basic_game1, basic_game2, basic_tutorial, progress});
+                await axios.post(`http://${username}/newgamer`, { email, password, basic_game1, basic_game2, basic_tutorial, progress});
             setEmail("");
             setPassword("");
             alert("Account created successfully! Please log in.");
@@ -85,20 +85,20 @@ const Login_Signup = ({ closeModal }) => {
             onClick={closeModal} // Clicking outside closes modal
         >
             <div
-                className="bg-white p-6 rounded-lg shadow-lg w-96 relative"
+                className="bg-white lg15.6:p-9 p-6 rounded-lg shadow-lg lg15.6:w-[420px] w-96 relative"
                 onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside
             >
                 <button
-                    className="absolute top-4 right-4 text-black text-2xl"
+                    className="absolute top-4 right-4 text-black lg15.6:text-3xl text-2xl"
                     onClick={handleClick}
                 >
                     <IoClose />
                 </button>
 
-                <h2 className="text-xl font-semibold text-center mb-4">
+                <h2 className="lg15.6:text-3xl text-xl font-semibold text-center mb-4">
                     {isLogin ? "Login" : "Sign Up"}
                 </h2>
-                <p className="text-center text-gray-600 mb-4">
+                <p className="text-center lg15.6:text-lg text-base text-gray-600 mb-4">
                     {isLogin ? "Login to your account to continue" : "Create a new account"}
                 </p>
 
@@ -106,7 +106,7 @@ const Login_Signup = ({ closeModal }) => {
                     <input
                         type="email"
                         placeholder="Email"
-                        className="w-full p-2 border rounded"
+                        className="w-full lg15.6:text-lg text-base p-2 border rounded"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -114,20 +114,20 @@ const Login_Signup = ({ closeModal }) => {
                     <input
                         type="password"
                         placeholder="Password"
-                        className="w-full p-2 border rounded"
+                        className="w-full lg15.6:text-lg text-base p-2 border rounded"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                     <button
                         type="submit"
-                        className="px-3 py-1 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in w-1/3 mx-auto"
+                        className="lg15.6:px-5 lg15.6:py-2 px-3 py-1 bg-[#495f67] lg15.6:text-lg text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in w-1/3 mx-auto"
                     >
                         {isLogin ? "Login" : "Sign Up"}
                     </button>
                 </form>
 
-                <p className="text-center text-sm text-gray-600 mt-3">
+                <p className="text-center lg15.6:text-lg text-sm text-gray-600 mt-3">
                     {isLogin ? "Don't have an account? " : "Already have an account? "}
                     <button
                         className="text-blue-500"

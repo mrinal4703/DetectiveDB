@@ -1274,24 +1274,24 @@ const TutorialGame = () => {
             ) : (
                 <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                     <NavBarInGame pageName={"TutorialGame"}/>
-                    <h1 className="w-screen bg-[#2f3749] text-left text-white font-bold text-5xl">Case 1: ROBBERY</h1>
+                    <h1 className="w-screen bg-[#2f3749] text-left text-white font-bold lg15.6:text-7xl text-5xl">Case 1: ROBBERY</h1>
                     <br/>
-                    <h1 className="text-left text-black font-semibold text-2xl">
+                    <h1 className="text-left lg15.6:py-2.5 py-0 text-black font-semibold lg15.6:text-3xl text-2xl">
                         Module 1: Basics and Normalisation
                     </h1>
                     <br/>
-                    <h1 className={'text-center text-black font-bold text-3xl'}>R(House)</h1>
+                    <h1 className={'text-center text-black font-bold lg15.6:text-4xl text-3xl'}>R(House)</h1>
                     <div className={'flex mx-auto'}>
                         <FirstTables/>
                     </div>
-                    <div className={'text-left mx-7 text-black font-semibold text-lg'}>{AppText.GivenFD}</div>
+                    <div className={'text-left mx-7 text-black font-semibold lg15.6:text-2xl text-lg'}>{AppText.GivenFD}</div>
 
                     <div className={'mt-1 mb-2'}>
-                        <h1 className={'w-screen bg-[#2f3749] py-1.5 text-left text-white font-semibold text-4xl mb-4'}>FD
+                        <h1 className={'w-screen bg-[#2f3749] py-1.5 text-left text-white font-semibold lg15.6:text-6xl text-4xl mb-4'}>FD
                             Closure (Functional
                             Dependency Closure)</h1>
-                        <h1 className={'text-black text-2xl'}>Example: {AppText.ExampleRelation}</h1>
-                        <h1 className={'text-black text-2xl'}>The Given FDs are {AppText.ExampleFDs}</h1>
+                        <h1 className={'text-black lg15.6:py-1.5 py-0 lg15.6:text-3xl text-2xl'}>Example: {AppText.ExampleRelation}</h1>
+                        <h1 className={'text-black lg15.6:py-1.5 py-0 lg15.6:text-3xl text-2xl'}>The Given FDs are {AppText.ExampleFDs}</h1>
                         {/*h-[416px]*/}
                         <div
                             className="p-4 items-end text-3xl text-right border-black border-4 my-4 mx-auto w-[832px] h-auto bg-[#badcdc] rounded-lg flex flex-col justify-center">
