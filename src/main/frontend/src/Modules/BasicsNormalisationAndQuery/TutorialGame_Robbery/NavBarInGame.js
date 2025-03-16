@@ -98,19 +98,19 @@ const NavBarInGame = ({pageName}) => {
                                 </div>
                                 <MenuItems
                                     transition
-                                    className="absolute right-4 z-40 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 border-black border-2 data-leave:ease-in"
+                                    className="absolute right-4 z-40 lg15.6:w-72 w-56 origin-top-right rounded-md bg-white ring-1 shadow-lg ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 border-black border-2 data-leave:ease-in"
                                 >
                                     <div className="">
                                         <MenuItem onMouseEnter={playHoverSound}>
                                         <Link to="/"
-                                                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-[#2f3749] hover:text-white hover:text-md"
+                                                  className="block w-full lg15.6:px-6 lg15.6:py-2.5 px-4 py-2 lg15.6:text-lg text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-[#2f3749] hover:text-white hover:text-md"
                                                   onClick={handleSaveProgress}>
                                                 Go Home
                                             </Link>
                                         </MenuItem>
                                         <MenuItem onMouseEnter={playHoverSound}>
                                             <button
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#2f3749] hover:text-white hover:text-md w-full text-left"
+                                                className="block lg15.6:px-6 lg15.6:py-2.5 px-4 py-2 lg15.6:text-lg text-sm text-gray-700 hover:bg-[#2f3749] hover:text-white hover:text-md w-full text-left"
                                                 onClick={handleSaveProgress}
                                             >
                                                 Save Progress
@@ -118,7 +118,7 @@ const NavBarInGame = ({pageName}) => {
                                         </MenuItem>
                                         <MenuItem onMouseEnter={playHoverSound}>
                                             <button
-                                                  className="block w-full px-4 py-2 text-left text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-[#2f3749] hover:text-white hover:text-md"
+                                                  className="block w-full lg15.6:px-6 lg15.6:py-2.5 px-4 py-2 lg15.6:text-lg text-sm text-left text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden hover:bg-[#2f3749] hover:text-white hover:text-md"
                                                   onClick={handleLogout}>
                                                 Logout
                                             </button>

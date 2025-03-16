@@ -106,7 +106,7 @@ const HelperAtFirst = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -165,7 +165,7 @@ const HelpEasy = ({show, onClose}) => {
             >
                 <motion.img
                     src={helperleft}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
+                    className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -241,7 +241,7 @@ const HelpDifficult = ({show, onClose}) => {
             >
                 <motion.img
                     src={helperright}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
+                    className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -396,7 +396,7 @@ const SuperKeyDiscussions = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -624,15 +624,15 @@ export default function FDTest() {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialFDPractice"}/>
                         <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Practice FD Closure</h1>
+                            <h1 className="text-left text-white font-semibold lg15.6:text-6xl text-4xl mb-3">Practice FD Closure</h1>
                         </div>
-                        <div className="w-[1220px] mx-5 h-auto bg-white my-2 rounded-[30px] p-10">
+                        <div className="lg15.6:w-[1476px] w-[1220px] mx-5 h-auto bg-white my-2 rounded-[30px] p-10">
                             <div className="grid grid-cols-2 gap-6">
                                 {userInputs.map(({id, inputs, errors}) => {
                                     const fdData = practiceFDClosure.find(fd => fd.id === id);
                                     return (
                                         <div key={id} className="border p-5 rounded-lg shadow">
-                                            <p className="text-3xl text-gray-600 mb-4">
+                                            <p className="lg15.6:text-4xl text-3xl text-gray-600 mb-4">
                                                 Level: {fdData.level}
                                                 <button
                                                     onClick={() => {
@@ -647,20 +647,20 @@ export default function FDTest() {
                                                     <SlMagnifier/>
                                                 </button>
                                             </p>
-                                            <h2 className="text-2xl font-bold mb-2">{fdData.relations}</h2>
-                                            <p className="text-xl font-semibold mb-6">FD Set: {fdData.fdset}</p>
+                                            <h2 className="lg15.6:text-3xl text-2xl font-bold mb-2">{fdData.relations}</h2>
+                                            <p className="lg15.6:text-2xl text-xl font-semibold mb-6">FD Set: {fdData.fdset}</p>
                                             {Object.keys(fdData)
                                                 .filter(key => key.startsWith("fd") && key !== "fdset")
                                                 .map(key => (
                                                     <div key={key}
                                                          className="my-3 w-full flex justify-center items-center">
                                                         <label
-                                                            className="block text-gray-700 mr-10">closure[{key.replace(/^fd/, "")}]</label>
+                                                            className="block lg15.6:text-xl text-base text-gray-700 mr-10">closure[{key.replace(/^fd/, "")}]</label>
                                                         <input
                                                             type="text"
                                                             value={inputs[key]}
                                                             onChange={e => handleChange(id, key, e.target.value)}
-                                                            className={`w-96 mx-8 text-center p-2 border rounded-lg ${
+                                                            className={`w-96 lg15.6:text-xl text-base mx-8 text-center p-2 border rounded-lg ${
                                                                 errors[key] ? "border-red-500 text-red-500" : "border-gray-300"
                                                             }`}
                                                         />
@@ -669,7 +669,7 @@ export default function FDTest() {
                                                                 playClickSound();
                                                                 handleSubmit(id, key);
                                                             }}
-                                                            className={`ml-2 px-2 py-1 rounded-lg text-white ${
+                                                            className={`ml-2 px-2 lg15.6:text-xl text-base py-1 rounded-lg text-white ${
                                                                 errors[key] ? "bg-red-500" : "bg-blue-500 hover:bg-blue-600"
                                                             }`}
                                                         >

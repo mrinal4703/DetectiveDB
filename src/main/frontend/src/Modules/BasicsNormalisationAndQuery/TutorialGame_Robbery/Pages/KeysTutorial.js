@@ -109,7 +109,7 @@ const WhatAreKeys = ({show, onClose}) => {
             >
                 <motion.img
                     src={chief}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
+                    className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -354,7 +354,7 @@ const SomeSpecialKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -474,7 +474,7 @@ const SuperKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -594,7 +594,7 @@ const ReadSuperKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -654,7 +654,7 @@ const SuperKeysExample = ({show, onClose}) => {
             >
                 <motion.img
                     src={helperleft}
-                    className="h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
+                    className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 right-0 object-contain rounded-xl"
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -809,7 +809,7 @@ const CandidateKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -929,7 +929,7 @@ const WhatAreCandidateKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1049,7 +1049,7 @@ const CandidateKeysEasy = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1169,7 +1169,7 @@ const CandidateKeysEasy2 = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1289,7 +1289,7 @@ const CandidateKeyExplanation1 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1409,7 +1409,7 @@ const CandidateKeyExplanation2 = ({show, onClose, value}) => {
                 <div className={`absolute top-10 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1533,7 +1533,7 @@ const WhatArePrimaryKeys = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1653,7 +1653,7 @@ const DirectWay = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1773,7 +1773,7 @@ const GoldenMantra = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1893,7 +1893,7 @@ const CandidateKeyUnderstand = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -2013,7 +2013,7 @@ const PrimeKeyAttribute = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -2133,7 +2133,7 @@ const DirectMethodExplanation1 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -2253,7 +2253,7 @@ const DirectMethodExplanation2 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -2376,7 +2376,7 @@ const PracticeCandidateKeys = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -2679,107 +2679,107 @@ const KeysTutorial = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"KeysTutorial"}/>
                         <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Different and Necessary
+                            <h1 className="text-left text-white font-semibold lg15.6:text-6xl text-4xl mb-3">Different and Necessary
                                 Keys</h1>
                         </div>
                         <div className={'grid grid-cols-2 gap-2 mr-10'}>
 
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-center text-3xl font-semibold'}>Super Keys</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center lg15.6:text-4xl text-3xl font-semibold'}>Super Keys</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Example
                                     1</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>FD
                                     Set: {SuperKeysExample1Json[0].fdSet}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-1'}>Few of the Super
                                     Keys
                                     for the given Relations:</h1>
                                 <h1
-                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].superKey1}, {SuperKeysExample1Json[0].superKey2}, {SuperKeysExample1Json[0].superKey3}, {SuperKeysExample1Json[0].superKey4}, {SuperKeysExample1Json[0].superKey5}, {SuperKeysExample1Json[0].superKey6}</h1>
+                                    className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-1'}>{SuperKeysExample1Json[0].superKey1}, {SuperKeysExample1Json[0].superKey2}, {SuperKeysExample1Json[0].superKey3}, {SuperKeysExample1Json[0].superKey4}, {SuperKeysExample1Json[0].superKey5}, {SuperKeysExample1Json[0].superKey6}</h1>
                                 <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Example
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Example
                                     2</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>FD
                                     Set: {SuperKeysExample2Json[0].fdSet}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>Few of the Super
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-1'}>Few of the Super
                                     Keys
                                     for the given Relations:</h1>
                                 <h1
-                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].superKey1}, {SuperKeysExample2Json[0].superKey2}, {SuperKeysExample2Json[0].superKey3}</h1>
+                                    className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-1'}>{SuperKeysExample2Json[0].superKey1}, {SuperKeysExample2Json[0].superKey2}, {SuperKeysExample2Json[0].superKey3}</h1>
                             </div>
 
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-center text-3xl font-semibold'}>Candidate Keys</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center lg15.6:text-4xl text-3xl font-semibold'}>Candidate Keys</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl  text-2xl font-semibold mt-6 mb-3'}>For the
                                     Example
                                     1</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample1Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>FD
                                     Set: {SuperKeysExample1Json[0].fdSet}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-1'}>The Candidate
                                     Keys
                                     for
                                     the given Relations:</h1>
                                 <h1
-                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample1Json[0].candidateKey1}</h1>
+                                    className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-1'}>{SuperKeysExample1Json[0].candidateKey1}</h1>
                                 <hr className={'mt-10 h-0.5 rounded-lg bg-black'}/>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>For the
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>For the
                                     Example
                                     2</h1>
-                                <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>FD
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-6 mb-3'}>Relation: {SuperKeysExample2Json[0].relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>FD
                                     Set: {SuperKeysExample2Json[0].fdSet}</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-1'}>The Candidate
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-1'}>The Candidate
                                     Keys
                                     for
                                     the given Relations:</h1>
                                 <h1
-                                    className={'text-black text-end mx-8 text-xl  my-1'}>{SuperKeysExample2Json[0].candidateKey1}, {SuperKeysExample2Json[0].candidateKey2}, {SuperKeysExample2Json[0].candidateKey3}</h1>
+                                    className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-1'}>{SuperKeysExample2Json[0].candidateKey1}, {SuperKeysExample2Json[0].candidateKey2}, {SuperKeysExample2Json[0].candidateKey3}</h1>
                             </div>
 
                         </div>
 
                         <div className={'mb-5'}>
-                            <h1 className={'w-screen bg-[#2f3749] py-1 text-left text-white font-semibold text-4xl'}>More
+                            <h1 className={'w-screen bg-[#2f3749] lg15.6:py-2 py-1 text-left text-white font-semibold text-4xl'}>More
                                 Examples for Candidate Keys, using Direct Method</h1>
                             <div className={'grid grid-cols-2 gap-2 mr-10'}>
 
                                 <div
-                                    className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
-                                    <h1 className={'text-black text-center text-3xl font-semibold'}>Example 1</h1>
-                                    <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[0].relation}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
+                                    className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[690px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
+                                    <h1 className={'text-black text-center lg15.6:text-4xl text-3xl font-semibold'}>Example 1</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[0].relation}</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-xl my-6'}>FD
                                         Set: {goodCandidateKeysExample[0].fdset}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-6'}>The
                                         Candidate
                                         Keys
                                         for the given Relations:</h1>
                                     <h1
-                                        className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[0].candidateKeys}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
+                                        className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-6'}>{goodCandidateKeysExample[0].candidateKeys}</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-6'}>The Prime/Key
                                         Attributes: {goodCandidateKeysExample[0].primeattributes}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-6'}>The Non Key
                                         Attributes: {goodCandidateKeysExample[0].nonkeyattributes}</h1>
                                 </div>
 
                                 <div
-                                    className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
-                                    <h1 className={'text-black text-center text-3xl font-semibold'}>Example 2</h1>
-                                    <h1 className={'text-black text-start mx-8 text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[1].relation}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>FD
+                                    className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[690px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-5">
+                                    <h1 className={'text-black text-center lg15.6:text-4xl text-3xl font-semibold'}>Example 2</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-3xl text-2xl font-semibold mt-12 mb-3'}>Relation: {goodCandidateKeysExample[1].relation}</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-6'}>FD
                                         Set: {goodCandidateKeysExample[1].fdset}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl font-semibold my-6'}>The
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-6'}>The
                                         Candidate
                                         Keys
                                         for the given Relations:</h1>
                                     <h1
-                                        className={'text-black text-end mx-8 text-xl  my-6'}>{goodCandidateKeysExample[1].candidateKeys}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Prime/Key
+                                        className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-6'}>{goodCandidateKeysExample[1].candidateKeys}</h1>
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-6'}>The Prime/Key
                                         Attributes: {goodCandidateKeysExample[1].primeattributes}</h1>
-                                    <h1 className={'text-black text-start mx-8 text-xl my-6'}>The Non Key
+                                    <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-6'}>The Non Key
                                         Attributes: {goodCandidateKeysExample[1].nonkeyattributes}</h1>
                                 </div>
                             </div>

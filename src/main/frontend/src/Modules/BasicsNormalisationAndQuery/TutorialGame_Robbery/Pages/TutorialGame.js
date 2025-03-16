@@ -105,14 +105,14 @@ const Welcome = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${steps[currentStep].align}-0`}>
                     <motion.img
                         src={steps[currentStep].image}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Character"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
                         transition={{duration: 0.3, ease: "easeOut"}}
                     />
                     <div
-                        className={`absolute bottom-28 ${steps[currentStep].align}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black w-[540px]`}>
+                        className={`absolute bottom-28 ${steps[currentStep].align}-28 text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black lg15.6:w-[600px] w-[540px]`}>
                         <div>
                             {displayText}
                         </div>
@@ -338,7 +338,7 @@ const Welcome1 = ({show, onClose}) => {
             >
                 <motion.img
                     src={assisstantconclude}
-                    className="h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
+                    className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 left-0 object-contain rounded-xl"
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -455,7 +455,7 @@ const KnowMore = ({show, onClose}) => {
             >
                 <motion.img
                     src={img}
-                    className={`h-80 w-80 absolute bottom-0 ${position}-0 object-contain rounded-xl`}
+                    className={`lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 absolute bottom-0 ${position}-0 object-contain rounded-xl`}
                     alt="Assistant"
                     initial={{scale: 0}}
                     animate={{scale: 1}}
@@ -608,7 +608,7 @@ const TableContents = ({show, onClose}) => {
                 {highlightRHouse && (
                     <div className="relative flex flex-col -top-[118px] justify-center items-center min-h-screen">
                         <h1
-                            className={`font-bold bg-[#a2e1e1] w-max text-center text-black text-3xl border-[6px] border-blue-500`}
+                            className={`font-bold bg-[#a2e1e1] w-max text-center text-black lg15.6:my-3 my-0 lg15.6:text-4xl text-3xl border-[6px] border-blue-500`}
                         >
                             R(House)
                         </h1>
@@ -622,14 +622,14 @@ const TableContents = ({show, onClose}) => {
 
                 {/* Step 2: Table */}
                 {tableVisible && (
-                    <div className="relative flex flex-col top-5 justify-center items-center min-h-screen">
+                    <div className="relative flex flex-col lg15.6:top-14 top-5 justify-center items-center min-h-screen">
                         <div
                             className="text-lg text-black p-3 mx-20 bg-white rounded-2xl shadow-inner border-2 border-black"
                         >
                             {displayText}
                         </div>
                         <div
-                            className={`mx-[34px] my-3 border-[6px] border-blue-500`}
+                            className={`lg15.6:mx-0 mx-[34px] my-3 border-[6px] border-blue-500`}
                         >
                             <FirstTables1/>
                         </div>
@@ -638,27 +638,27 @@ const TableContents = ({show, onClose}) => {
 
                 {/* Step 3: Table Header */}
                 {theadVisible && (
-                    <div className="relative flex flex-col -top-[140px] justify-center items-center min-h-screen">
+                    <div className="relative flex flex-col lg15.6:-top-[128px] lg15.6:mt-2.5 mt-0 -top-[140px] justify-center items-center min-h-screen">
                         <div
                             className="text-lg text-black p-3 mx-20 bg-white rounded-2xl shadow-inner border-2 border-black"
                         >
                             {displayText}
                         </div>
                         <table
-                            className={`table-auto mx-9 my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black border-[6px] border-blue-500`}
+                            className={`table-auto mx-9 my-3 items-center text-center justify-center border-collapse lg15.6:text-xl text-base rounded-3xl border-2 border-black border-[6px] border-blue-500`}
                         >
-                            <thead className="bg-gray-100">
+                            <thead className="bg-gray-100 lg15.6:py-5 py-0">
                             <tr>
-                                <th className="border border-black px-4 py-2 text-left">Person ID</th>
-                                <th className="border border-black px-4 py-2 text-left">Location</th>
-                                <th className="border border-black px-4 py-2 text-left">Action</th>
-                                <th className="border border-black px-4 py-2 text-left">Room Type</th>
-                                <th className="border border-black px-4 py-2 text-left">Room Contents</th>
-                                <th className="border border-black px-4 py-2 text-left">Camera ID</th>
-                                <th className="border border-black px-4 py-2 text-left">Camera Status</th>
-                                <th className="border border-black px-4 py-2 text-left">Camera Footage</th>
-                                <th className="border border-black px-4 py-2 text-left">Time</th>
-                                <th className="border border-black px-4 py-2 text-left">Witness Statement</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Person ID</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Location</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Action</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Room Type</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Room Contents</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Camera ID</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Camera Status</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Camera Footage</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Time</th>
+                                <th className="border border-black px-4 py-2 lg15.6:py-5 text-left">Witness Statement</th>
                             </tr>
                             </thead>
                         </table>
@@ -667,14 +667,14 @@ const TableContents = ({show, onClose}) => {
 
                 {/* Step 4: Functional Dependencies */}
                 {fdVisible && (
-                    <div className="relative flex flex-col top-[226px] justify-center items-center min-h-screen">
+                    <div className="relative flex flex-col lg15.6:top-[287px] top-[226px] justify-center items-center min-h-screen">
                         <div
                             className="text-lg text-black p-3 mx-20 bg-white my-6 rounded-2xl shadow-inner border-2 border-black"
                         >
                             {displayText}
                         </div>
                         <h1
-                            className={`text-left bg-[#a2e1e1] mx-[22px] text-black font-semibold text-lg border-[6px] border-blue-500`}
+                            className={`text-left bg-[#a2e1e1] mx-[22px] text-black font-semibold lg15.6:text-2xl text-lg border-[6px] border-blue-500`}
                         >
                             {AppText.GivenFD}
                         </h1>
@@ -783,7 +783,7 @@ const FDs = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -902,7 +902,7 @@ const FDClosure = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1021,7 +1021,7 @@ const WhatFDclosures = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1147,7 +1147,7 @@ const HowFDclosures = ({show, onClose, value, scrollornot}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1280,13 +1280,13 @@ const TutorialGame = () => {
                         Module 1: Basics and Normalisation
                     </h1>
                     <br/>
-                    <h1 className={'text-center text-black font-bold lg15.6:text-4xl text-3xl'}>R(House)</h1>
+                    <h1 className={'text-center text-black font-bold lg15.6:my-3 my-0 lg15.6:text-4xl text-3xl'}>R(House)</h1>
                     <div className={'flex mx-auto'}>
                         <FirstTables/>
                     </div>
                     <div className={'text-left mx-7 text-black font-semibold lg15.6:text-2xl text-lg'}>{AppText.GivenFD}</div>
 
-                    <div className={'mt-1 mb-2'}>
+                    <div className={'lg15.6:mt-2 mt-1 mb-2'}>
                         <h1 className={'w-screen bg-[#2f3749] py-1.5 text-left text-white font-semibold lg15.6:text-6xl text-4xl mb-4'}>FD
                             Closure (Functional
                             Dependency Closure)</h1>
@@ -1294,7 +1294,7 @@ const TutorialGame = () => {
                         <h1 className={'text-black lg15.6:py-1.5 py-0 lg15.6:text-3xl text-2xl'}>The Given FDs are {AppText.ExampleFDs}</h1>
                         {/*h-[416px]*/}
                         <div
-                            className="p-4 items-end text-3xl text-right border-black border-4 my-4 mx-auto w-[832px] h-auto bg-[#badcdc] rounded-lg flex flex-col justify-center">
+                            className="p-4 lg15.6:mb-[82px] mb-4 items-end lg15.6:text-4xl text-3xl text-right border-black border-4 lg15.6:my-5 my-4 mx-auto w-[832px] h-auto bg-[#badcdc] rounded-lg flex flex-col justify-center">
                             <table className="table-fixed mx-auto border-separate border-spacing-10">
                                 <tbody>
                                 <tr>

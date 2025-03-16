@@ -114,7 +114,7 @@ const FinaleModule1 = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -233,7 +233,7 @@ const WhatisNormalisation = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -352,7 +352,7 @@ const WhyNormalisation = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -471,7 +471,7 @@ const NormalForm1 = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -590,7 +590,7 @@ const NormalForm2 = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -709,7 +709,7 @@ const NormalForm3 = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -828,7 +828,7 @@ const LetsDiscussNormalForm = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -947,7 +947,7 @@ const IndentifyingNormalForm = ({show, onClose, value}) => {
                 <div className={`absolute top-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1066,7 +1066,7 @@ const IndentifyingNormalFormExample = ({show, onClose, value}) => {
                 <div className={`absolute top-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1190,7 +1190,7 @@ const MovetoDecomposition = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1309,7 +1309,7 @@ const NFDecomposition1 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1428,7 +1428,7 @@ const NFDecomposition2 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1549,7 +1549,7 @@ const PracticeNormalisation = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1817,15 +1817,15 @@ const NormalisationTutorial = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"NormalisationTutorial"}/>
                         <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Normalisation,
+                            <h1 className="text-left text-white font-semibold lg15.6:py-2 py-0 lg15.6:text-5xl text-4xl mb-3">Normalisation,
                                 Identification
-                                and
+                                &
                                 Decomposition</h1>
                         </div>
                         <div className={'flex'}>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-start mx-8 text-xl font-semibold my-2'}>Possible Non
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl font-semibold my-2'}>Possible Non
                                     Trivial
                                     FD
                                     which
@@ -1833,30 +1833,30 @@ const NormalisationTutorial = () => {
                                 <div className="grid grid-rows-3 grid-cols-1 gap-2 mt-3">
                                     {WhatNormalisationData.filter(({id}) => id >= 2).map(({id, image, form}) => (
                                         <div key={id} className="flex flex-col items-center">
-                                            <img src={image} className="h-32 object-contain" alt={form}/>
-                                            <p className="text-lg font-semibold text-gray-700">{form}</p>
+                                            <img src={image} className="lg15.6:h-40 h-32 object-contain" alt={form}/>
+                                            <p className="lg15.6:text-xl text-lg font-semibold text-gray-700">{form}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-6'}>Example for
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl font-semibold my-6'}>Example for
                                     Normal Form Identification</h1>
-                                <h1 className={'text-black text-start mx-8 text-3xl mt-6 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
-                                <h1 className={'text-black text-end mx-8 text-xl my-1'}>FD
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl mt-6 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
+                                <h1 className={'text-black text-end mx-8 lg15.6:text-2xl text-xl my-1'}>FD
                                     Set: {NormalisationExample1.fdSet}</h1>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>1NF</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>Bigger Relation, always in
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 lg15.6:text-3xl text-2xl my-1'}>1NF</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>Bigger Relation, always in
                                     1NF.</h1>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>2NF Violating
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 lg15.6:text-3xl text-2xl my-1'}>2NF Violating
                                     FDs</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>3NF Violating
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 lg15.6:text-3xl text-2xl my-1'}>3NF Violating
                                     FDs</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 lg15.6:text-3xl text-2xl my-1'}>BCNF</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
                             </div>
                         </div>
 
