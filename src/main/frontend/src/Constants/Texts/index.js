@@ -1017,7 +1017,7 @@ export const EmployeesTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="table-auto my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                className="table-auto my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2">Attributes</th>
@@ -1075,7 +1075,7 @@ export const ProjectsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="table-fixed my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
+                className="table-fixed my-3 lg15.6:text-xl text-base items-center text-center justify-center border-collapse rounded-3xl border-2 border-black">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2">Attributes</th>
@@ -1117,7 +1117,7 @@ export const PersonsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center text-center lg15.6:text-xl text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1147,7 +1147,7 @@ export const PersonsRoomsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1177,7 +1177,7 @@ export const WitnessSatementsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className=" my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1207,7 +1207,7 @@ export const LocationsTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1233,7 +1233,7 @@ export const CamerasTables = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className=" my-3 items-center text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>

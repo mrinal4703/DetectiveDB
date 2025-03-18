@@ -116,7 +116,7 @@ const IntroductiontoJoinsLang = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -235,7 +235,7 @@ const JoinsDef = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -827,7 +827,7 @@ const ProceedtoTest = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -964,80 +964,80 @@ const JoinsNestedTutorial = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"JoinsTutorial"}/>
                         <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Joins and Nested Query</h1>
+                            <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-3">Joins and Nested Query</h1>
                         </div>
-                        <div className={'flex'}>
+                        <div className={'flex lg15.6:my-2 my-0'}>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-center mx-1 my-4 text-3xl font-semibold'}>Joins in
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center mx-1 my-4 lg15.6:text-4xl text-3xl font-semibold'}>Joins in
                                     Query
                                     Language</h1>
-                                <h1 className={'text-gray-600 text-start mx-1 my-2 text-xl font-semibold'}>Types of Join
+                                <h1 className={'text-gray-600 text-start mx-1 my-2 lg15.6:text-2xl text-xl font-semibold'}>Types of Join
                                     Clauses</h1>
-                                <h1 className={'mx-1 my-2 text-xl text-end'}>
+                                <h1 className={'mx-1 my-2 lg15.6:text-2xl text-xl text-end'}>
                                     {AppText.AllJoins}
                                 </h1>
-                                <img className={'h-96 mx-auto my-4'} src={joinsgif}
+                                <img className={'lg15.6:h-[480px] h-96 mx-auto my-4'} src={joinsgif}
                                      alt={'Example of Select'}/>
                                 <div className={'flex justify-between my-2'}>
 
                                 </div>
                             </div>
-                            <div className={'grid grid-cols-2 w-[600px] p-3 gap-1'}>
+                            <div className={'grid grid-cols-2 lg15.6:w-[725px] w-[600px] p-3 gap-1'}>
                                 <div>
-                                    <h1 className={'text-xl'}>Inner Join</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>Inner Join</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'}
                                          src={innerjoinexample}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>Left Join</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>Left Join</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'}
                                          src={leftjoinexample}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>Right Join</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>Right Join</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'}
                                          src={rightjoinexample}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>Full Outer Join</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>Full Outer Join</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'}
                                          src={fullouterexample}
                                          alt={'Example of SQLs'}/>
                                 </div>
                             </div>
                         </div>
-                        <div className={'w-screen h-[633px]'}>
+                        <div className={'w-screen lg:h-[776px] h-[633px]'}>
                             <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                                <h1 className="text-left text-white font-semibold text-4xl mb-3">Nested Queries and some other clauses</h1>
+                                <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-3">Nested Queries and some other clauses</h1>
                             </div>
                             <div className={'grid grid-cols-2 gap-1 p-1'}>
                                 <div>
-                                    <h1 className={'text-left ml-16 text-black font-semibold text-2xl'}>Nested Queries</h1>
+                                    <h1 className={'text-left ml-16 text-black font-semibold lg15.6:text-3xl text-2xl'}>Nested Queries</h1>
                                     <div className={'grid grid-cols-2 gap-1'}>
                                         <div>
-                                            <h1 className={'text-xl'}>Independent Nested Query</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>Independent Nested Query</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'}
                                                  src={independentnestedexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>All Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={allexample}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>All Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={allexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>Dependent Nested Query</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>Dependent Nested Query</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'}
                                                  src={dependentnestedexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>Any Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={anyexample}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>Any Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={anyexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                     </div>
@@ -1047,23 +1047,23 @@ const JoinsNestedTutorial = () => {
                                         Clauses</h1>
                                     <div className={'grid grid-cols-2 gap-1'}>
                                         <div>
-                                        <h1 className={'text-xl'}>Not In Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={notinexample}
+                                        <h1 className={'lg15.6:text-2xl text-xl'}>Not In Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={notinexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>In Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={inexample}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>In Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={inexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>Exists Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={existsexample}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>Exists Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={existsexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>Not Exists Clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={notexistsexample}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>Not Exists Clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={notexistsexample}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                     </div>

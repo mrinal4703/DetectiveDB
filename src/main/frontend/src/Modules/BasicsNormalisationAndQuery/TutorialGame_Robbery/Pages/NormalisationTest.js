@@ -110,7 +110,7 @@ const HelperAtFirstFinally = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -232,7 +232,7 @@ const CorrectModal = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -351,7 +351,7 @@ const WrongModal = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -509,7 +509,7 @@ const NormalisationTest = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialNFPractice"}/>
                         <div className="w-screen bg-[#2f3749] py-0.5">
-                            <h1 className="text-left text-white font-semibold text-4xl mb-2">
+                            <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-2">
                                 Normalisation Test
                             </h1>
                         </div>
@@ -525,18 +525,18 @@ const NormalisationTest = () => {
                         {/*    </div>*/}
                         {/*</div>*/}
 
-                        <div className="w-[1260px] mx-2.5 h-[562px] bg-white my-2 rounded-2xl p-1">
+                        <div className="lg15.6:w-[1510px] w-[1260px] mx-2.5 lg15.6:h-[690px] h-[562px] bg-white my-2 rounded-2xl p-1">
                             <div className="grid grid-cols-2 gap-3 p-1 h-full">
                                 <div className='rounded-xl border-2 border-black p-2.5'>
-                                    <h1 className={'text-black text-start mx-4 text-3xl font-semibold my-2'}>Robbery
+                                    <h1 className={'text-black text-start mx-4 lg15.6:text-4xl text-3xl font-semibold my-2'}>Robbery
                                         Case
                                         Relation</h1>
-                                    <h1 className={'text-black text-start mx-4 text-2xl mt-4 mb-3'}>Relation Name
+                                    <h1 className={'text-black text-start mx-4 lg15.6:text-3xl text-2xl mt-4 mb-3'}>Relation Name
                                         is {NormalFormTest.RelationName}</h1>
-                                    <h1 className={'text-gray-400 text-start mx-8 text-md my-2'}>Relation: {NormalFormTest.Relation}</h1>
-                                    <h1 className={'text-black text-start mx-2 text-lg my-1'}>FD
+                                    <h1 className={'text-gray-400 text-start mx-8 lg15.6:text-lg text-md my-2'}>Relation: {NormalFormTest.Relation}</h1>
+                                    <h1 className={'text-black text-start mx-2 lg15.6:text-xl text-lg my-1'}>FD
                                         Set: {NormalFormTest.fdSet}</h1>
-                                    <h2 className="text-xl font-bold my-4">Enter 2NF Relations:</h2>
+                                    <h2 className="lg15.6:text-2xl text-xl font-bold my-4">Enter 2NF Relations:</h2>
                                     {nf2Inputs.map((input, index) => (
                                         <input key={index} type="text" value={input}
                                                onChange={(e) => {
@@ -544,16 +544,16 @@ const NormalisationTest = () => {
                                                    newInputs[index] = e.target.value;
                                                    setNf2Inputs(newInputs);
                                                }}
-                                               className="w-[500px] text-center p-2 border-2 rounded-lg mb-2"
+                                               className="w-[600px] lg15.6:text-xl text-base text-center p-2 border-2 rounded-lg mb-2"
                                         />
                                     ))}
                                     <button onClick={handleNf2Submit}
-                                            className="w-44 mt-4 bg-[#495f67] text-white text-lg py-2 rounded-lg hover:bg-[#2e3c49]">
+                                            className="w-44 mt-4 bg-[#495f67] text-white lg15.6:text-2xl text-lg py-2 rounded-lg hover:bg-[#2e3c49]">
                                         Submit
                                     </button>
                                 </div>
                                 <div className='rounded-xl border-2 border-black p-2.5'>
-                                    <h2 className="text-xl font-bold mb-2">Enter 3NF Relations:</h2>
+                                    <h2 className="lg15.6:text-2xl text-xl font-bold mb-2">Enter 3NF Relations:</h2>
                                     {nf2Correct ? (
                                         nf3Inputs.map((input, index) => (
                                             <input key={index} type="text" value={input}
@@ -562,7 +562,7 @@ const NormalisationTest = () => {
                                                        newInputs[index] = e.target.value;
                                                        setNf3Inputs(newInputs);
                                                    }}
-                                                   className="w-[500px] text-center p-2 border-2 rounded-lg mb-2"
+                                                   className="w-[600px] text-center p-2 border-2 rounded-lg mb-2"
                                             />
                                         ))
                                     ) : (
@@ -570,10 +570,10 @@ const NormalisationTest = () => {
                                             <div
                                                 className={'flex flex-col items-center justify-center align-middle text-center'}>
                                                 <div
-                                                    className={'absolute mr-72 text-lg text-black p-3 mx-20 bg-white rounded-2xl shadow-inner border-2 border-black'}>
+                                                    className={'absolute mr-72 lg15.6:text-xl text-lg text-black p-3 mx-20 bg-white rounded-2xl shadow-inner border-2 border-black'}>
                                                     <p className="text-lg ">Complete 2NF first!</p>
                                                 </div>
-                                                <img src={helperleftnobg} className={'ml-28 h-96 mt-[72px]'}
+                                                <img src={helperleftnobg} className={'ml-28 lg15.6:h-[450px] h-96 mt-[72px]'}
                                                      alt={'HelperLeft'}/>
                                             </div>
                                         </>

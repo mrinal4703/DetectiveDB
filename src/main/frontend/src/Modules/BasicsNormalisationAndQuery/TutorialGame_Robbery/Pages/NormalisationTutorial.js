@@ -1860,84 +1860,84 @@ const NormalisationTutorial = () => {
                             </div>
                         </div>
 
-                        <div className={'w-screen bg-[#2f3749] py-2 mb-3'}>
-                            <h1 className="text-left text-white font-semibold text-3xl">Decomposition of Relations into
+                        <div className={'w-screen bg-[#2f3749] py-2 lg15.6:mb-5 mb-3'}>
+                            <h1 className="text-left text-white font-semibold lg15.6:text-4xl text-3xl">Decomposition of Relations into
                                 Normal
                                 Forms</h1>
                         </div>
-                        <div className={'flex'}>
+                        <div className={'flex lg15.6:mb-2 mb-0'}>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-1">
-                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-3'}>Example for
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-1">
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl font-semibold my-3'}>Example for
                                     Decomposition into Normal Forms</h1>
-                                <h1 className={'text-black text-start mx-8 text-3xl mt-2 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl mt-2 mb-3'}>Relation: {NormalisationExample1.Relation}</h1>
                                 <div className={'flex justify-between'}>
-                                    <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
+                                    <h1 className={'text-black text-start mx-2 lg15.6:text-2xl text-xl my-1'}>Candidate
                                         Key: {NormalisationExample1.CandidateKey}</h1>
-                                    <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
+                                    <h1 className={'text-black text-end mx-2 lg15.6:text-2xl text-xl my-1'}>FD
                                         Set: {NormalisationExample1.fdSet}</h1>
                                 </div>
                                 <div className={'grid grid-cols-2 grid-rows-2'}>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>2NF Violating
+                                        <h1 className={'text-gray-400 text-start mx-8 lg15.6:text-3xl text-2xl my-1'}>2NF Violating
                                             FDs</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf2Violationg}</h1>
                                     </div>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 text-2xl my-1'}>3NF Violating
+                                        <h1 className={'text-gray-400 text-start mx-8 lg15.6:text-3xl text-2xl my-1'}>3NF Violating
                                             FDs</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf3Violationg}</h1>
                                     </div>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>2NF
+                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 lg15.6:text-3xl text-2xl my-1'}>2NF
                                             Violating
                                             FD Closures</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureA}, {NormalisationExample1.ClosureB}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.ClosureA}, {NormalisationExample1.ClosureB}</h1>
                                     </div>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 text-2xl my-1'}>3NF
+                                        <h1 className={'text-gray-400 text-start mx-8 -mt-1 lg15.6:text-3xl text-2xl my-1'}>3NF
                                             Violating
                                             FD Closures</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.ClosureD}, {NormalisationExample1.ClosureF}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.ClosureD}, {NormalisationExample1.ClosureF}</h1>
                                     </div>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>2NF
+                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 lg15.6:text-3xl text-2xl my-1'}>2NF
                                             Decomposed
                                             Relations</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf2Decomposition}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf2Decomposition}</h1>
                                     </div>
                                     <div>
-                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>3NF
+                                        <h1 className={'text-gray-400 text-start mx-8 mt-5 lg15.6:text-3xl text-2xl my-1'}>3NF
                                             Decomposed
                                             Relations</h1>
-                                        <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.Nf3Decomposition}</h1>
+                                        <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.Nf3Decomposition}</h1>
                                     </div>
                                 </div>
                             </div>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-gray-400 text-start mx-8 mt-4 text-2xl my-1'}>BCNF</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
-                                <hr className={'my-7  mx-auto w-5/6 h-0.5 rounded-lg bg-black'}/>
-                                <h1 className={'text-black text-start mx-8 text-3xl font-semibold my-4'}>Example for
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
+                                <h1 className={'text-gray-400 text-start mx-8 mt-4 lg15.6:text-3xl text-2xl my-1'}>BCNF</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample1.BCNFDecomposition}</h1>
+                                <hr className={'my-7 mx-auto w-5/6 h-0.5 rounded-lg bg-black'}/>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl font-semibold my-4'}>Example for
                                     BCNF
                                     Decomposition</h1>
-                                <h1 className={'text-black text-start mx-8 text-3xl mt-4 mb-3'}>Relation: {NormalisationExample2.Relation}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-4xl text-3xl mt-4 mb-3'}>Relation: {NormalisationExample2.Relation}</h1>
                                 <div className={'flex justify-between'}>
-                                    <h1 className={'text-black text-start mx-2 text-xl my-1'}>Candidate
+                                    <h1 className={'text-black text-start mx-2 lg15.6:text-2xl text-xl my-1'}>Candidate
                                         Key: {NormalisationExample2.CandidateKey}</h1>
-                                    <h1 className={'text-black text-end mx-2 text-xl my-1'}>FD
+                                    <h1 className={'text-black text-end mx-2 lg15.6:text-2xl text-xl my-1'}>FD
                                         Set: {NormalisationExample2.fdSet}</h1>
                                 </div>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-2 text-2xl my-1'}>BCNF Violating
+                                <h1 className={'text-gray-400 text-start mx-8 mt-2 lg15.6:text-3xl text-2xl my-1'}>BCNF Violating
                                     FDs</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfViolation}</h1>
-                                <h1 className={'text-gray-400 text-start mt-5 mx-8 text-2xl my-1'}>BCNF Violating
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample2.BcnfViolation}</h1>
+                                <h1 className={'text-gray-400 text-start mt-5 mx-8 lg15.6:text-3xl text-2xl my-1'}>BCNF Violating
                                     FD Closures</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.ClosureD}</h1>
-                                <h1 className={'text-gray-400 text-start mx-8 mt-5 text-2xl my-1'}>BCNF Decomposed
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample2.ClosureD}</h1>
+                                <h1 className={'text-gray-400 text-start mx-8 mt-5 lg15.6:text-3xl text-2xl my-1'}>BCNF Decomposed
                                     Relations</h1>
-                                <h1 className={'text-black text-start mx-8 text-xl my-1'}>{NormalisationExample2.BcnfDecomposition}</h1>
+                                <h1 className={'text-black text-start mx-8 lg15.6:text-2xl text-xl my-1'}>{NormalisationExample2.BcnfDecomposition}</h1>
                             </div>
                         </div>
                     </div>

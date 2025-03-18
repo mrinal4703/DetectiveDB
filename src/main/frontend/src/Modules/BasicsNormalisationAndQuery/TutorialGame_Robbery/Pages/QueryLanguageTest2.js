@@ -104,7 +104,7 @@ const HelperAtFirst = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -227,7 +227,7 @@ const FinalDiscussions = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -386,7 +386,7 @@ const QueryLanguageTest2 = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialSQLPractice"}/>
                         <div className="w-screen bg-[#2f3749] py-0.5">
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">
+                            <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-3">
                                 Basic SQL Query Quiz
                             </h1>
                         </div>
@@ -396,18 +396,18 @@ const QueryLanguageTest2 = () => {
                                 <div className="space-y-6">
                                     {SQLTest2.Questions.map((q) => (
                                         <div key={q.id} className="bg-white p-6 rounded-lg shadow-md">
-                                            <h2 className="text-xl font-semibold">{q.concept} Question</h2>
-                                            <p className="text-gray-700 mb-4">{q.question}</p>
+                                            <h2 className="lg15.6:text-2xl text-xl font-semibold">{q.concept} Question</h2>
+                                            <p className="text-gray-700 lg15.6:text-xl text-base mb-4">{q.question}</p>
                                             <input
                                                 type="text"
-                                                className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-900"
+                                                className="w-full lg15.6:text-xl text-base p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-900"
                                                 placeholder="Write your SQL query here..."
                                                 value={answers[q.id] || ''}
                                                 onChange={(e) => handleInputChange(q.id, e.target.value)}
                                             />
                                             <div className="flex space-x-4 mt-4">
                                                 <button
-                                                    className="px-5 py-3 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition ease-in"
+                                                    className="px-5 py-3 bg-green-500 lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition ease-in"
                                                     onClick={() => {
                                                         playClickSound();
                                                         validateQuery(q.id, q.validation);
@@ -416,7 +416,7 @@ const QueryLanguageTest2 = () => {
                                                     Validate Query
                                                 </button>
                                                 <button
-                                                    className="px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                    className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
                                                     onClick={() => {
                                                         playClickSound();
                                                         executeQuery(q.id, answers[q.id]);
@@ -431,7 +431,7 @@ const QueryLanguageTest2 = () => {
                                                             className="grid my-2.5 justify-end"> {/* Grid container to align the button to the right */}
                                                             <div className={'group'}>
                                                                 <button
-                                                                    className="relative mt-4 text-black text-2xl transition-transform duration-300 ease-in-out hover:scale-110"
+                                                                    className="relative mt-4 text-black lg15.6:text-3xl text-2xl transition-transform duration-300 ease-in-out hover:scale-110"
                                                                     onClick={() => {
                                                                         playClickSound();
                                                                         handleCloseTable(q.id);
@@ -440,7 +440,7 @@ const QueryLanguageTest2 = () => {
                                                                     <IoClose/>
                                                                     <h1
                                                                         className={
-                                                                            'absolute z-40 invisible group-hover:visible text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'
+                                                                            'absolute z-40 invisible group-hover:visible lg15.6:text-sm text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'
                                                                         }
                                                                     >
                                                                         Close
@@ -505,13 +505,13 @@ const QueryLanguageTest2 = () => {
                                 className={'col-span-3 z-20 fixed translate-x-[104%] items-center align-middle justify-between p-3'}>
                                 <div className={'bg-white flex p-2 px-4 rounded-lg shadow-md'}>
                                     <div className={'bg-white mx-auto flex flex-col'}>
-                                        <h1 className={'text-black font-semibold mx-8 text-2xl '}>Relation(employees)</h1>
+                                        <h1 className={'text-black font-semibold mx-8 lg15.6:text-3xl text-2xl'}>Relation(employees)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <EmployeesTables/>
                                         </div>
                                     </div>
                                     <div className={'bg-white mx-auto flex flex-col'}>
-                                        <h1 className={'text-black font-semibold mx-8 text-2xl '}>Relation(projects)</h1>
+                                        <h1 className={'text-black font-semibold mx-8 lg15.6:text-3xl text-2xl '}>Relation(projects)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <ProjectsTables/>
                                         </div>

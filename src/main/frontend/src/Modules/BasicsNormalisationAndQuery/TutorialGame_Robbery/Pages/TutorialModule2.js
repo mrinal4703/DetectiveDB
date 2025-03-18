@@ -112,7 +112,7 @@ const IntroductiontoQueryLang = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -231,7 +231,7 @@ const ImportantToRemember = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -696,7 +696,7 @@ const WhatisAggregateFnct = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -815,7 +815,7 @@ const AggregateFnctDef = ({show, onClose}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1076,7 +1076,7 @@ const PracticeTheQuery = ({show}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -1229,82 +1229,82 @@ const TutorialModule2 = () => {
                 <div>
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialModule2"}/>
-                        <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold text-4xl mb-3">Module 2: Query
+                        <div className={'w-screen bg-[#2f3749] lg15.6:py-1.5 py-0.5'}>
+                            <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-3">Module 2: Query
                                 Language</h1>
                         </div>
                         <div className={'flex'}>
                             <div
-                                className="w-[600px] justify-center mx-5 h-[555px] border-2 border-black bg-white my-2 rounded-lg p-2">
-                                <h1 className={'text-black text-center mx-1 my-4 text-3xl font-semibold'}>Introduction
+                                className="lg15.6:w-[725px] w-[600px] justify-center mx-5 lg15.6:h-[680px] h-[555px] border-2 border-black bg-white lg15.6:my-3 my-2 rounded-lg p-2">
+                                <h1 className={'text-black text-center mx-1 my-4 lg15.6:text-4xl text-3xl font-semibold'}>Introduction
                                     to
                                     Query
                                     Language</h1>
-                                <h1 className={'text-gray-600 text-start mx-1 my-2 text-xl font-semibold'}>Major
+                                <h1 className={'text-gray-600 text-start mx-1 my-2 lg15.6:text-2xl text-xl font-semibold'}>Major
                                     commands in
                                     SQL: </h1>
-                                <h1 className={'mx-1 my-2 text-xl text-end'}>
+                                <h1 className={'mx-1 my-2 lg15.6:text-2xl text-xl text-end'}>
                                     {AppText.SQLImportantCommands}
                                 </h1>
-                                <img className={'h-96 mx-auto my-4 border-2 border-black'} src={selectsql}
+                                <img className={'lg15.6:h-[480px] h-96 mx-auto my-4 border-2 border-black'} src={selectsql}
                                      alt={'Example of Select'}/>
                                 <div className={'flex justify-between my-2'}>
 
                                 </div>
                             </div>
-                            <div className={'grid grid-cols-2 w-[600px] p-3 gap-1'}>
+                            <div className={'grid grid-cols-2 lg15.6:w-[725px] w-[600px] p-3 gap-1'}>
                                 <div>
-                                    <h1 className={'text-xl'}>WHERE clause</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'} src={wheresql}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>WHERE clause</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'} src={wheresql}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>ORDER BY clause</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'} src={orderbysql}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>ORDER BY clause</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'} src={orderbysql}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>AND clause</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'} src={andsql}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>AND clause</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'} src={andsql}
                                          alt={'Example of SQLs'}/>
                                 </div>
                                 <div>
-                                    <h1 className={'text-xl'}>OR clause</h1>
-                                    <img className={'h-[238px] mx-auto my-1 border-2 border-black'} src={orsql}
+                                    <h1 className={'lg15.6:text-2xl text-xl'}>OR clause</h1>
+                                    <img className={'lg15.6:h-[290px] h-[238px] mx-auto my-1 border-2 border-black'} src={orsql}
                                          alt={'Example of SQLs'}/>
                                 </div>
                             </div>
                         </div>
-                        <div className={'w-screen h-[633px]'}>
+                        <div className={'w-screen lg:h-[776px] h-[633px]'}>
                             <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                                <h1 className="text-left text-white font-semibold text-4xl mb-3">Other Important
+                                <h1 className="text-left text-white font-semibold lg15.6:text-5xl text-4xl mb-3">Other Important
                                     Operations
                                     and
                                     Clauses</h1>
                             </div>
                             <div className={'grid grid-cols-2 gap-1 p-1'}>
                                 <div>
-                                    <h1 className={'text-center text-black font-semibold text-2xl'}>Some other
+                                    <h1 className={'text-center text-black font-semibold lg15.6:text-3xl text-2xl'}>Some other
                                         Functions</h1>
                                     <div className={'grid grid-cols-2 gap-1'}>
                                         <div>
-                                            <h1 className={'text-xl'}>DISTINCT clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={distinctsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>DISTINCT clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={distinctsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>NOT clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={notsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>NOT clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={notsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>GROUP BY clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={groupbysql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>GROUP BY clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={groupbysql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>HAVING clause</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={havingsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>HAVING clause</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={havingsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                     </div>
@@ -1314,23 +1314,23 @@ const TutorialModule2 = () => {
                                         Functions</h1>
                                     <div className={'grid grid-cols-2 gap-1'}>
                                         <div>
-                                            <h1 className={'text-xl'}>MAX() & MIN()</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={maxminsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>MAX() & MIN()</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={maxminsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>COUNT()</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={countsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>COUNT()</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={countsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
                                             <h1 className={'text-xl'}>SUM()</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={sumsql}
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={sumsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                         <div>
-                                            <h1 className={'text-xl'}>AVG()</h1>
-                                            <img className={'h-[238px] mx-auto border-2 border-black'} src={avgsql}
+                                            <h1 className={'lg15.6:text-2xl text-xl'}>AVG()</h1>
+                                            <img className={'lg15.6:h-[290px] h-[238px] mx-auto border-2 border-black'} src={avgsql}
                                                  alt={'Example of SQLs'}/>
                                         </div>
                                     </div>

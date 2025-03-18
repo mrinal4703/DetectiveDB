@@ -119,7 +119,7 @@ const HelperAtFirst = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -238,7 +238,7 @@ const HelperAtFirst2 = ({show, onClose, value}) => {
                 <div className={`absolute bottom-0 ${position}-0`}>
                     <motion.img
                         src={img}
-                        className="h-80 w-80 object-contain rounded-xl"
+                        className="lg15.6:h-[24rem] lg15.6:w-[24rem] h-80 w-80 object-contain rounded-xl"
                         alt="Assistant"
                         initial={{scale: 0}}
                         animate={{scale: 1}}
@@ -278,15 +278,15 @@ const Sidebar = ({isOpen, onClose}) => {
 
     return (
         <div
-            className={`fixed p-2 top-16 h-max inset-y-0 right-0 w-96 z-50 bg-[#ededed] border-2 border-black text-white transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition duration-300 ease-in-out`}>
+            className={`fixed p-2 top-16 h-max inset-y-0 right-0 lg15.6:w-[480px] w-96 z-50 bg-[#ededed] border-2 border-black text-white transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition duration-300 ease-in-out`}>
             <div className="flex justify-between text-black items-center mb-4">
-                <h3 className="text-xl font-semibold">Evidence Clues</h3>
-                <button className="text-black text-2xl" onClick={handleClick}>
+                <h3 className="lg15.6:text-2xl text-xl font-semibold">Evidence Clues</h3>
+                <button className="text-black lg15.6:text-3xl text-2xl" onClick={handleClick}>
                     <IoClose/>
                 </button>
             </div>
 
-            <ul className="space-y-3 text-black">
+            <ul className="space-y-3 lg15.6:text-xl text-base text-black">
                 <li>
                     <strong>1. Suspicious Activity in Living Room:</strong> Find a person in the <strong>Living
                     Room</strong> who was <strong>watching TV</strong>.
@@ -320,17 +320,17 @@ const Sidebar2 = ({isOpen, onClose, evidence}) => {
 
     return (
         <div
-            className={`fixed p-2 top-16 h-max inset-y-0 right-0 w-96 z-50 bg-[#ededed] border-2 border-black text-white transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition duration-300 ease-in-out`}>
+            className={`fixed p-2 top-16 h-max inset-y-0 right-0 lg15.6:w-[480px] w-96 z-50 bg-[#ededed] border-2 border-black text-white transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition duration-300 ease-in-out`}>
             <div className="flex justify-between text-black items-center mb-4">
-                <h3 className="text-xl font-semibold mb-4">Evidence Collected</h3>
-                <button className="text-black text-2xl" onClick={handleClick}>
+                <h3 className="lg15.6:text-2xl text-xl font-semibold mb-4">Evidence Collected</h3>
+                <button className="text-black lg15.6:text-3xl text-2xl" onClick={handleClick}>
                     <IoClose/>
                 </button>
             </div>
 
             {/* Evidence Status */}
             <div className="bg-white text-black p-6 rounded-lg shadow-md">
-                <ul className="space-y-2">
+                <ul className="space-y-2 lg15.6:text-xl text-base">
                     <li>
                         Suspicious Activity in Living Room:{" "}
                         {evidence.suspiciousActivity ? "✅" : "❌"}
@@ -382,7 +382,7 @@ const CongratsandSalute = ({ show }) => {
                     <div className="absolute bottom-0 right-0">
                         <motion.img
                             src={successsalute}
-                            className="h-96 w-96 object-contain rounded-xl"
+                            className="lg15.6:h-[480px] lg15.6:w-[480px] h-96 w-96 object-contain rounded-xl"
                             alt="Assistant"
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
@@ -392,7 +392,7 @@ const CongratsandSalute = ({ show }) => {
 
                     <div className="absolute left-1/2 bottom-20 transform -translate-x-1/2 text-lg text-black">
                         <button
-                            className={`mt-4 px-3 py-1 bg-[#495f67] text-xl text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in `}
+                            className={`mt-4 px-3 py-1 bg-[#495f67] lg15.6:text-2xl text-xl text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in `}
                             onClick={handleClick}
                         >
                             Go Home
@@ -695,11 +695,11 @@ function FinalTest() {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"TutorialFinalSQLPractice"}/>
                         <div className="w-screen bg-[#2f3749] py-0.5">
-                            <h1 className="text-left ml-1 text-white font-semibold text-4xl mb-3">
+                            <h1 className="text-left ml-1 text-white font-semibold lg15.6:text-5xl text-4xl mb-3">
                                 Find the Robber!
                             </h1>
                         </div>
-                        <p className="text-center text-xl text-black">
+                        <p className="text-center lg15.6:text-2xl text-xl text-black">
                             A robbery has occurred in the house! Use SQL queries to find clues and identify the robber
                             among the
                             15
@@ -709,34 +709,34 @@ function FinalTest() {
                         {/* Database Schema */}
                         <div className={'p-3'}>
                             <div className="bg-white w-full p-1.5 rounded-lg shadow-md">
-                                <h1 className={'text-black font-semibold mx-8 text-2xl '}>Database</h1>
+                                <h1 className={'text-black font-semibold mx-8 lg15.6:text-3xl text-2xl '}>Database</h1>
                                 <div className={'grid grid-cols-5 gap-3'}>
                                     <div>
-                                        <h1 className={'text-black font-semibold text-lg '}>Relation(persons)</h1>
+                                        <h1 className={'text-black font-semibold lg15.6:text-xl text-lg '}>Relation(persons)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <PersonsTables/>
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className={'text-black font-semibold text-lg '}>Relation(personrooms)</h1>
+                                        <h1 className={'text-black font-semibold lg15.6:text-xl text-lg '}>Relation(personrooms)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <PersonsRoomsTables/>
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className={'text-black font-semibold text-lg '}>Relation(witnesssatements)</h1>
+                                        <h1 className={'text-black font-semibold lg15.6:text-xl text-lg '}>Relation(witnesssatements)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <WitnessSatementsTables/>
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className={'text-black font-semibold text-lg '}>Relation(locations)</h1>
+                                        <h1 className={'text-black font-semibold lg15.6:text-xl text-lg '}>Relation(locations)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <LocationsTables/>
                                         </div>
                                     </div>
                                     <div>
-                                        <h1 className={'text-black font-semibold text-lg '}>Relation(camera)</h1>
+                                        <h1 className={'text-black font-semibold lg15.6:text-xl text-lg '}>Relation(camera)</h1>
                                         <div className={'mx-auto justify-between'}>
                                             <CamerasTables/>
                                         </div>
@@ -750,9 +750,9 @@ function FinalTest() {
                             <div className={'grid grid-cols-6'}>
                                 <div className={'col-span-4'}>
                                     <div className="bg-white p-6 rounded-lg shadow-md">
-                                        <h2 className="text-xl font-semibold">Find Clues</h2>
+                                        <h2 className="lg15.6:text-2xl text-xl font-semibold">Find Clues</h2>
                                         <input
-                                            className="w-full p-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-900"
+                                            className="w-full p-2 lg15.6:text-xl text-base border rounded-lg focus:outline-none focus:ring focus:border-blue-900"
                                             type="text"
                                             value={query}
                                             onChange={(e) => setQuery(e.target.value)}
@@ -761,7 +761,7 @@ function FinalTest() {
                                         <div className="flex space-x-4 mt-4">
                                             <button
                                                 onClick={executeQuery}
-                                                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                                                className="bg-blue-500 lg15.6:text-xl text-base text-white px-6 py-2 rounded-lg hover:bg-blue-600"
                                             >
                                                 Run Query
                                             </button>
@@ -772,7 +772,7 @@ function FinalTest() {
                                                 <div className="grid mb-2.5 justify-end">
                                                     <div className="group">
                                                         <button
-                                                            className="relative mt-4 text-black text-2xl transition-transform duration-300 ease-in-out hover:scale-110"
+                                                            className="relative mt-4 text-black lg15.6:text-3xl text-2xl transition-transform duration-300 ease-in-out hover:scale-110"
                                                             onClick={() => {
                                                                 playClickSound();
                                                                 handleCloseTable();
@@ -780,7 +780,7 @@ function FinalTest() {
                                                         >
                                                             <IoClose/>
                                                             <span
-                                                                className="absolute z-40 invisible group-hover:visible text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
+                                                                className="absolute z-40 invisible group-hover:visible lg15.6:text-sm text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
                                                             >
                                         Close
                                     </span>
@@ -806,7 +806,7 @@ function FinalTest() {
                                                                 {Object.values(row).map((value, i) => (
                                                                     <td
                                                                         key={i}
-                                                                        className={`border border-gray-300 px-4 py-2 ${
+                                                                        className={`border lg15.6:text-xl text-base border-gray-300 px-4 py-2 ${
                                                                             value === 'Correct!' ? 'text-green-500' :
                                                                                 value === 'Incorrect' ? 'text-red-500' :
                                                                                     'text-black'
@@ -823,7 +823,7 @@ function FinalTest() {
                                             </>
                                         ) : (
                                             !showTable && result && typeof result === 'string' && (
-                                                <p className={`mt-4 text-lg font-semibold ${
+                                                <p className={`mt-4 lg15.6:text-xl text-lg font-semibold ${
                                                     result === 'Correct!' ? 'text-green-500' :
                                                         result === 'Incorrect' ? 'text-red-500' :
                                                             'text-black'
@@ -839,9 +839,9 @@ function FinalTest() {
                                         <button
                                             onClick={handleClickHint}>
                                             <img src={hintlens}
-                                                 className={'h-32 p-2 hover:border-[2.5px] hover:border-black rounded-full'}
+                                                 className={'lg15.6:h-40 h-32 p-2 hover:border-[2.5px] hover:border-black rounded-full'}
                                                  alt={'Hint Lens'}/>
-                                            <h1>Evidence Hint</h1>
+                                            <h1 className={'lg15.6:text-xl text-base'}>Evidence Hint</h1>
                                         </button>
                                         <div className={'flex flex-col'}>
                                             <button
@@ -866,21 +866,21 @@ function FinalTest() {
                                                 <div className="relative z-10 flex flex-col items-center">
                                                     <img
                                                         src={progresspic}
-                                                        className="h-28 rounded-full bg-white"
+                                                        className="lg15.6:h-[144px] h-28 rounded-full bg-white"
                                                         alt="Hint Lens"
                                                     />
                                                     {/*<h1 className="mt-2">Evidence Collected</h1>*/}
                                                 </div>
                                             </button>
-                                            <h1 className="mt-2">Evidence Collected</h1>
+                                            <h1 className="mt-2 lg15.6:text-xl text-base">Evidence Collected</h1>
                                         </div>
                                     </div>
                                     <div>
                                         {/* Prompt for Nested Query */}
                                         {allEvidenceCollected && !nestedQuerySuccess && (
                                             <div className="my-2 bg-white p-2 rounded-lg shadow-md">
-                                                <h2 className="text-xl font-semibold mb-4">Solve the Mystery</h2>
-                                                <p className="">
+                                                <h2 className="lg15.6:text-2xl text-xl font-semibold mb-4">Solve the Mystery</h2>
+                                                <p className="lg15.6:text-xl text-base">
                                                     You have collected all the evidence! Write a nested SQL query,
                                                     including all
                                                     the evidences to reveal the culprit's name.
@@ -891,7 +891,7 @@ function FinalTest() {
                                         {/* Guess Section */}
                                         {nestedQuerySuccess && !culpritFound && !gameOver && (
                                             <div className=" my-2 p-2 bg-white rounded-lg shadow-md">
-                                                <h2 className="text-xl font-semibold mb-4">Guess the Culprit</h2>
+                                                <h2 className="lg15.6:text-2xl text-xl font-semibold mb-4">Guess the Culprit</h2>
                                                 <div className={'flex gap-2'}>
                                                     <input
                                                         type="text"
@@ -901,7 +901,7 @@ function FinalTest() {
                                                         className="p-2 border border-gray-300 rounded-lg"
                                                     />
                                                     <button onClick={handleGuess}
-                                                            className="px-5 py-3 bg-[#495f67] text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">
+                                                            className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">
                                                         Submit Guess
                                                     </button>
                                                 </div>
@@ -909,7 +909,7 @@ function FinalTest() {
                                         )}
 
                                         {error && (
-                                            <div className="mt-4 bg-red-100 p-4 rounded-lg shadow-md">
+                                            <div className="mt-4 lg15.6:text-xl text-base bg-red-100 p-4 rounded-lg shadow-md">
                                                 <p className="text-red-700">{error}</p>
                                             </div>
                                         )}
@@ -917,8 +917,8 @@ function FinalTest() {
                                         {/* Game Over Messages */}
                                         {culpritFound && (
                                             <div className="my-6 bg-green-100 p-6 rounded-lg shadow-md">
-                                                <h2 className="text-2xl font-bold text-green-700 mb-4">Case Solved!</h2>
-                                                <p className="text-green-700">You have
+                                                <h2 className="lg15.6:text-3xl text-2xl font-bold text-green-700 mb-4">Case Solved!</h2>
+                                                <p className="text-green-700 lg15.6:text-xl text-base">You have
                                                     identified <strong>Alice</strong> as the
                                                     culprit.</p>
                                             </div>
@@ -926,8 +926,8 @@ function FinalTest() {
 
                                         {gameOver && !culpritFound && (
                                             <div className="my-6 bg-red-100 p-6 rounded-lg shadow-md">
-                                                <h2 className="text-2xl font-bold text-red-700 mb-4">Game Over!</h2>
-                                                <p className="text-red-700">You have exhausted all attempts. The culprit
+                                                <h2 className="lg15.6:text-3xl text-2xl font-bold text-red-700 mb-4">Game Over!</h2>
+                                                <p className="lg15.6:text-xl text-base text-red-700">You have exhausted all attempts. The culprit
                                                     was <strong>Alice</strong>.
                                                 </p>
                                             </div>
