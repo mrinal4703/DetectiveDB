@@ -13,6 +13,13 @@ import FinalTest from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robber
 import QueryLanguageTest1 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/QueryLanguageTest1";
 import JoinsNestedTutorial from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/JoinsNestedTutorial";
 import QueryLanguageTest2 from "./Modules/BasicsNormalisationAndQuery/TutorialGame_Robbery/Pages/QueryLanguageTest2";
+import VandalismNormalisation
+    from "./Modules/BasicsNormalisationAndQuery/Game2_CarVandalism/Pages/VandalismNormalisation";
+import VandalismSQL from "./Modules/BasicsNormalisationAndQuery/Game2_CarVandalism/Pages/VandalismSQL";
+import KidnapNormalisation from "./Modules/BasicsNormalisationAndQuery/Game3_Kidnap/Pages/KidnapNormalisation";
+import KidnapSQL from "./Modules/BasicsNormalisationAndQuery/Game3_Kidnap/Pages/KidnapSQL";
+import MurderNormalisation from "./Modules/BasicsNormalisationAndQuery/Game1_Murder/Pages/MurderNormalisation";
+import MurderSQL from "./Modules/BasicsNormalisationAndQuery/Game1_Murder/Pages/MurderSQL";
 
 function App() {
 
@@ -56,7 +63,7 @@ function App() {
                                element={<NormalisationTest/>}/>
                         <Route exact path="/TutorialModule2"
                                element={<TutorialModule2/>}/>
-                        <Route exact path="/TutorialSQLPractice"
+                            <Route exact path="/TutorialSQLPractice"
                                element={<QueryLanguageTest1/>}/>
                         <Route exact path="/JoinsTutorial"
                                element={<JoinsNestedTutorial/>}/>
@@ -64,6 +71,18 @@ function App() {
                                element={<QueryLanguageTest2/>}/>
                         <Route exact path="/TutorialFinalSQLPractice"
                                element={<FinalTest/>}/>
+                        <Route exact path="/KidnapNormalisation"
+                               element={<KidnapNormalisation/>}/>
+                        <Route exact path="/KidnapSQL"
+                               element={<KidnapSQL/>}/>
+                        <Route exact path="/VandalismNormalisation"
+                               element={<VandalismNormalisation/>}/>
+                        <Route exact path="/VandalismSQL"
+                               element={<VandalismSQL/>}/>
+                        <Route exact path="/MurderNormalisation"
+                               element={<MurderNormalisation/>}/>
+                        <Route exact path="/MurderSQL"
+                               element={<MurderSQL/>}/>
                     </Routes>
                 </Router>
             </div>

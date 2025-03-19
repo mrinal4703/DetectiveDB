@@ -144,4 +144,40 @@ public class GamerController {
         return ResponseEntity.ok(Collections.singletonMap("basicTutorial", user.getBasicTutorial()));
     }
 
+    @GetMapping("/getBasicGame1")
+    public ResponseEntity<?> getBasicGame1(@RequestParam String email) {
+        GamerEntity user = gamerRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Return the basic_tutorial value
+        return ResponseEntity.ok(Collections.singletonMap("basicGame1", user.getBasicGame1()));
+    }
+
+    @GetMapping("/getBasicGame2")
+    public ResponseEntity<?> getBasicGame2(@RequestParam String email) {
+        GamerEntity user = gamerRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Return the basic_tutorial value
+        return ResponseEntity.ok(Collections.singletonMap("basicGame2", user.getBasicGame2()));
+    }
+
+    @GetMapping("/getBasicGame3")
+    public ResponseEntity<?> getBasicGame3(@RequestParam String email) {
+        GamerEntity user = gamerRepository.findByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Return the basic_tutorial value
+        return ResponseEntity.ok(Collections.singletonMap("basicGame3", user.getBasicGame3()));
+    }
+
 }

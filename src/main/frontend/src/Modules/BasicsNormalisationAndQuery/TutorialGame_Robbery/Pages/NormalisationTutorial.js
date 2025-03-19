@@ -1817,7 +1817,7 @@ const NormalisationTutorial = () => {
                     <div className="w-screen overflow-x-hidden overflow-y-auto min-h-screen bg-[#a2e1e1] relative">
                         <NavBarInGame pageName={"NormalisationTutorial"}/>
                         <div className={'w-screen bg-[#2f3749] py-0.5'}>
-                            <h1 className="text-left text-white font-semibold lg15.6:py-2 py-0 lg15.6:text-5xl text-4xl mb-3">Normalisation,
+                            <h1 className="text-left text-white font-semibold lg15.6:py-3 py-0 text-4xl mb-3">Normalisation,
                                 Identification
                                 &
                                 Decomposition</h1>

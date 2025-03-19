@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import NavBar from "./NavBar";
-import {murder1, murder2, robbery} from "../Resources/Images/Crimes";
-import {loadinglogo, star3, tutorial} from "../Resources/Images/Others";
+import {carvandalism, kidnap, murder1, murder2, robbery} from "../Resources/Images/Crimes";
+import {loadinglogo, star2, star3, tutorial} from "../Resources/Images/Others";
 import {motion} from "framer-motion";
 import {DetailsofCases, ProgressStars, updateBasicGame} from "../Constants/Texts";
 import {TbPoint, TbPointFilled} from "react-icons/tb";
@@ -63,9 +63,14 @@ const LandingPage = () => {
     const [selectedType, setSelectedType] = useState("");
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [basicsTutorial, setBasicsTutorial] = useState("Tutorial");
-    const [basicsMurder, setBasicsMurder] = useState("");
-    const [basicsFeud, setBasicsFeud] = useState("");
+    const [basicsKidnap, setBasicsKidnap] = useState("KidnapNormalisation");
+    const [basicsVandalism, setBasicsVandalism] = useState("VandalismNormalisation");
+    const [basicsMurder, setBasicsMurder] = useState("MurderNormalisation");
+
     const [basicTutorial, setBasicTutorial] = useState(null);
+    const [basicKidnap, setBasicKidnap] = useState(null);
+    const [basicVandalism, setBasicVandalism] = useState(null);
+    const [basicMurder, setBasicMurder] = useState(null);
 
     const [lastSavedPage, setLastSavedPage] = useState("");
 
@@ -88,6 +93,19 @@ const LandingPage = () => {
             || lastSavedPage === "TutorialJoinsPractice" || lastSavedPage === "TutorialFinalSQLPractice") {
                 setBasicsTutorial(lastSavedPage);
             }
+
+            else if (lastSavedPage === "KidnapNormalisation" || lastSavedPage === "KidnapSQL"){
+                setBasicsKidnap(lastSavedPage);
+            }
+
+            else if (lastSavedPage === "VandalismNormalisation" || lastSavedPage === "VandalismSQL"){
+                setBasicsVandalism(lastSavedPage);
+            }
+
+            else if (lastSavedPage === "MurderNormalisation" || lastSavedPage === "MurderSQL"){
+                setBasicsMurder(lastSavedPage);
+            }
+
         } catch (error) {
             console.error("Error fetching last saved progress:", error);
         }
@@ -185,10 +203,32 @@ const LandingPage = () => {
                     params: { email: email } // Pass email as a query parameter
                 });
 
-                if (response.status === 200) {
+                const response1 = await axios.get(`http://${username}/getBasicGame1`, {
+                    params: { email: email } // Pass email as a query parameter
+                });
+
+                const response2 = await axios.get(`http://${username}/getBasicGame2`, {
+                    params: { email: email } // Pass email as a query parameter
+                });
+
+                const response3 = await axios.get(`http://${username}/getBasicGame3`, {
+                    params: { email: email } // Pass email as a query parameter
+                });
+
+                if (response.status === 200 && response1.status === 200 && response2.status === 200 && response3.status === 200) {
                     const basicTutorialValue = response.data.basicTutorial;
-                    console.log("Fetched basic_tutorial:", basicTutorialValue); // Log the value
+                    const basicMurderValue = response1.data.basicGame1;
+                    const basicVandalismValue = response2.data.basicGame2;
+                    const basicKidnapValue = response3.data.basicGame3;
+                    console.log("Fetched basic_tutorial:", basicTutorialValue);
+                    console.log("Fetched basic_game1:", basicMurderValue);
+                    console.log("Fetched basic_game2:", basicVandalismValue);
+                    console.log("Fetched basic_game3:", basicKidnapValue);
+                    console.log(response1.data);
                     setBasicTutorial(basicTutorialValue);
+                    setBasicMurder(basicMurderValue);
+                    setBasicVandalism(basicVandalismValue);
+                    setBasicKidnap(basicKidnapValue);
                 }
             } catch (error) {
                 console.error("Error fetching basic tutorial status:", error);
@@ -198,6 +238,22 @@ const LandingPage = () => {
 
         fetchBasicTutorial();
     }, [email]);
+
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+        if (email) {
+            axios.get(`http://${username}/progress/${email}`)
+                .then(response => {
+                    setProgress(response.data); // Store progress directly
+                })
+                .catch(error => {
+                    console.error("Error fetching progress:", error);
+                });
+        }
+    }, []);
 
     const handleSaveProgress = async () => {
         playClickSound();
@@ -295,6 +351,7 @@ const LandingPage = () => {
                                 </div>
                                 <div
                                     className={'grid grid-cols-4 grid-flow-col items-center justify-center align-middle gap-2'}>
+
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
@@ -355,55 +412,241 @@ const LandingPage = () => {
                                             )}
                                         </div>
                                     </div>
+
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                                <Link to={''}>
-                                                    <div
-                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
-                                                        style={{backgroundImage: `url(${murder1})`}}
-                                                    >
+                                                progress >= 3 && basicMurder === null ? (
+                                                    <Link to={`/${basicsMurder}`}>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
+                                                            style={{backgroundImage: `url(${murder1})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <h1 className="lg15.6:text-2xl text-lg text-black text-start">Murder</h1>
+                                                    </Link>
+                                                ) : (
+                                                    <div>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
+                                                            style={{backgroundImage: `url(${murder1})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
+                                                            <h1 className="lg15.6:text-2xl text-lg text-black text-start">Murder</h1>
+                                                            <h1
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                            >
+                                                                {progress < 5 ? "Complete Previous Game" : "Game Completed"}
+                                                            </h1>
+                                                        </div>
                                                     </div>
-                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>
-                                                </Link>
+                                                )
                                             ) : (
+                                                // If user is not logged in, show the login modal trigger
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
                                                         className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder1})`}}
                                                     >
+                                                    {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
                                                     </div>
-                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>
+                                                    <h1 className="lg15.6:text-2xl text-lg text-black text-start">Murder</h1>
                                                 </button>
                                             )}
                                         </div>
                                     </div>
+
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                                <Link to={''}>
-                                                    <div
-                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
-                                                        style={{backgroundImage: `url(${murder2})`}}
-                                                    >
+                                                progress >= 5 && basicVandalism === null ? (
+                                                    <Link to={`/${basicsVandalism}`}>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
+                                                            style={{backgroundImage: `url(${carvandalism})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <h1 className="lg15.6:text-2xl text-lg text-black text-start">Car
+                                                            Vandalism</h1>
+                                                    </Link>
+                                                ) : (
+                                                    <div>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
+                                                            style={{backgroundImage: `url(${carvandalism})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
+                                                            <h1 className="lg15.6:text-2xl text-lg text-black text-start">Car
+                                                                Vandalism</h1>
+                                                            <h1
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                            >
+                                                                {progress < 7 ? "Complete Previous Game" : "Game Completed"}
+                                                            </h1>
+                                                        </div>
                                                     </div>
-                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>
-                                                </Link>
+                                                )
                                             ) : (
+                                                // If user is not logged in, show the login modal trigger
                                                 <button onClick={() => setShowLoginModal(true)}>
                                                     <div
                                                         className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
-                                                        style={{backgroundImage: `url(${murder2})`}}
+                                                        style={{backgroundImage: `url(${carvandalism})`}}
                                                     >
+                                                        {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
                                                     </div>
-                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>
+                                                    <h1 className="lg15.6:text-2xl text-lg text-black text-start">Car
+                                                        Vandalism</h1>
                                                 </button>
                                             )}
                                         </div>
                                     </div>
+
+                                    <div className={'m-6'}>
+                                        <div onClick={handleLinkClick}>
+                                            {isLoggedIn || isLoggedIn_session ? (
+                                                progress >= 7 && basicKidnap === null ? (
+                                                    <Link to={`/${basicsKidnap}`}>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
+                                                            style={{backgroundImage: `url(${kidnap})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <h1 className="lg15.6:text-2xl text-lg text-black text-start">Kidnap</h1>
+                                                    </Link>
+                                                ) : (
+                                                    <div>
+                                                        <div
+                                                            className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
+                                                            style={{backgroundImage: `url(${kidnap})`}}
+                                                        >
+                                                            {/*<div className="absolute top-0 transform">*/}
+                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
+                                                            {/*         className="max-w-full max-h-full"/>*/}
+                                                            {/*</div>*/}
+                                                            <div className="absolute -bottom-1 transform">
+                                                                <img src={star2} alt="Star"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
+                                                        </div>
+                                                        <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
+                                                            <h1 className="lg15.6:text-2xl text-lg text-black text-start">Kidnap</h1>
+                                                            <h1
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                            >
+                                                                {progress < 9 ? "Complete Previous Game" : "Game Completed"}
+                                                            </h1>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            ) : (
+                                                // If user is not logged in, show the login modal trigger
+                                                <button onClick={() => setShowLoginModal(true)}>
+                                                    <div
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        style={{backgroundImage: `url(${kidnap})`}}
+                                                    >
+                                                        {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
+                                                    </div>
+                                                    <h1 className="lg15.6:text-2xl text-lg text-black text-start">Kidnap</h1>
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/*<div className={'m-6'}>*/}
+                                    {/*    <div onClick={handleLinkClick}>*/}
+                                    {/*        {isLoggedIn || isLoggedIn_session ? (*/}
+                                    {/*            <Link to={''}>*/}
+                                    {/*                <div*/}
+                                    {/*                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"*/}
+                                    {/*                    style={{backgroundImage: `url(${murder1})`}}*/}
+                                    {/*                >*/}
+                                    {/*                </div>*/}
+                                    {/*                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>*/}
+                                    {/*            </Link>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <button onClick={() => setShowLoginModal(true)}>*/}
+                                    {/*                <div*/}
+                                    {/*                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"*/}
+                                    {/*                    style={{backgroundImage: `url(${murder1})`}}*/}
+                                    {/*                >*/}
+                                    {/*                </div>*/}
+                                    {/*                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Murder</h1>*/}
+                                    {/*            </button>*/}
+                                    {/*        )}*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
+
+                                    {/*<div className={'m-6'}>*/}
+                                    {/*    <div onClick={handleLinkClick}>*/}
+                                    {/*        {isLoggedIn || isLoggedIn_session ? (*/}
+                                    {/*            <Link to={''}>*/}
+                                    {/*                <div*/}
+                                    {/*                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"*/}
+                                    {/*                    style={{backgroundImage: `url(${murder2})`}}*/}
+                                    {/*                >*/}
+                                    {/*                </div>*/}
+                                    {/*                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>*/}
+                                    {/*            </Link>*/}
+                                    {/*        ) : (*/}
+                                    {/*            <button onClick={() => setShowLoginModal(true)}>*/}
+                                    {/*                <div*/}
+                                    {/*                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"*/}
+                                    {/*                    style={{backgroundImage: `url(${murder2})`}}*/}
+                                    {/*                >*/}
+                                    {/*                </div>*/}
+                                    {/*                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Feud</h1>*/}
+                                    {/*            </button>*/}
+                                    {/*        )}*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                 </div>
                                 <hr className={'my-4 h-[1px] w-5/6 mx-auto rounded-lg bg-[#38586d]'}/>
-                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department of File
+                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department
+                                    of File
                                     Organisation and Indexing</h1>
                                 <div
                                     className={'grid grid-cols-4 grid-flow-col items-center justify-center align-middle gap-2'}>
@@ -442,31 +685,32 @@ const LandingPage = () => {
                                                     >
                                                     </div>
                                                     <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
-                                            </Link>
+                                                </Link>
                                             ) : (
-                                            <button onClick={() => setShowLoginModal(true)}>
-                                                <div
-                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
-                                                    style={{backgroundImage: `url(${robbery})`}}
-                                                >
-                                                </div>
-                                                <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
-                                            </button>
+                                                <button onClick={() => setShowLoginModal(true)}>
+                                                    <div
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        style={{backgroundImage: `url(${robbery})`}}
+                                                    >
+                                                    </div>
+                                                    <h1 className={'lg15.6:text-2xl text-lg text-black text-start'}>Robbery</h1>
+                                                </button>
                                             )}
                                         </div>
                                     </div>
                                 </div>
                                 <hr className={'my-4 h-[1px] w-5/6 mx-auto rounded-lg bg-[#38586d]'}/>
-                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department of
+                                <h1 className={'text-start justify-start lg15.6:text-4xl text-3xl font-semibold'}>Department
+                                    of
                                     Relational Algebra</h1>
                                 <div
                                     className={'grid grid-cols-4 grid-flow-col items-center justify-center align-middle gap-2'}>
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                            <Link to={''}>
+                                                <Link to={''}>
                                                 <div
-                                                    className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
+                                                        className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                     style={{backgroundImage: `url(${robbery})`}}
                                                 >
                                                     <img src={tutorial} className={'-mt-1'} alt={'Image'}/>

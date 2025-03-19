@@ -12,9 +12,10 @@ public class GamerEntity {
     public GamerEntity() {
     }
 
-    public GamerEntity(Boolean basicGame1, Boolean basicGame2, Boolean basicTutorial, String email, Integer id, String password, Float progress, String lastsaved) {
+    public GamerEntity(Boolean basicGame1, Boolean basicGame2, Boolean basicGame3, Boolean basicTutorial, String email, Integer id, String password, Float progress, String lastsaved) {
         this.basicGame1 = basicGame1;
         this.basicGame2 = basicGame2;
+        this.basicGame3 = basicGame3;
         this.basicTutorial = basicTutorial;
         this.email = email;
         this.id = id;
@@ -29,6 +30,7 @@ public class GamerEntity {
     private String password;
     private Boolean basicTutorial;
     private Boolean basicGame2;
+    private Boolean basicGame3;
     private Boolean basicGame1;
     private Float progress;
     private String lastsaved;
@@ -55,6 +57,14 @@ public class GamerEntity {
 
     public void setBasicGame2(Boolean basicGame2) {
         this.basicGame2 = basicGame2;
+    }
+
+    public Boolean getBasicGame3() {
+        return basicGame3;
+    }
+
+    public void setBasicGame3(Boolean basicGame3) {
+        this.basicGame3 = basicGame3;
     }
 
     public Boolean getBasicTutorial() {

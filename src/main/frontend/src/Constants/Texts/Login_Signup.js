@@ -15,9 +15,10 @@ const Login_Signup = ({ closeModal }) => {
         try {
             let basic_game1=0;
             let basic_game2=0;
+            let basic_game3=0;
             let basic_tutorial=0;
             let progress =0;
-                await axios.post(`http://${username}/newgamer`, { email, password, basic_game1, basic_game2, basic_tutorial, progress});
+                await axios.post(`http://${username}/newgamer`, { email, password, basic_game1, basic_game2, basic_game3, basic_tutorial, progress});
             setEmail("");
             setPassword("");
             alert("Account created successfully! Please log in.");

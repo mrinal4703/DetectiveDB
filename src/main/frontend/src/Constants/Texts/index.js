@@ -133,7 +133,9 @@ export const AppText = {
     WelcometoFinale: 'Welcome to the Finale Detective, Congratulations. This will be a testament for your complete knowledge of all SQL query statements knowledge.',
     WhatFinale: 'You are given with the relations, you normalised earlier. Now, you can see what names have been given to the tables for those attributes. Use these tables, to fetch evidences and find the culprit.',
     HowFinale: 'You could see two buttons beside the query area, where the first one when clicked shows the hint for evidences, and the second button is designed in a way to keep a check if the evidences have been found by you, through query statements.',
-    FinalFinale: 'Finally, when all evidences have been found, you will be prompted to write a nested query, that should combine all the evidence query statements, which will then open a window to enter the culprit\'s name. Good Luck, Detective.'
+    FinalFinale: 'Finally, when all evidences have been found, you will be prompted to write a nested query, that should combine all the evidence query statements, which will then open a window to enter the culprit\'s name. Good Luck, Detective.',
+    MurderCommited: 'An unforgiving crime has been committed Detective. The victim was a girl, named Alice. Normalise the relation first to get the tables, which will be helpful to run query statements on.',
+
 }
 
 export const DetailsofCases = [
@@ -544,6 +546,60 @@ export const NormalFormTest = {
     ]
 };
 
+export const NormalFormTestMurder = {
+    RelationName: 'R(Murder_Case)',
+    Relation: 'R(Location, Time, Weapon, Cause_of_Death, Suspect_Name, Alibi, Witness_Statement, Camera_Footage)',
+    fdSet: '{Location, Time} -> {Weapon}, {Weapon} -> {Cause_of_Death}, {Time} -> {Suspect_Name}, {Suspect_Name} -> {Alibi}, {Location} -> {Witness_Statement, Camera_Footage}',
+    Nf2Rel: [
+        'Location, Time, Weapon, Cause_of_Death',
+        'Time, Suspect_Name, Alibi',
+        'Location, Witness_Statement, Camera_Footage'
+    ],
+    Nf3Rel: [
+        'Location, Time, Weapon',
+        'Weapon, Cause_of_Death',
+        'Time, Suspect_Name',
+        'Suspect_Name, Alibi',
+        'Location, Witness_Statement, Camera_Footage'
+    ]
+};
+
+export const NormalFormTestCarVandalism = {
+    RelationName: 'R(Car_Vandalism)',
+    Relation: 'R(Parking_Lot, Time, Damaged_Part, Damage_Type, Car_Owner, Car_Model, Suspect_Name, Motive)',
+    fdSet: '{Parking_Lot, Time} -> {Damaged_Part}, {Damaged_Part} -> {Damage_Type}, {Time} -> {Suspect_Name}, {Suspect_Name} -> {Motive}, {Parking_Lot} -> {Car_Owner, Car_Model}',
+    Nf2Rel: [
+        'Parking_Lot, Time, Damaged_Part, Damage_Type',
+        'Time, Suspect_Name, Motive',
+        'Parking_Lot, Car_Owner, Car_Model'
+    ],
+    Nf3Rel: [
+        'Parking_Lot, Time, Damaged_Part',
+        'Damaged_Part, Damage_Type',
+        'Time, Suspect_Name',
+        'Suspect_Name, Motive',
+        'Parking_Lot, Car_Owner, Car_Model'
+    ]
+};
+
+export const NormalFormTestKidnap = {
+    RelationName: 'R(Kidnap)',
+    Relation: 'R(Last_Location, Time, Witness_Statement, Vehicle_Spotted, License_Plate, Suspect_Name, Known_Associate, Criminal_Record, Vehicle_Owner, Vehicle_Type)',
+    fdSet: '{Last_Location, Time} -> {Witness_Statement}, {Last_Location} -> {Vehicle_Spotted, License_Plate}, {Time} -> {Suspect_Name}, {Suspect_Name} -> {Known_Associate, Criminal_Record}, {Vehicle_Spotted} -> {Vehicle_Owner, Vehicle_Type}',
+    Nf2Rel: [
+        'Last_Location, Time, Witness_Statement',
+        'Last_Location, Vehicle_Spotted, License_Plate, Vehicle_Owner, Vehicle_Type',
+        'Time, Suspect_Name, Known_Associate, Criminal_Record'
+    ],
+    Nf3Rel: [
+        'Last_Location, Time, Witness_Statement',
+        'Last_Location, Vehicle_Spotted, License_Plate',
+        'Vehicle_Spotted, Vehicle_Owner, Vehicle_Type',
+        'Time, Suspect_Name',
+        'Suspect_Name, Known_Associate, Criminal_Record'
+    ]
+};
+
 export const useVoiceSynthesis1 = (type, value, show) => {
     const [voices, setVoices] = useState([]);
 
@@ -857,7 +913,7 @@ export const ProgressStars = () => {
 
     const fullStars = Math.floor(progress); // Fully filled stars
     const decimalPart = progress - fullStars; // Decimal part for partial fill
-    const stars = Array(7).fill(0); // 7 stars
+    const stars = Array(9).fill(0); // 7 stars
 
     return (
         <div className="mx-4 flex gap-1">
@@ -1369,4 +1425,396 @@ export const updateBasicGame = async (value) => {
         console.error("Error updating basic tutorial:", error);
         alert("Failed to update basic tutorial");
     }
+};
+
+export const IncidentInfoTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">parking_lot</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">time</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">damaged_part</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const DamageTypeTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">damaged_part</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">damage_type</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const SuspectsTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">time</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const MotiveInfoTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">motive</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const CarInfoTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">parking_lot</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">car_owner</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">car_model</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const CrimeSceneTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">location</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">time</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">weapon</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const WeaponAnalysisTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">weapon</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">cause_of_death</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const SuspectTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">time</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const SuspectAlibiTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">alibi</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const WitnessReportsTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/3">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">last_location</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">time</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">witness_statement</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const VehicleSightingsTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/3">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">last_location</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">vehicle_spotted</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">license_plate</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const VehicleDetailsTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/3">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">vehicle_spotted</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">vehicle_owner</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">vehicle_type</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const Suspecttable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/3">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">time</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
+export const CriminalHistoryTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/3">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">suspect_name</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">known_associate</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/3">criminal_record</td>
+                    <td className="border border-black px-4 py-2 w-1/3">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
 };
