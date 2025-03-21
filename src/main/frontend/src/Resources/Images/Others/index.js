@@ -45,6 +45,12 @@ import hintlens from './HintLens.png'
 import progresspic from './Progress.png'
 import finalsqltestpic from './FinalSQLTestPic.png'
 import yay from './Yay.gif'
+import normalisationmurderpic from './NormalisationMurderPic.png'
+import sqlmurderpic from './SQLMurderPic.png'
+import normalisationvandalismpic from './NormalisationVandalismPic.png'
+import sqlvandalismpic from './SQLVandalismPic.png'
+import normalisationkidnap from './NormalisationKidnapPic.png'
+import sqlkidnappic from './SQLKidnapPic.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
@@ -53,5 +59,6 @@ export {
     maxminsql, countsql, star2, star3, sqltest1pic, joinsqlpractice, innerjoinexample,
     joinsgif, fullouterexample, leftjoinexample, rightjoinexample, inexample, allexample,
     dependentnestedexample, anyexample, existsexample, notinexample, notexistsexample,
-    independentnestedexample, sqltest2pic, hintlens, progresspic, finalsqltestpic, yay
+    independentnestedexample, sqltest2pic, hintlens, progresspic, finalsqltestpic, yay, sqlkidnappic, sqlmurderpic,
+    normalisationkidnap, sqlvandalismpic, normalisationmurderpic, normalisationvandalismpic
 }

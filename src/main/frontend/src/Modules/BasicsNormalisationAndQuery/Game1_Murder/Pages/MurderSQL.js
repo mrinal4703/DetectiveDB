@@ -12,7 +12,7 @@ import {
     updateProgress, WeaponAnalysisTable,
 } from "../../../../Constants/Texts";
 import {Link, useNavigate} from "react-router-dom";
-import {finalsqltestpic, hintlens, progresspic, yay} from "../../../../Resources/Images/Others";
+import {finalsqltestpic, hintlens, progresspic, sqlmurderpic, yay} from "../../../../Resources/Images/Others";
 import NavBarInGame from "../../TutorialGame_Robbery/NavBarInGame";
 import {IoClose} from "react-icons/io5";
 
@@ -535,12 +535,11 @@ const MurderSql = () => {
                         </div>
                         <div className={'flex my-auto items-end justify-center align-middle'}>
                             <img
-                                src={finalsqltestpic}
+                                src={sqlmurderpic}
                                 alt="Detective"
                                 className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
                             />
-                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Final Case Solving
-                                Using SQL</h1>
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>SQL Querying</h1>
                         </div>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
                             <button

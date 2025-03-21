@@ -6,7 +6,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {AppText, NormalFormTestKidnap, updateProgress} from "../../../../Constants/Texts";
 import axios from "axios";
 import {username} from "../../../../Constants/Texts/constants";
-import {normalisationtestpic} from "../../../../Resources/Images/Others";
+import {normalisationkidnap, normalisationtestpic} from "../../../../Resources/Images/Others";
 import NavBarInGame from "../../TutorialGame_Robbery/NavBarInGame";
 
 const HelperAtFirstFinally = ({show, onClose, value}) => {
@@ -464,12 +464,11 @@ const KidnapNormalisation = () => {
                         </div>
                         <div className={'flex my-auto items-end justify-center align-middle'}>
                             <img
-                                src={normalisationtestpic}
+                                src={normalisationkidnap}
                                 alt="Detective"
                                 className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
                             />
-                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Normalisation
-                                Test/Practice</h1>
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Normalisation</h1>
                         </div>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
                             <button

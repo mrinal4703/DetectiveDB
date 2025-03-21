@@ -4,7 +4,7 @@ import {clicksound} from "../../../../Resources/Sounds";
 import {motion} from "framer-motion";
 import {IoClose} from "react-icons/io5";
 import {Link, useNavigate} from "react-router-dom";
-import {finalsqltestpic, hintlens, progresspic, yay} from "../../../../Resources/Images/Others";
+import {finalsqltestpic, hintlens, progresspic, sqlvandalismpic, yay} from "../../../../Resources/Images/Others";
 import axios from "axios";
 import {email, email_session, username} from "../../../../Constants/Texts/constants";
 import {
@@ -559,12 +559,11 @@ const VandalismSql = () => {
                         </div>
                         <div className={'flex my-auto items-end justify-center align-middle'}>
                             <img
-                                src={finalsqltestpic}
+                                src={sqlvandalismpic}
                                 alt="Detective"
                                 className="flex h-[600px] w-[600px]  my-auto rounded-3xl shadow-2xl"
                             />
-                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>Final Case Solving
-                                Using SQL</h1>
+                            <h1 className={'absolute opacity-90 top-8 w-[426.5px] h-[80px] text-4xl text-center items-center align-middle justify-center flex bg-white text-[#343237]'}>SQL Querying</h1>
                         </div>
                         <div className={'flex p-2 py-64 items-end justify-center align-middle '}>
                             <button
