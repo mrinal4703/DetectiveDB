@@ -132,6 +132,54 @@ public class GamerController {
         return ResponseEntity.ok("Basic tutorial updated successfully to: true");
     }
 
+    @PutMapping("/updateBasicGame1")
+    public ResponseEntity<?> updateBasicGame1(@RequestBody GamerEntity updatedGamer) {
+        // Find the user by email
+        GamerEntity user = gamerRepository.findByEmail(updatedGamer.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Update the basic_tutorial field to true (1 in MySQL)
+        user.setBasicGame1(updatedGamer.getBasicGame1()); // Set to true (1 in MySQL)
+        gamerRepository.save(user);
+
+        return ResponseEntity.ok("Basic tutorial updated successfully to: true");
+    }
+
+    @PutMapping("/updateBasicGame2")
+    public ResponseEntity<?> updateBasicGame2(@RequestBody GamerEntity updatedGamer) {
+        // Find the user by email
+        GamerEntity user = gamerRepository.findByEmail(updatedGamer.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Update the basic_tutorial field to true (1 in MySQL)
+        user.setBasicGame2(updatedGamer.getBasicGame2()); // Set to true (1 in MySQL)
+        gamerRepository.save(user);
+
+        return ResponseEntity.ok("Basic tutorial updated successfully to: true");
+    }
+
+    @PutMapping("/updateBasicGame3")
+    public ResponseEntity<?> updateBasicGame3(@RequestBody GamerEntity updatedGamer) {
+        // Find the user by email
+        GamerEntity user = gamerRepository.findByEmail(updatedGamer.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+
+        // Update the basic_tutorial field to true (1 in MySQL)
+        user.setBasicGame3(updatedGamer.getBasicGame3()); // Set to true (1 in MySQL)
+        gamerRepository.save(user);
+
+        return ResponseEntity.ok("Basic tutorial updated successfully to: true");
+    }
+
     @GetMapping("/getBasicTutorial")
     public ResponseEntity<?> getBasicTutorial(@RequestParam String email) {
         GamerEntity user = gamerRepository.findByEmail(email);

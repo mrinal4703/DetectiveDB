@@ -135,7 +135,14 @@ export const AppText = {
     HowFinale: 'You could see two buttons beside the query area, where the first one when clicked shows the hint for evidences, and the second button is designed in a way to keep a check if the evidences have been found by you, through query statements.',
     FinalFinale: 'Finally, when all evidences have been found, you will be prompted to write a nested query, that should combine all the evidence query statements, which will then open a window to enter the culprit\'s name. Good Luck, Detective.',
     MurderCommited: 'An unforgiving crime has been committed Detective. The victim was a girl, named Alice. Normalise the relation first to get the tables, which will be helpful to run query statements on.',
-
+    CorrectMurderNorm: 'Nice Job Detective. Let not culprit go away, let\'s catch them, before they get away, perform querying on the tables you decomposed now.',
+    SQLMurder: 'Welcome back detective, run query statements, and search for the culprit. Our team has found some bits of evidence, you may look up to them, and try finding something related.',
+    VandaliseCommited: 'A vehicle was vandalised, Detective. The victim was a girl, named Alice. Normalise the relation first to get the tables, which will be helpful to run query statements on.',
+    CorrectVandalismNorm: 'Nice Job Detective. Let not culprit go away, let\'s catch them, before they get away, perform querying on the tables you decomposed now.',
+    SQLVandalism: 'Welcome back detective, run query statements, and search for the culprit. Our team has found some bits of evidence, you may look up to them, and try finding something related.',
+    KidnapCommited: 'A person was illegally abducted, Detective. The victim was a girl, named Alice. Normalise the relation first to get the tables, which will be helpful to run query statements on.',
+    CorrectKidnapNorm: 'Nice Job Detective. Let not culprit go away, let\'s catch them, before they get away, perform querying on the tables you decomposed now.',
+    SQLKidnap: 'Welcome back detective, run query statements, and search for the culprit. Our team has found some bits of evidence, you may look up to them, and try finding something related.',
 }
 
 export const DetailsofCases = [
@@ -1427,11 +1434,80 @@ export const updateBasicGame = async (value) => {
     }
 };
 
+export const updateBasicGame1 = async (value) => {
+    const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+    if (!email) {
+        alert("User not logged in!");
+        return;
+    }
+
+    try {
+        const response = await axios.put(`http://${username}/updateBasicGame1`, {
+            email: email,
+            basic_game1: value
+        });
+
+        if (response.status === 200) {
+
+        }
+    } catch (error) {
+        console.error("Error updating basic tutorial:", error);
+        alert("Failed to update basic tutorial");
+    }
+};
+
+export const updateBasicGame2 = async (value) => {
+    const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+    if (!email) {
+        alert("User not logged in!");
+        return;
+    }
+
+    try {
+        const response = await axios.put(`http://${username}/updateBasicGame2`, {
+            email: email,
+            basic_game2: value
+        });
+
+        if (response.status === 200) {
+
+        }
+    } catch (error) {
+        console.error("Error updating basic tutorial:", error);
+        alert("Failed to update basic tutorial");
+    }
+};
+
+export const updateBasicGame3 = async (value) => {
+    const email = localStorage.getItem("loggedinuseremail") || sessionStorage.getItem("loggedinuseremail");
+
+    if (!email) {
+        alert("User not logged in!");
+        return;
+    }
+
+    try {
+        const response = await axios.put(`http://${username}/updateBasicGame3`, {
+            email: email,
+            basic_game3: value
+        });
+
+        if (response.status === 200) {
+
+        }
+    } catch (error) {
+        console.error("Error updating basic tutorial:", error);
+        alert("Failed to update basic tutorial");
+    }
+};
+
 export const IncidentInfoTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1461,7 +1537,7 @@ export const DamageTypeTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1487,7 +1563,7 @@ export const SuspectsTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1513,7 +1589,7 @@ export const MotiveInfoTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1539,7 +1615,7 @@ export const CarInfoTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1569,7 +1645,7 @@ export const CrimeSceneTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1599,7 +1675,7 @@ export const WeaponAnalysisTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1625,7 +1701,7 @@ export const SuspectTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1651,7 +1727,7 @@ export const SuspectAlibiTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
@@ -1673,11 +1749,41 @@ export const SuspectAlibiTable = () => {
     );
 };
 
+export const EvidenceTable = () => {
+    return (
+        <div className={'items-center text-center justify-center'}>
+            <table
+                className=" my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
+                <thead className="bg-gray-100">
+                <tr>
+                    <th className="border border-black px-4 py-2 w-1/2">Attributes</th>
+                    <th className="border border-black px-4 py-2 w-1/2">Data Type</th>
+                </tr>
+                </thead>
+                <tbody className={'border-black'}>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">location</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">witness_statement</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                <tr>
+                    <td className="border border-black px-4 py-2 w-1/2">camera_footage</td>
+                    <td className="border border-black px-4 py-2 w-1/2">string</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+};
+
 export const WitnessReportsTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
@@ -1707,7 +1813,7 @@ export const VehicleSightingsTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
@@ -1737,7 +1843,7 @@ export const VehicleDetailsTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
@@ -1767,7 +1873,7 @@ export const Suspecttable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/3">Attributes</th>
@@ -1793,7 +1899,7 @@ export const CriminalHistoryTable = () => {
     return (
         <div className={'items-center text-center justify-center'}>
             <table
-                className="my-3 items-center text-center text-base justify-center border-collapse rounded-3xl border-2 border-black w-full table-fixed">
+                className="my-3 items-center lg15.6:text-xl text-base text-center justify-center border-collapse rounded-3xl border-2 border-black w-full table-auto">
                 <thead className="bg-gray-100">
                 <tr>
                     <th className="border border-black px-4 py-2 w-1/3">Attributes</th>

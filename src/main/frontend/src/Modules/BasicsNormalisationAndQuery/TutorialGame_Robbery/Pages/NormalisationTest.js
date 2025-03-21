@@ -436,9 +436,6 @@ const NormalisationTest = () => {
     const handleNf2Submit = () => {
         playClickSound();
         if (validateInputs(nf2Inputs, NormalFormTest.Nf2Rel)) {
-            if (progress < 3) {
-                updateProgress(1.5);
-            }
             setNf2Correct(true);
         } else {
             setShowWrongModal(true);
@@ -448,6 +445,9 @@ const NormalisationTest = () => {
     const handleNf3Submit = () => {
         playClickSound();
         if (validateInputs(nf3Inputs, NormalFormTest.Nf3Rel)) {
+            if (progress < 3) {
+                updateProgress(1.5);
+            }
             setShowCorrectModal(true);
         } else {
             setShowWrongModal(true);

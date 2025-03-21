@@ -451,7 +451,7 @@ const LandingPage = () => {
                                                         <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
                                                             <h1 className="lg15.6:text-2xl text-lg text-black text-start">Murder</h1>
                                                             <h1
-                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
                                                                 {progress < 5 ? "Complete Previous Game" : "Game Completed"}
                                                             </h1>
@@ -513,7 +513,7 @@ const LandingPage = () => {
                                                             <h1 className="lg15.6:text-2xl text-lg text-black text-start">Car
                                                                 Vandalism</h1>
                                                             <h1
-                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
                                                                 {progress < 7 ? "Complete Previous Game" : "Game Completed"}
                                                             </h1>
@@ -574,7 +574,7 @@ const LandingPage = () => {
                                                         <div className={'-ml-2.5 mt-0.5 flex justify-evenly w-5/6'}>
                                                             <h1 className="lg15.6:text-2xl text-lg text-black text-start">Kidnap</h1>
                                                             <h1
-                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in"
+                                                                className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
                                                                 {progress < 9 ? "Complete Previous Game" : "Game Completed"}
                                                             </h1>
