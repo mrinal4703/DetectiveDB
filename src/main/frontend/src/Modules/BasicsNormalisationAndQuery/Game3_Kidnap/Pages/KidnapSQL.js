@@ -4,7 +4,7 @@ import {clicksound} from "../../../../Resources/Sounds";
 import {motion} from "framer-motion";
 import {IoClose} from "react-icons/io5";
 import {Link, useNavigate} from "react-router-dom";
-import {finalsqltestpic, hintlens, progresspic, sqlkidnappic, yay} from "../../../../Resources/Images/Others";
+import {hintlens, progresspic, sqlkidnappic, yay} from "../../../../Resources/Images/Others";
 import axios from "axios";
 import {email, email_session, username} from "../../../../Constants/Texts/constants";
 import {
@@ -364,40 +364,27 @@ const KidnapSql = () => {
                     if (
                         query.toLowerCase().includes("witness_reports where") &&
                         query.toLowerCase().includes("last_location = 'city park'") &&
-                        // query.toLowerCase().includes("action = 'watching tv'") &&
                         data.some(
                             (row) =>
-                                row?.toLowerCase().trim().includes("witness_reports where") &&
                                 row.last_location?.toLowerCase().trim() === "city park"
-                            // row.location?.toLowerCase().trim() === "living room" &&
-                            // row.action?.toLowerCase().trim() === "watching tv"
                         )
                     ) {
                         setEvidence((prev) => ({...prev, suspiciousActivity: true}));
                     }
 
                     if (
-                        // query.toLowerCase().includes("room_type = 'lounge'") &&
                         query.toLowerCase().includes("vehicle_sightings where") &&
                         query.toLowerCase().includes("last_location = 'city park'") &&
-                        // query.toLowerCase().includes("witness_statement like '%knife%'") &&
                         data.some(
                             (row) =>
-                                // query.toLowerCase().includes("location = 'warehouse'") &&
-                                row?.toLowerCase().trim().includes("vehicle_sightings where") &&
                                 row.last_location?.toLowerCase().trim() === "city park"
-                            // row.room_type?.toLowerCase().trim() === "lounge" &&
-                            // row.statement?.toLowerCase().trim().includes("suspicious")
                         )
                     ) {
                         setEvidence((prev) => ({...prev, witnessStatement: true}));
                     }
 
                     if (
-                        // query.toLowerCase().includes("camera_id = 1") &&
-                        // query.toLowerCase().includes("footage = 'footage of suspicious activity'") &&
                         query.toLowerCase().includes("vehicle_spotted = 'black van'") &&
-                        // query.toLowerCase().includes("camera_footage = 'footage of suspicious activity'") &&
                         data.some(
                             (row) =>
                                 // query.toLowerCase().includes("location = 'warehouse'") &&
@@ -408,41 +395,35 @@ const KidnapSql = () => {
                     }
 
                     if (
-                        // query.toLowerCase().includes("camera_id = 1") &&
-                        // query.toLowerCase().includes("footage = 'footage of suspicious activity'") &&
                         query.toLowerCase().includes("time = '2025-03-15 21:30'") &&
-                        // query.toLowerCase().includes("motive_info where suspect_name") &&
-                        // query.toLowerCase().includes("camera_footage = 'footage of suspicious activity'") &&
                         data.some(
-                            (row) =>
-                                // row?.toLowerCase().trim().includes("motive_info where suspect_name") &&
-                                row.time?.toLowerCase().trim() === "2025-03-17 19:00"
+                            (row) => row.time?.toLowerCase().trim() === "2025-03-15 21:30" // Match correct time
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, crimeTime: true}));
+                        setEvidence((prev) => ({ ...prev, crimeTime: true }));
                     }
 
+
                     if (
-                        // query.toLowerCase().includes("camera_id = 1") &&
-                        // query.toLowerCase().includes("footage = 'footage of suspicious activity'") &&
-                        query.toLowerCase().includes("time = '2025-03-15 21:30'") &&
-                        query.toLowerCase().includes("criminal_history where suspect_name") &&
-                        // query.toLowerCase().includes("camera_footage = 'footage of suspicious activity'") &&
+                        query.toLowerCase().includes("time = '2025-03-15 21:30'") && // Check if query includes the correct time
+                        query.toLowerCase().includes("criminal_history") && // Check if query involves the Motive_Info table
                         data.some(
                             (row) =>
-                                row?.toLowerCase().trim().includes("criminal_history where suspect_name") &&
-                                row.time?.toLowerCase().trim() === "2025-03-17 19:00"
+                                Object.keys(row).some((key) => key.toLowerCase().includes("criminal")) // Check if row involves Motive_Info
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, criminalHistory: true}));
+                        setEvidence((prev) => ({ ...prev, criminalHistory: true }));
                     }
-                    // SELECT * FROM persons WHERE location = 'Living Room' AND action = 'watching tv'
-                    // SELECT * FROM witnessstatements WHERE room_type = 'Lounge' AND statement LIKE '%suspicious%';
-                    // SELECT * FROM camera WHERE camera_id = 1 and footage = 'footage of suspicious activity'
-                    // SELECT p.person_name FROM persons p JOIN witnessstatements w ON p.location = 'Living Room' AND p.action = 'Watching TV' JOIN camera c ON c.camera_id = '1' AND c.footage = 'Footage of suspicious activity' WHERE w.room_type = 'Lounge' AND w.statement LIKE '%suspicious%';
-                    // Ensure culprit logic works
+
                     if (allEvidenceCollected && query.toLowerCase().includes("select")) {
-                        const culpritName = data.find(
+                        const lowerCaseData = data.map((row) => {
+                            const lowerCaseRow = {};
+                            for (const key in row) {
+                                lowerCaseRow[key.toLowerCase()] = row[key];
+                            }
+                            return lowerCaseRow;
+                        });
+                        const culpritName = lowerCaseData.find(
                             (row) => row.suspect_name?.toLowerCase().trim() === "jake"
                         );
 
@@ -476,7 +457,7 @@ const KidnapSql = () => {
                 lastsaved: 'KidnapSQL' // Updating `lastsaved` with the current page
             });
 
-            alert(response.data); // Show success message
+            // alert(response.data); // Show success message
         } catch (error) {
             console.error("Error updating last saved progress:", error);
             alert("Failed to save progress. Try again.");
@@ -501,7 +482,7 @@ const KidnapSql = () => {
 
     const handleGuess = () => {
         if (guess.trim().toLowerCase() === "jake") {
-            if (progress < 8) {
+            if (progress < 9) {
                 updateProgress(9.0);
             }
             updateBasicGame3(true);
@@ -767,10 +748,10 @@ const KidnapSql = () => {
                                                     #000000 143deg 145deg,
                                                     ${evidence.cameraFootage ? '#4CAF50' : '#a2e1e1'} 145deg 215deg,
                                                     #000000 215deg 217deg,
-                                                    ${evidence.suspiciousActivity ? '#4CAF50' : '#a2e1e1'} 217deg 287deg,
-                                                    #000000 387deg 289deg,
-                                                    ${evidence.suspiciousActivity ? '#4CAF50' : '#a2e1e1'} 289deg 359deg,
-                                                    #000000 359deg 1deg,
+                                                    ${evidence.crimeTime ? '#4CAF50' : '#a2e1e1'} 217deg 287deg,
+                                                    #000000 287deg 289deg,
+                                                    ${evidence.criminalHistory ? '#4CAF50' : '#a2e1e1'} 289deg 359deg,
+                                                    #000000 359deg 1deg
                                                 )`,
                                                     }}
                                                 ></div>
@@ -810,7 +791,7 @@ const KidnapSql = () => {
                                                         value={guess}
                                                         onChange={(e) => setGuess(e.target.value)}
                                                         placeholder="Enter the culprit's name"
-                                                        className="p-2 border border-gray-300 rounded-lg"
+                                                        className="p-2 lg15.6:text-xl text-base border border-gray-300 rounded-lg"
                                                     />
                                                     <button onClick={handleGuess}
                                                             className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">

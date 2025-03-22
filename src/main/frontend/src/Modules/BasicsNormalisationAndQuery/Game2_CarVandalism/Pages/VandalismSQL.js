@@ -397,29 +397,32 @@ const VandalismSql = () => {
                     }
 
                     if (
-                        // query.toLowerCase().includes("camera_id = 1") &&
-                        // query.toLowerCase().includes("footage = 'footage of suspicious activity'") &&
-                        query.toLowerCase().includes("time = '2025-03-17 19:00'") &&
-                        query.toLowerCase().includes("motive_info where suspect_name") &&
-                        // query.toLowerCase().includes("camera_footage = 'footage of suspicious activity'") &&
+                        query.toLowerCase().includes("time = '2025-03-17 19:00'") && // Check if query includes the correct time
+                        query.toLowerCase().includes("motive_info") && // Check if query involves the Motive_Info table
                         data.some(
                             (row) =>
-                                row?.toLowerCase().trim().includes("motive_info where suspect_name") &&
-                                row.time?.toLowerCase().trim() === "2025-03-17 19:00"
+                                Object.keys(row).some((key) => key.toLowerCase().includes("motive")) // Check if row involves Motive_Info
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, crimeTime: true}));
+                        setEvidence((prev) => ({ ...prev, crimeTime: true }));
                     }
                     // SELECT * FROM persons WHERE location = 'Living Room' AND action = 'watching tv'
                     // SELECT * FROM witnessstatements WHERE room_type = 'Lounge' AND statement LIKE '%suspicious%';
                     // SELECT * FROM camera WHERE camera_id = 1 and footage = 'footage of suspicious activity'
                     // SELECT p.person_name FROM persons p JOIN witnessstatements w ON p.location = 'Living Room' AND p.action = 'Watching TV' JOIN camera c ON c.camera_id = '1' AND c.footage = 'Footage of suspicious activity' WHERE w.room_type = 'Lounge' AND w.statement LIKE '%suspicious%';
                     // Ensure culprit logic works
+                    console.log(allEvidenceCollected)
                     if (allEvidenceCollected && query.toLowerCase().includes("select")) {
-                        const culpritName = data.find(
+                        const lowerCaseData = data.map((row) => {
+                            const lowerCaseRow = {};
+                            for (const key in row) {
+                                lowerCaseRow[key.toLowerCase()] = row[key];
+                            }
+                            return lowerCaseRow;
+                        });
+                        const culpritName = lowerCaseData.find(
                             (row) => row.suspect_name?.toLowerCase().trim() === "david"
                         );
-
                         if (culpritName) {
                             setNestedQuerySuccess(true);
                         } else {
@@ -450,7 +453,7 @@ const VandalismSql = () => {
                 lastsaved: 'VandalismSQL' // Updating `lastsaved` with the current page
             });
 
-            alert(response.data); // Show success message
+            // alert(response.data); // Show success message
         } catch (error) {
             console.error("Error updating last saved progress:", error);
             alert("Failed to save progress. Try again.");
@@ -475,7 +478,7 @@ const VandalismSql = () => {
 
     const handleGuess = () => {
         if (guess.trim().toLowerCase() === "david") {
-            if (progress < 6) {
+            if (progress < 7) {
                 updateProgress(7.0);
             }
             updateBasicGame2(true);
@@ -741,8 +744,8 @@ const VandalismSql = () => {
                                                     #000000 179deg 181deg,
                                                     ${evidence.cameraFootage ? '#4CAF50' : '#a2e1e1'} 181deg 269deg,
                                                     #000000 269deg 271deg,
-                                                    ${evidence.suspiciousActivity ? '#4CAF50' : '#a2e1e1'} 271deg 359deg,
-                                                    #000000 359deg 1deg,
+                                                    ${evidence.crimeTime ? '#4CAF50' : '#a2e1e1'} 271deg 359deg,
+                                                    #000000 359deg 1deg
                                                 )`,
                                                     }}
                                                 ></div>
@@ -782,7 +785,7 @@ const VandalismSql = () => {
                                                         value={guess}
                                                         onChange={(e) => setGuess(e.target.value)}
                                                         placeholder="Enter the culprit's name"
-                                                        className="p-2 border border-gray-300 rounded-lg"
+                                                        className="p-2 lg15.6:text-xl text-base border border-gray-300 rounded-lg"
                                                     />
                                                     <button onClick={handleGuess}
                                                             className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">

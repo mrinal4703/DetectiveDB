@@ -172,6 +172,10 @@ const Sidebar = ({isOpen, onClose}) => {
                     the <strong>Location</strong> that shows <strong>suspicious
                     activity</strong>.
                 </li>
+                <li>
+                    <strong>4. Last location of suspects:</strong> Find that at the time of mishap, what was the
+                    <strong>Location</strong> of the  <strong>suspects</strong>.
+                </li>
             </ul>
         </div>
     );
@@ -214,6 +218,10 @@ const Sidebar2 = ({isOpen, onClose, evidence}) => {
                     <li>
                         Camera Footage Confirming Suspicious Activity:{" "}
                         {evidence.cameraFootage ? "✅" : "❌"}
+                    </li>
+                    <li>
+                        Last location of suspects:{" "}
+                        {evidence.lastLocation ? "✅" : "❌"}
                     </li>
                 </ul>
             </div>
@@ -293,6 +301,7 @@ const MurderSql = () => {
         suspiciousActivity: false,
         witnessStatement: false,
         cameraFootage: false,
+        lastLocation: false,
     });
 
     const [showFinaleTest, setShowFinaleTest] = useState(false);
@@ -310,7 +319,7 @@ const MurderSql = () => {
     };
 
     const allEvidenceCollected =
-        evidence.suspiciousActivity && evidence.witnessStatement && evidence.cameraFootage;
+        evidence.suspiciousActivity && evidence.witnessStatement && evidence.cameraFootage && evidence.lastLocation;
 
     const executeQuery = async () => {
 
@@ -342,63 +351,75 @@ const MurderSql = () => {
                 if (Array.isArray(response.data.data)) {
                     const data = response.data.data;
 
-                    // Fix evidence tracking logic
                     if (
-                        // query.toLowerCase().includes("location = 'living room'") &&
+                        // Evidence 1: Check if the query involves the crime scene time
                         query.toLowerCase().includes("time = '2025-03-17 22:30'") &&
-                        // query.toLowerCase().includes("action = 'watching tv'") &&
+                        // Validate the data for the correct time
                         data.some(
                             (row) =>
                                 row.time?.toLowerCase().trim() === "2025-03-17 22:30"
-                                // row.location?.toLowerCase().trim() === "living room" &&
-                                // row.action?.toLowerCase().trim() === "watching tv"
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, suspiciousActivity: true}));
+                        setEvidence((prev) => ({ ...prev, suspiciousActivity: true }));
                     }
 
                     if (
-                        // query.toLowerCase().includes("room_type = 'lounge'") &&
-                        // query.toLowerCase().includes("statement like '%suspicious%'") &&
+                        // Evidence 2: Check if the query involves the warehouse location and witness statement
                         query.toLowerCase().includes("location = 'warehouse'") &&
                         query.toLowerCase().includes("witness_statement like '%knife%'") &&
+                        // Validate the data for the correct location and witness statement
                         data.some(
                             (row) =>
                                 row.location?.toLowerCase().trim() === "warehouse" &&
                                 row.witness_statement?.toLowerCase().trim().includes("knife")
-                                // row.room_type?.toLowerCase().trim() === "lounge" &&
-                                // row.statement?.toLowerCase().trim().includes("suspicious")
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, witnessStatement: true}));
+                        setEvidence((prev) => ({ ...prev, witnessStatement: true }));
                     }
 
                     if (
-                        // query.toLowerCase().includes("camera_id = 1") &&
-                        // query.toLowerCase().includes("footage = 'footage of suspicious activity'") &&
+                        // Evidence 3: Check if the query involves the warehouse location and camera footage
                         query.toLowerCase().includes("location = 'warehouse'") &&
                         query.toLowerCase().includes("camera_footage = 'footage of suspicious activity'") &&
+                        // Validate the data for the correct location and camera footage
                         data.some(
                             (row) =>
                                 row.location?.toLowerCase().trim() === "warehouse" &&
                                 row.camera_footage?.toLowerCase().trim() === "footage of suspicious activity"
                         )
                     ) {
-                        setEvidence((prev) => ({...prev, cameraFootage: true}));
+                        setEvidence((prev) => ({ ...prev, cameraFootage: true }));
                     }
-                    // SELECT * FROM persons WHERE location = 'Living Room' AND action = 'watching tv'
-                    // SELECT * FROM witnessstatements WHERE room_type = 'Lounge' AND statement LIKE '%suspicious%';
-                    // SELECT * FROM camera WHERE camera_id = 1 and footage = 'footage of suspicious activity'
-                    // SELECT p.person_name FROM persons p JOIN witnessstatements w ON p.location = 'Living Room' AND p.action = 'Watching TV' JOIN camera c ON c.camera_id = '1' AND c.footage = 'Footage of suspicious activity' WHERE w.room_type = 'Lounge' AND w.statement LIKE '%suspicious%';
-                    // Ensure culprit logic works
+
+                    if (
+                        // Evidence 4: Check if the query involves the suspect's alibi near the crime scene
+                        query.toLowerCase().includes("suspect_alibi") &&
+                        query.toLowerCase().includes("alibi like '%near the crime scene%'") &&
+                        // Validate the data for the correct alibi
+                        data.some(
+                            (row) =>
+                                row.alibi?.toLowerCase().trim().includes("near the crime scene")
+                        )
+                    ) {
+                        setEvidence((prev) => ({ ...prev, lastLocation: true }));
+                    }
                     if (allEvidenceCollected && query.toLowerCase().includes("select")) {
-                        const culpritName = data.find(
+                        const lowerCaseData = data.map((row) => {
+                            const lowerCaseRow = {};
+                            for (const key in row) {
+                                lowerCaseRow[key.toLowerCase()] = row[key];
+                            }
+                            return lowerCaseRow;
+                        });
+
+                        const culpritName = lowerCaseData.find(
                             (row) => row.suspect_name?.toLowerCase().trim() === "michael"
                         );
 
                         if (culpritName) {
                             setNestedQuerySuccess(true);
                         } else {
+                            console.log("All Evidence Collected:", allEvidenceCollected);
                             setError("Incorrect nested query or incomplete evidence. Try again cautiously!");
                         }
                     }
@@ -426,7 +447,7 @@ const MurderSql = () => {
                 lastsaved: 'MurderSQL' // Updating `lastsaved` with the current page
             });
 
-            alert(response.data); // Show success message
+            // alert(response.data); // Show success message
         } catch (error) {
             console.error("Error updating last saved progress:", error);
             alert("Failed to save progress. Try again.");
@@ -451,7 +472,7 @@ const MurderSql = () => {
 
     const handleGuess = () => {
         if (guess.trim().toLowerCase() === "michael") {
-            if (progress < 4) {
+            if (progress < 5) {
                 updateProgress(5.0);
             }
             updateBasicGame1(true);
@@ -711,11 +732,13 @@ const MurderSql = () => {
                                                     className="absolute inset-0 z-0 rounded-full"
                                                     style={{
                                                         background: `conic-gradient(
-                                                    ${evidence.suspiciousActivity ? '#4CAF50' : '#a2e1e1'} 1deg 119deg,
-                                                    #000000 119deg 121deg,
-                                                    ${evidence.witnessStatement ? '#4CAF50' : '#a2e1e1'} 121deg 239deg,
-                                                    #000000 239deg 241deg,
-                                                    ${evidence.cameraFootage ? '#4CAF50' : '#a2e1e1'} 241deg 359deg,
+                                                    ${evidence.suspiciousActivity ? '#4CAF50' : '#a2e1e1'} 1deg 89deg,
+                                                    #000000 89deg 91deg,
+                                                    ${evidence.witnessStatement ? '#4CAF50' : '#a2e1e1'} 91deg 179deg,
+                                                    #000000 179deg 181deg,
+                                                    ${evidence.cameraFootage ? '#4CAF50' : '#a2e1e1'} 181deg 269deg,
+                                                    #000000 269deg 271deg,
+                                                    ${evidence.lastLocation ? '#4CAF50' : '#a2e1e1'} 271deg 359deg,
                                                     #000000 359deg 1deg
                                                 )`,
                                                     }}
@@ -756,7 +779,7 @@ const MurderSql = () => {
                                                         value={guess}
                                                         onChange={(e) => setGuess(e.target.value)}
                                                         placeholder="Enter the culprit's name"
-                                                        className="p-2 border border-gray-300 rounded-lg"
+                                                        className="p-2 lg15.6:text-xl text-base border border-gray-300 rounded-lg"
                                                     />
                                                     <button onClick={handleGuess}
                                                             className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import NavBar from "./NavBar";
 import {carvandalism, kidnap, murder1, murder2, robbery} from "../Resources/Images/Crimes";
-import {loadinglogo, star2, star3, tutorial} from "../Resources/Images/Others";
+import {difficult, easy, loadinglogo, medium, star2, star3, tutorial} from "../Resources/Images/Others";
 import {motion} from "framer-motion";
 import {DetailsofCases, ProgressStars, updateBasicGame} from "../Constants/Texts";
 import {TbPoint, TbPointFilled} from "react-icons/tb";
@@ -118,15 +118,14 @@ const LandingPage = () => {
     };
 
     const handleLinkClick = () => {
-        playClickSound(); // Play the click sound
+        playClickSound();
     };
 
     const handleClick = () => {
-        playClickSound(); // Play the click sound
-        openSidebar('Basics, Normalisation And Query Language'); // Call the original function
+        playClickSound();
+        openSidebar('Basics, Normalisation And Query Language');
     };
 
-    // Function to open sidebar with correct type
     const openSidebar = (type) => {
         setSelectedType(type);
         setIsSidebarOpen(true);
@@ -154,20 +153,20 @@ const LandingPage = () => {
     const [audio] = useState(new Audio(bgm));
 
     useEffect(() => {
-        const fadeInDuration = 3000; // 3 seconds for fade-in
-        const steps = 30; // Number of steps for smooth transition
-        const intervalTime = fadeInDuration / steps; // Time per step
+        const fadeInDuration = 3000;
+        const steps = 30;
+        const intervalTime = fadeInDuration / steps;
 
         const playBGM = () => {
             audio.loop = true;
             audio.playbackRate = 1.2;
-            audio.volume = 0; // Start at volume 0
+            audio.volume = 0;
             audio.play().catch(error => console.error("Autoplay failed:", error));
 
             let currentStep = 0;
             const fadeInterval = setInterval(() => {
                 if (currentStep < steps) {
-                    audio.volume = (currentStep / steps) * 0.5; // Gradually increase volume to 0.5
+                    audio.volume = (currentStep / steps) * 0.5;
                     currentStep++;
                 } else {
                     clearInterval(fadeInterval);
@@ -175,7 +174,6 @@ const LandingPage = () => {
             }, intervalTime);
         };
 
-        // Play music only when the user interacts (e.g., clicks anywhere)
         const handleUserInteraction = () => {
             playBGM();
             document.removeEventListener("click", handleUserInteraction);
@@ -185,16 +183,16 @@ const LandingPage = () => {
 
         return () => {
             audio.pause();
-            audio.volume = 0; // Reset volume when unmounting
+            audio.volume = 0;
             document.removeEventListener("click", handleUserInteraction);
         };
     }, [audio]);
 
     useEffect(() => {
-        // Fetch the basic_tutorial value when the component mounts
+
         const fetchBasicTutorial = async () => {
             if (!email) {
-                // alert("User not logged in!");
+
                 return;
             }
 
@@ -258,21 +256,18 @@ const LandingPage = () => {
     const handleSaveProgress = async () => {
         playClickSound();
 
-        // Get the logged-in user's email
         const loggedInUserEmail = email || email_session;
 
         if (!loggedInUserEmail) {
-            // alert("No user logged in.");
             return;
         }
 
         try {
             const response = await axios.put(`http://${username}/updateLastSaved`, {
-                email: loggedInUserEmail, // Sending the stored email
-                lastsaved: null // Updating `lastsaved` with the current page
+                email: loggedInUserEmail,
+                lastsaved: null
             });
 
-            // alert(response.data); // Show success message
         } catch (error) {
             console.error("Error updating last saved progress:", error);
             alert("Failed to save progress. Try again.");
@@ -416,16 +411,16 @@ const LandingPage = () => {
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                                progress >= 3 && basicMurder === null ? (
+                                                progress >= 3 && progress < 5 && basicMurder === null ? (
                                                     <Link to={`/${basicsMurder}`}>
                                                         <div
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
                                                             style={{backgroundImage: `url(${murder1})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={easy} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -439,10 +434,10 @@ const LandingPage = () => {
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
                                                             style={{backgroundImage: `url(${murder1})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={easy} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -453,7 +448,7 @@ const LandingPage = () => {
                                                             <h1
                                                                 className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
-                                                                {progress < 5 ? "Complete Previous Game" : "Game Completed"}
+                                                                {progress < 4 ? "Complete Previous Game" : (progress >= 5 ? "Game Completed" : "")}
                                                             </h1>
                                                         </div>
                                                     </div>
@@ -465,7 +460,7 @@ const LandingPage = () => {
                                                         className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${murder1})`}}
                                                     >
-                                                    {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
+                                                    <img src={easy} className="-mt-1" alt="Image"/>
                                                     </div>
                                                     <h1 className="lg15.6:text-2xl text-lg text-black text-start">Murder</h1>
                                                 </button>
@@ -476,16 +471,16 @@ const LandingPage = () => {
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                                progress >= 5 && basicVandalism === null ? (
+                                                progress >= 5 && progress < 7 && basicVandalism === null ? (
                                                     <Link to={`/${basicsVandalism}`}>
                                                         <div
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
                                                             style={{backgroundImage: `url(${carvandalism})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={medium} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -500,10 +495,10 @@ const LandingPage = () => {
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
                                                             style={{backgroundImage: `url(${carvandalism})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={medium} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -515,7 +510,7 @@ const LandingPage = () => {
                                                             <h1
                                                                 className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
-                                                                {progress < 7 ? "Complete Previous Game" : "Game Completed"}
+                                                                {progress < 6 ? "Complete Previous Game" : (progress >= 7 ? "Game Completed" : "")}
                                                             </h1>
                                                         </div>
                                                     </div>
@@ -527,7 +522,7 @@ const LandingPage = () => {
                                                         className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${carvandalism})`}}
                                                     >
-                                                        {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
+                                                        <img src={medium} className="-mt-1" alt="Image"/>
                                                     </div>
                                                     <h1 className="lg15.6:text-2xl text-lg text-black text-start">Car
                                                         Vandalism</h1>
@@ -539,16 +534,16 @@ const LandingPage = () => {
                                     <div className={'m-6'}>
                                         <div onClick={handleLinkClick}>
                                             {isLoggedIn || isLoggedIn_session ? (
-                                                progress >= 7 && basicKidnap === null ? (
+                                                progress >= 7 && progress < 9 && basicKidnap === null ? (
                                                     <Link to={`/${basicsKidnap}`}>
                                                         <div
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative"
                                                             style={{backgroundImage: `url(${kidnap})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={difficult} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -562,10 +557,10 @@ const LandingPage = () => {
                                                             className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center relative opacity-50 cursor-not-allowed"
                                                             style={{backgroundImage: `url(${kidnap})`}}
                                                         >
-                                                            {/*<div className="absolute top-0 transform">*/}
-                                                            {/*    <img src={tutorial} alt="Tutorial"*/}
-                                                            {/*         className="max-w-full max-h-full"/>*/}
-                                                            {/*</div>*/}
+                                                            <div className="absolute top-0 transform">
+                                                                <img src={difficult} alt="Tutorial"
+                                                                     className="max-w-full max-h-full"/>
+                                                            </div>
                                                             <div className="absolute -bottom-1 transform">
                                                                 <img src={star2} alt="Star"
                                                                      className="max-w-full max-h-full"/>
@@ -576,7 +571,7 @@ const LandingPage = () => {
                                                             <h1
                                                                 className="lg15.6:p-1 p-0.5 lg15.6:text-md text-sm bg-[#495f67] text-center my-auto text-white rounded-lg hover:bg-[#2e3c49] transition ease-in"
                                                             >
-                                                                {progress < 9 ? "Complete Previous Game" : "Game Completed"}
+                                                                {progress < 8 ? "Complete Previous Game" : (progress >= 9 ? "Game Completed" : "")}
                                                             </h1>
                                                         </div>
                                                     </div>
@@ -588,7 +583,7 @@ const LandingPage = () => {
                                                         className="lg15.6:h-64 lg15.6:w-64 h-48 w-48 bg-cover hover:opacity-50 bg-center bg-no-repeat rounded-lg shadow-md text-center flex items-center justify-center"
                                                         style={{backgroundImage: `url(${kidnap})`}}
                                                     >
-                                                        {/*<img src={tutorial} className="-mt-1" alt="Image"/>*/}
+                                                        <img src={difficult} className="-mt-1" alt="Image"/>
                                                     </div>
                                                     <h1 className="lg15.6:text-2xl text-lg text-black text-start">Kidnap</h1>
                                                 </button>

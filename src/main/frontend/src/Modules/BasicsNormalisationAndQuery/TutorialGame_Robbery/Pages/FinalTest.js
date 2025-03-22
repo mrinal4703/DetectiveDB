@@ -515,7 +515,16 @@ function FinalTest() {
                     // SELECT p.person_name FROM persons p JOIN witnessstatements w ON p.location = 'Living Room' AND p.action = 'Watching TV' JOIN camera c ON c.camera_id = '1' AND c.footage = 'Footage of suspicious activity' WHERE w.room_type = 'Lounge' AND w.statement LIKE '%suspicious%';
                     // Ensure culprit logic works
                     if (allEvidenceCollected && query.toLowerCase().includes("select")) {
-                        const culpritName = data.find(
+
+                        const lowerCaseData = data.map((row) => {
+                            const lowerCaseRow = {};
+                            for (const key in row) {
+                                lowerCaseRow[key.toLowerCase()] = row[key];
+                            }
+                            return lowerCaseRow;
+                        });
+
+                        const culpritName = lowerCaseData.find(
                             (row) => row.person_name?.toLowerCase().trim() === "alice"
                         );
 
@@ -549,7 +558,7 @@ function FinalTest() {
                 lastsaved: 'TutorialFinalSQLPractice' // Updating `lastsaved` with the current page
             });
 
-            alert(response.data); // Show success message
+            // alert(response.data); // Show success message
         } catch (error) {
             console.error("Error updating last saved progress:", error);
             alert("Failed to save progress. Try again.");
@@ -898,7 +907,7 @@ function FinalTest() {
                                                         value={guess}
                                                         onChange={(e) => setGuess(e.target.value)}
                                                         placeholder="Enter the culprit's name"
-                                                        className="p-2 border border-gray-300 rounded-lg"
+                                                        className="p-2 lg15.6:text-xl text-base border border-gray-300 rounded-lg"
                                                     />
                                                     <button onClick={handleGuess}
                                                             className="px-5 py-3 bg-[#495f67] lg15.6:text-xl text-base text-white font-semibold rounded-lg shadow-md hover:bg-[#2e3c49] transition ease-in">

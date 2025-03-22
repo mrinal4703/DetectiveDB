@@ -51,6 +51,9 @@ import normalisationvandalismpic from './NormalisationVandalismPic.png'
 import sqlvandalismpic from './SQLVandalismPic.png'
 import normalisationkidnap from './NormalisationKidnapPic.png'
 import sqlkidnappic from './SQLKidnapPic.png'
+import easy from './Easy.png'
+import medium from './Medium.png'
+import difficult from './Difficult.png'
 
 export {
     logo, loadinglogo, tutorial, nf2, nf3, bcnf, selectsql, andsql, orsql, wheresql,
@@ -60,5 +63,5 @@ export {
     joinsgif, fullouterexample, leftjoinexample, rightjoinexample, inexample, allexample,
     dependentnestedexample, anyexample, existsexample, notinexample, notexistsexample,
     independentnestedexample, sqltest2pic, hintlens, progresspic, finalsqltestpic, yay, sqlkidnappic, sqlmurderpic,
-    normalisationkidnap, sqlvandalismpic, normalisationmurderpic, normalisationvandalismpic
+    normalisationkidnap, sqlvandalismpic, normalisationmurderpic, normalisationvandalismpic, easy, medium, difficult
 }
